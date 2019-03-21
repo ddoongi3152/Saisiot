@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
@@ -50,7 +48,6 @@
 <body>
 	<%
 		UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
-		List<String> playlist = (List)session.getAttribute("background");
 	%>
 
 	<div id="left_wrapper1">
@@ -149,9 +146,9 @@
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
 		<div>home</div>
-		<div>gallery</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
 		<div>diary</div>
-		<div>jukebox</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
 		<div>profile</div>
 		<div>chat</div>
 	</div>

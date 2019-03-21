@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -7,6 +8,7 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="resources/js/canvas.js"></script>
+<script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 
 	$(window).resize(function(){
@@ -34,6 +36,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%
+		UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+	%>
 
 	<div id="left_wrapper1">
 	<div id="left_wrapper2">
@@ -118,9 +123,9 @@
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
 		<div>home</div>
-		<div>gallery</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
 		<div>diary</div>
-		<div>jukebox</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
 		<div>profile</div>
 		<div>chat</div>
 	</div>

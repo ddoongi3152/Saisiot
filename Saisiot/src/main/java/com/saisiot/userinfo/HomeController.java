@@ -33,11 +33,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.saisiot.jukebox.dao.JukeboxDao;
+import com.saisiot.jukebox.dto.JukeboxDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
@@ -51,6 +54,9 @@ public class HomeController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private JukeboxDao jukedao;
 	
 	@RequestMapping(value = "/list.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model, HttpSession session) {
@@ -209,8 +215,18 @@ public class HomeController {
 		
 		session.getAttribute("login");
 		
-		
-		return "homepage";
+		////////////////////메인홈피에 배경음악 붙이기
+		UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+		String email = dto.getEmail();
+		List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
+		jukelist = jukedao.backselect(email, "Y");
+
+		if(jukelist==null) {
+			return "homepage";
+		}else {
+			session.setAttribute("background",jukelist);
+			return "homepage";
+		}
 	}
 	
 	

@@ -1,10 +1,13 @@
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="resources/js/bgm.js"></script>
 <script type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/homepage_mob.css">
 <link rel="stylesheet" href="resources/css/homepage_web.css">
@@ -133,21 +136,33 @@
 		<div id="to_home">메인홈으로</div>
 		<div id="graph">그래프표시영역</div>
 		<div id="audio">
-			<audio controls controlsList="nodownload" loop>
-			  <source src="test.mp3" type="audio/mpeg">
-			  Your browser does not support the audio tag.
+			<audio id="musicplayer" autoplay="autoplay" controls controlsList="nodownload">
+				<source src="" type="audio/mpeg" >
+				Your browser does not support the audio tag.
 			</audio>
 		</div>
 		<div id="audio_list">
 			<table>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
+				<c:choose>
+					<c:when test="${empty background }">
+						<tr>
+							<td align="center">- 선택된 배경음악이 없습니다 -</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${background }" var="back">
+							<tr>
+								<td class="musictitle"><a>${back.musictitle}</a></td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</table>
+		</div>
+		<div id="tracks" style="display: none;">
+			<input type="hidden" id="firstSong" value="">
+			<input type="hidden" id="songindex" value="">
+			<input type="hidden" id="repeat" value="">
 		</div>
 	</div>
 
