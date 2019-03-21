@@ -4,6 +4,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.saisiot.userinfo.dto.UserinfoDto" alias="UserinfoDto"/>
+		<typeAlias type="com.saisiot.jukebox.dto.JukeboxDto" alias="JukeboxDto"/>
 	</typeAliases>
 	
 	<mappers>

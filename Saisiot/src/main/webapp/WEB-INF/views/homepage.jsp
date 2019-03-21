@@ -120,9 +120,9 @@
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
 		<div>home</div>
-		<div>gallery</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
 		<div>diary</div>
-		<div>jukebox</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
 		<div>profile</div>
 		<div>chat</div>
 	</div>

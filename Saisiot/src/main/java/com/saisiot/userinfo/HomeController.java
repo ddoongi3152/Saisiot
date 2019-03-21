@@ -167,7 +167,11 @@ public class HomeController {
 					System.out.println("마지막 로그인 시간 변경");
 					// 관리자 : 0 , 일반회원 : 1, 휴면계정 : 2, 탈퇴회원 : 3, 이용정지: 4
 					System.out.println("휴면계정 상태 (0 : 관리자 , 1 : 일반회원 , 2 : 휴면계정, 3 : 탈퇴회원, 4 : 이용정지) : " + dto.getUsercondition());
-					if(dto.getUsercondition()==1) {
+					if(dto.getUsercondition()==0) {
+						session.setAttribute("login", dto);
+						System.out.println("휴면계정이 아닙니다.");
+						returnURL = "redirect:homepage.do";
+					}else if(dto.getUsercondition()==1) {
 						session.setAttribute("login", dto);
 						System.out.println("휴면계정이 아닙니다.");
 						returnURL = "redirect:homepage.do";
@@ -586,7 +590,7 @@ public class HomeController {
 	}
 	
 	
-	@Scheduled(cron = "*/10 * * * * *")
+	@Scheduled(cron = "* * 1 * * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
