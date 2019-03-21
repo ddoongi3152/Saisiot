@@ -76,7 +76,7 @@ public class DiaryController {
 
 		try {
 			inputStream = file.getInputStream();
-			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "se/upload/");
+			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "upload/");
 
 			System.out.println("���ε� �� ���� ��� : " + path);
 
