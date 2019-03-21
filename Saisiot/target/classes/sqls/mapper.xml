@@ -82,5 +82,27 @@
 	<select id="longuser" resultMap="dtoMap">
 		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
 	</select>
+	
+		<select id="selectList_diary" resultType="DiaryDto">
+		SELECT DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE, FILEURL, PICURL, MAPLATI, MAPLONG, VIDEOURL, VIEWTIME
+		FROM DIARY
+	</select>
+	
+	<insert id="diary_insert" parameterType="DiaryDto">
+		INSERT INTO DIARY
+		VALUES(DIARYNOSEQ.NEXTVAL, 1 , #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
+		#{picurl, jdbcType=VARCHAR}, #{maplati, jdbcType=FLOAT}, #{maplong, jdbcType=FLOAT}, #{videourl, jdbcType=VARCHAR} , 0 )
+	</insert>
+	
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE DIARY 
+		SET VIEWTIME = NVL(VIEWTIME,0) + 1
+		WHERE DIARYNO = #{diaryno}
+	</update>
+	
+	<select id="diary_detail" parameterType="int" resultType="DiaryDto">
+		SELECT * FROM DIARY 
+		WHERE DIARYNO = #{diaryno}
+	</select>
 
 </mapper>

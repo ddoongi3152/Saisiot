@@ -54,10 +54,10 @@ public class DiaryController {
 			throws IOException {
 		
 
-		// ��ȿ�� �˻�(÷�������� ������ �ؿ� ��ɵ鵵 ����ȵ�.)
+		// 유효성 검사
 		fileValidator.validate(uploadFile, result);
 
-		// ���������� ����� �ٽ� form����
+		// 오류 검출
 		if (result.hasErrors()) {
 			return "insert_diary";
 		}

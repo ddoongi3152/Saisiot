@@ -6,7 +6,7 @@ import com.saisiot.diary.dto.DiaryDto;
 
 public interface DiaryDao {
 	
-	String NAMESPACE="customer.";
+	String NAMESPACE="userinfo.";
 	
 	public List<DiaryDto> selectList();
 	public DiaryDto selectOne(int diaryno);
