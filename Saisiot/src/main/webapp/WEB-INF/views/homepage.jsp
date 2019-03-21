@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript"></script>
-<link rel="stylesheet" href="resources/css/homepage.css">
+<link rel="stylesheet" href="resources/css/homepage_mob.css">
+<link rel="stylesheet" href="resources/css/homepage_web.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -21,7 +22,7 @@
 		<div id="left_wrapper5_1">today | total</div>
 		<div id="left_wrapper5_2">
 		<div id="left_wrapper6">
-			<div id="mob_top">사이좋은 사람들 사이시옷&nbsp; <%=dto.getUsername() %>님 환영합니다.</div>
+			<div id="mob_top">사이좋은 사람들 사이시옷&nbsp; <%=dto.getUsername() %></div>
 			<div id="tmpdiv">탭목록</div>
 			<div id="profile_pic"><img alt="profile_img" src="checkbox.PNG"></div>
 			<hr id="profile_hr1">
@@ -38,7 +39,7 @@
 			</div>
 			<div id="profile_edit"><a>▶Edit</a> <a>▶History</a></div>
 			<hr id="profile_hr2">
-			<div id="owner_name">마루홍시(♪) &nbsp; <%=dto.getUsername()%>님 환영합니다. <input type="button" value="로그아웃" onclick="location.href='logout.do'"></div>
+			<div id="owner_name"><%=dto.getUsername()%><input type="button" value="로그아웃" onclick="location.href='logout.do'"></div>
 			<div id="friend_select">
 				<select>
 					<option>낭만고양이</option>
@@ -115,6 +116,19 @@
 	</div>
 	<!-- right_wrapper1 end(blue box) -->
 
+
+	<!-- -webtabs start(desktop only) -->
+	<div id="web_tabs">
+		<div>home</div>
+		<div>gallery</div>
+		<div>diary</div>
+		<div>jukebox</div>
+		<div>profile</div>
+		<div>chat</div>
+	</div>
+	<!--webtabs end(desktop only)-->
+	
+	
 	<div id="right_sidebar">
 		<div id="to_home">메인홈으로</div>
 		<div id="graph">그래프표시영역</div>
