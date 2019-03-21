@@ -1,0 +1,68 @@
+
+1. pom.xml - ojdbc6(odysseusucink����) �߰��� �־�����Ұ� 
+	<repositories>
+     <repository>
+        <id>odysseusinc</id>
+        <url>http://repo.odysseusinc.com/artifactory/community-libs-release-local/</url>
+     </repository>
+  </repositories>
+
+mybatis(org.mybatis), mybatis-spring(org.mybatis), commons-dbcp(db����������), spring-orm(�ڹ�,��� ����)
+
+2. web.xml - encoding filter ����
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+3. WEB-INF/spring/sqls/test.sql
+
+
+4. src/main/resources/properties/db.properties
+
+5. src/main/resources/sqls/mapper.xml
+
+6. WEB-INF/spring/sqls/config.xml
+
+7. dto, dao, biz
+
+8. applicationContext, servlet-context, config, mapper
+-------------------------------------------------------
+(aop)
+9. pom.xml - aspectjweaver, aspectjrt(org.aspectj)
+
+10. com.hello.mvc03.common.aop.LogAop(.java)
+
+11. aop-context.xml
+
+12. web.xml에 aop-context.xml 추가
+
+13. src/main/resources log4j.xml (logger 추가 및 root logger를 trace로)
+-------------------------------------------------------------------
+(filter)
+14. pom.xml : commons-lang3
+
+15. com.hello.mvc03.common.filter.LogFilter(.java)
+	-> javax.servlet.Filter (인터페이스 상속)
+	
+16. web.xml : filter 적용합시다.
+
+17. home.xml : jackson-core jackson-mapper
+ // spring4.x이상 버전은 : jackson-core, jackson-databind (com.fasterxml.jackson.core)
+ 
+18. (index -> controller) login.jsp
+
+19. mapper, dao(daoImpl), biz(bizImpl), controller
