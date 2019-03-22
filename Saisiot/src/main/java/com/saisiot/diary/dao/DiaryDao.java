@@ -6,11 +6,7 @@ import com.saisiot.diary.dto.DiaryDto;
 
 public interface DiaryDao {
 	
-<<<<<<< HEAD
-	String NAMESPACE="userinfo.";
-=======
 	String NAMESPACE="diary.";
->>>>>>> refs/remotes/origin/master
 	
 	public List<DiaryDto> selectList();
 	public DiaryDto selectOne(int diaryno);

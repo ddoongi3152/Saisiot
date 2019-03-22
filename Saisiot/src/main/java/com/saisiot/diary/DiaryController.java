@@ -1,3 +1,4 @@
+
 package com.saisiot.diary;
 
 import java.io.File;
@@ -56,15 +57,9 @@ public class DiaryController {
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
 			UploadFile uploadFile, BindingResult result) throws IOException {
 
-		if (uploadFile.getFile().isEmpty() == false) {
-			// 유효성 검사
-			fileValidator.validate(uploadFile, result);
+		// ��ȿ�� �˻�(÷�������� ������ �ؿ� ��ɵ鵵 ����ȵ�.)
+		fileValidator.validate(uploadFile, result);
 
-<<<<<<< HEAD
-			// 오류 검출
-			if (result.hasErrors()) {
-				return "insert_diary";
-=======
 		// ���������� ����� �ٽ� form����
 		if (result.hasErrors()) {
 			return "insert_diary";
@@ -97,94 +92,32 @@ public class DiaryController {
 			File storage = new File(path);
 			if (!storage.exists()) {
 				storage.mkdirs();
->>>>>>> refs/remotes/origin/master
 			}
 
-			MultipartFile file = uploadFile.getFile();
-			String storefilename = file.getName();
-			String filename = file.getOriginalFilename();
-			System.out.println("���� �� ���� �� : " + storefilename);
-			System.out.println("�� �Ӿ� " + filename);
+			// newfile�� �������� ������ newfile�� �����.
+			File newfile = new File(path + "/" + filename);
+			if (!newfile.exists()) {
+				newfile.createNewFile();
+			}
 
-			UploadFile fileobj = new UploadFile();
-			fileobj.setFilename(filename);
+			outputStream = new FileOutputStream(newfile);
 
-			InputStream inputStream = null;
-			OutputStream outputStream = null;
+			int read = 0;
+			byte[] b = new byte[(int) file.getSize()];
 
+			while ((read = inputStream.read(b)) != -1) {
+				outputStream.write(b, 0, read);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 			try {
-				inputStream = file.getInputStream();
-				String path = WebUtils.getRealPath(request.getSession().getServletContext(), "upload/");
-
-				System.out.println("���ε� �� ���� ��� : " + path);
-
-				/*
-				 * ��� ������ : C:\workspace\....\storage ����� : ../(���� ����) ./(���� ����)
-				 * /(root->localhost:8787/ : �̵ڿ� �ٴ´�.)
-				 */
-
-				// storage�� �������� ������ �����.
-				File storage = new File(path);
-				if (!storage.exists()) {
-					storage.mkdirs();
-				}
-
-				// newfile�� �������� ������ newfile�� �����.
-				File newfile = new File(path + "/" + filename);
-				if (!newfile.exists()) {
-					newfile.createNewFile();
-				}
-
-				outputStream = new FileOutputStream(newfile);
-
-				int read = 0;
-				byte[] b = new byte[(int) file.getSize()];
-
-				while ((read = inputStream.read(b)) != -1) {
-					outputStream.write(b, 0, read);
-				}
-
+				inputStream.close();
+				outputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-				try {
-					inputStream.close();
-					outputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
-<<<<<<< HEAD
-
-			String img_src = dto.getContent();
-			System.out.println("img : " + img_src);
-
-			dto.setFileurl(filename);
-			dto.setPicurl(img_src);
-
-			System.out.println("���� �Ϸοо�뷯��������" + dto.getContent());
-			System.out.println(dto.getMaplati());
-			System.out.println(dto.getMaplong());
-			System.out.println(dto.getTitle());
-			System.out.println(dto.getFileurl());
-			System.out.println(dto.getPicurl());
-
-			int res = Dbiz.insert(dto);
-
-			if (res > 0) {
-
-				return "diary";
-
-			} else {
-
-				return "redirect:insert_diary";
-
-			}
-		} else {
-			
-			int res = Dbiz.insert(dto);
-			
-=======
 		}
 
 		String img_src = dto.getContent();
@@ -204,17 +137,12 @@ public class DiaryController {
 
 		if (res > 0) {
 
->>>>>>> refs/remotes/origin/master
 			return "diary";
-<<<<<<< HEAD
-			
-=======
 
 		} else {
 
 			return "redirect:insert_diary";
 
->>>>>>> refs/remotes/origin/master
 		}
 
 	}
