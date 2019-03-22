@@ -29,7 +29,10 @@ public class EchoHandler extends TextWebSocketHandler {
 	  protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 	    for (WebSocketSession sess : sessionList) {
 	    	JSONObject jobj = new JSONObject();
+<<<<<<< HEAD
 	    	JsonParser parser = new JsonParser();
+=======
+>>>>>>> refs/heads/master
 	      sess.sendMessage(new TextMessage(message.getPayload()));
 	    }
 	  }
