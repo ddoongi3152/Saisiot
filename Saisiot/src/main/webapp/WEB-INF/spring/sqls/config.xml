@@ -4,11 +4,16 @@
 	
 	<typeAliases>
 		<typeAlias type="com.saisiot.userinfo.dto.UserinfoDto" alias="UserinfoDto"/>
+<<<<<<< HEAD
 		<typeAlias type="com.saisiot.diary.dto.DiaryDto" alias="DiaryDto"/>
+=======
+		<typeAlias type="com.saisiot.diary.dto.DiaryDto" alias="DiaryDto" />
+>>>>>>> refs/remotes/origin/master
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="/sqls/mapper.xml"/>
+		<mapper resource="/sqls/UserinfoMapper.xml"/>
+		<mapper resource="/sqls/DiaryMapper.xml"/>
 	</mappers>
 
 </configuration>

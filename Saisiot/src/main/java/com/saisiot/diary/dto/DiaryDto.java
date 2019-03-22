@@ -18,14 +18,25 @@ public class DiaryDto {
 	private Integer viewtime;
 	private Integer groupno;
 	private Integer groupsq;
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> refs/remotes/origin/master
 	public DiaryDto() {
 		super();
 	}
 
+	
 	public DiaryDto(Integer diaryno, Integer folderno, String title, String content, Date regdate, String fileurl,
+<<<<<<< HEAD
 			String picurl, String mapname, Float maplati, Float maplong, String videourl, Integer viewtime,
 			Integer groupno, Integer groupsq) {
+=======
+			String picurl, Float maplati, Float maplong, String videourl, Integer viewtime, Integer groupno,
+			Integer groupsq) {
+>>>>>>> refs/remotes/origin/master
 		super();
 		this.diaryno = diaryno;
 		this.folderno = folderno;
@@ -43,6 +54,30 @@ public class DiaryDto {
 		this.groupsq = groupsq;
 	}
 
+<<<<<<< HEAD
+=======
+
+	public Integer getGroupno() {
+		return groupno;
+	}
+
+
+	public void setGroupno(Integer groupno) {
+		this.groupno = groupno;
+	}
+
+
+	public Integer getGroupsq() {
+		return groupsq;
+	}
+
+
+	public void setGroupsq(Integer groupsq) {
+		this.groupsq = groupsq;
+	}
+
+
+>>>>>>> refs/remotes/origin/master
 	public Integer getDiaryno() {
 		return diaryno;
 	}

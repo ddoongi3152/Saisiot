@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="userinfo">
+   
+   <resultMap type="com.saisiot.userinfo.dto.UserinfoDto" id="dtoMap">
+      <result property="email" column="EMAIL"/>
+      <result property="password" column="PASSWORD"/>
+      <result property="gender" column="GENDER"/>
+      <result property="joindate" column="JOINDATE"/>
+      <result property="birthdate" column="BIRTHDATE"/>
+      <result property="username" column="USERNAME"/>
+      <result property="visitdate" column="VISITDATE"/>
+      <result property="pwdate" column="PWDATE"/>
+      <result property="addr" column="ADDR"/>
+      <result property="coinno" column="COINNO"/>
+      <result property="usercondition" column="USERCONDITION"/>
+   </resultMap>
+
+   <select id="selectList" resultMap="dtoMap">
+      SELECT EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION
+      FROM USERINFO
+   </select>
+   
+   <select id="selectOne" resultMap="dtoMap" parameterType="String">
+      SELECT EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION
+      FROM USERINFO   
+      WHERE EMAIL = #{email}   
+   </select>
+   
+   <delete id="delete" parameterType="String">
+      DELETE FROM USERINFO
+      WHERE EMAIL = #{email}
+   </delete>
+   
+   <update id="update" parameterType="UserinfoDto">
+      UPDATE USERINFO   
+      SET PASSWORD = #{password}, USERNAME = #{username}, pwdate = SYSDATE
+      WHERE EMAIL = #{email}
+   </update>
+   
+   <insert id="userinsert" parameterType="UserinfoDto">
+      INSERT INTO USERINFO (EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION)
+      VALUES(#{email}, #{password}, #{gender}, SYSDATE, #{birthdate}, #{username}, SYSDATE, SYSDATE, #{addr}, 0, 1)
+   </insert>
+   
+   <insert id="kakaoinsert" parameterType="UserinfoDto">
+      INSERT INTO USERINFO (EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION)
+      VALUES(#{email}, #{password}, #{gender, jdbcType=VARCHAR}, SYSDATE, SYSDATE, #{username}, SYSDATE, SYSDATE, #{addr, jdbcType=VARCHAR}, 0, 1)
+   </insert>
+   
+   <select id="kakaologin" parameterType="String" resultType="UserinfoDto">
+      SELECT * FROM USERINFO WHERE EMAIL=#{email} AND PASSWORD=#{password} AND USERNAME=#{username}
+   </select>
+   
+   <select id="login" parameterType="String" resultType="UserinfoDto">
+      SELECT * FROM USERINFO WHERE EMAIL=#{email} AND PASSWORD=#{password}
+   </select>
+   
+   <update id="lastlogin" parameterType="UserinfoDto">
+      UPDATE USERINFO
+      SET VISITDATE = SYSDATE WHERE EMAIL=#{email}
+   </update>
+   
+   <update id="passupdate" parameterType="UserinfoDto">
+      UPDATE USERINFO
+      SET PASSWORD = (123456789) WHERE EMAIL=#{email}
+   </update>
+   
+   <select id="emailcheck" parameterType="String" resultType="UserinfoDto">
+      SELECT * FROM USERINFO WHERE EMAIL=#{email}
+   </select>
+   
+   <select id="emailpwfind" parameterType="String" resultType="UserinfoDto">
+      SELECT * FROM USERINFO WHERE EMAIL =#{email}
+   </select>
+	
+	<update id="longupdate" parameterType="UserinfoDto" >
+		UPDATE USERINFO
+      	SET USERCONDITION = (2) WHERE EMAIL=#{email}
+	</update>
+	
+	<select id="longuser" resultMap="dtoMap">
+		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
+	</select>
+
+</mapper>
