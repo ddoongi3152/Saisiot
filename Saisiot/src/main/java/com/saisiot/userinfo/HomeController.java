@@ -590,11 +590,7 @@ public class HomeController {
 	}
 	
 	
-<<<<<<< HEAD
 	@Scheduled(cron = "* * 1 * * *")
-=======
-	//@Scheduled(cron = "*/10 * * * * *")
->>>>>>> refs/remotes/origin/master
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
