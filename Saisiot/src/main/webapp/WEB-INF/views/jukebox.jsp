@@ -82,7 +82,7 @@
 										<input type="checkbox" name="chk" class="chk" value="${list.musicno }">
 									</c:otherwise>
 								</c:choose>
-							<a>${list.musictitle }</a></li>
+							<a onclick="musiclistForm();">${list.musictitle }</a></li>
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>
@@ -129,6 +129,40 @@
 				</table>
 				<input type="submit" style="display: none;">
 			</form>
+			<form id="musiclistForm" action="" method="post" style="display: none;">
+			<input type="hidden" name="email" id="email" value="<%=dto.getEmail()%>">
+				<div id="search_div"><div onclick="">노래 찾기</div></div>
+				<table id="music_table">
+					<thead>
+						<tr>
+							<th>가수명</th>
+							<th>노래명</th>
+							<th>재생시간</th>
+							<th>앨범명</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${empty jukelist }">
+								<tr>
+									<td colspan="5" align="center">구매한 노래 목록이 없습니다.</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${jukelist }" var="list">
+									<tr>
+										<td>${list.singer }</td>
+										<td>${list.musictitle }</td>
+										<td>${list.runtime }</td>
+										<td>${list.musicalbum }</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+			</form>
 		</div>
 		
 		</div>
@@ -174,7 +208,7 @@
 					<c:otherwise>
 						<c:forEach items="${background }" var="back">
 							<tr>
-								<td class="musictitle"><a>${back.musictitle}</a></td>
+								<td class="musictitle"><a onclick="musiclistForm();">${back.musictitle}</a></td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>
