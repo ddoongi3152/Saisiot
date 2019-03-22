@@ -586,7 +586,7 @@ public class HomeController {
 	}
 	
 	
-	@Scheduled(cron = "*/10 * * * * *")
+	//@Scheduled(cron = "*/10 * * * * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
