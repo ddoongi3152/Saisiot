@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +52,6 @@ public class JukeboxController {
 		List<JukeboxDto> list = new ArrayList<JukeboxDto>();
 		
 		list = jukedao.jukeselect(email);
-		
 		model.addAttribute("jukelist", list);
 		
 		return "jukebox";
@@ -59,10 +60,6 @@ public class JukeboxController {
 	@RequestMapping("/buysong.do")
 	public String buySong(String email, String songOne) {
 		String[] songArr = songOne.split("#");
-		System.out.println(songArr[0]);
-		System.out.println(songArr[1]);
-		System.out.println(songArr[2]);
-		System.out.println(songArr[3]);
 		JukeboxDto dto = new JukeboxDto(0,email, songArr[0], songArr[1], songArr[2], songArr[3],"N");
 		
 		int res = 0;
@@ -70,12 +67,13 @@ public class JukeboxController {
 		if(res > 0) {
 			return "redirect:jukebox.do?email="+email;
 		}else {
-			return "searchMusic";
+			System.out.println("구매 실패");
+			return "redirect:jukebox.do?email="+email;
 		}
 	}
 	
 	@RequestMapping("/updateBack.do")
-	public String backgroundMusic(String email, String[] chk, String[] unchk) {
+	public String backgroundMusic(HttpSession session, String email, String[] chk, String[] unchk) {
 		int res = 1;
 		if(unchk == null||unchk.length == 0) {
 			if(chk != null && chk.length != 0) {
@@ -85,7 +83,9 @@ public class JukeboxController {
 					res++;
 				}
 			}
-			return "redirect:jukebox.do?email="+email;
+			String setBackground = setBackground(session, email);
+			return setBackground;
+			
 		}else {
 			for(int i = 0; i < unchk.length; i++) {
 				JukeboxDto dto = new JukeboxDto(Integer.parseInt(unchk[i]), email, null, null, null, null, "N");
@@ -94,7 +94,8 @@ public class JukeboxController {
 			}
 			if(chk == null || chk.length == 0) {
 				System.out.println("alert로 알리기");
-				return "redirect:jukebox.do?email="+email;
+				String setBackground = setBackground(session, email);
+				return setBackground;
 			}else {
 				for(int i = 0; i < chk.length; i++) {
 					JukeboxDto dto = new JukeboxDto(Integer.parseInt(chk[i]), email, null, null, null, null, "Y");
@@ -103,12 +104,28 @@ public class JukeboxController {
 				}
 				if(res == (chk.length+unchk.length)) {
 					System.out.println("배경음악 저장 성공");
-					return "redirect:jukebox.do?email="+email;
+					String setBackground = setBackground(session, email);
+					return setBackground;
 				}else {
 					System.out.println("배경음악 저장 실패");
-					return "redirect:jukebox.do?email="+email;
+					String setBackground = setBackground(session, email);
+					return setBackground;
 				}
 			}
+		}
+	}
+	
+	// session에 배경음악 재설정
+	public String setBackground(HttpSession session, String email) {
+		List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
+		jukelist = jukedao.backselect(email, "Y");
+
+		if(jukelist==null) {
+			return "redirect:jukebox.do?email="+email;
+		}else {
+			session.removeAttribute("background");
+			session.setAttribute("background",jukelist);
+			return "redirect:jukebox.do?email="+email;
 		}
 	}
 }
