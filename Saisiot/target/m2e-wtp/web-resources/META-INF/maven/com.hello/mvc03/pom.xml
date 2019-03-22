@@ -267,7 +267,10 @@
 			<version>1.2.5</version>
 		</dependency>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/heads/master
 	</dependencies>
 
 	<build>
