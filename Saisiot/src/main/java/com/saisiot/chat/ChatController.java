@@ -46,8 +46,8 @@ public class ChatController {
 		
 		return "chat";
 	}
-	@RequestMapping(value="/diary.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String diary(Locale locale, Model model) {
-		return "diary";
-	}
+//	@RequestMapping(value="/diary.do", method= {RequestMethod.GET, RequestMethod.POST})
+//	public String diary(Locale locale, Model model) {
+//		return "diary";
+//	}
 }

@@ -9,15 +9,15 @@
 	
 	<insert id="diary_insert" parameterType="DiaryDto">
 		INSERT INTO DIARY
-		VALUES(DIARYNOSEQ.NEXTVAL, 1 , #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
-		#{picurl, jdbcType=VARCHAR}, #{maplati, jdbcType=FLOAT}, #{maplong, jdbcType=FLOAT}, #{videourl, jdbcType=VARCHAR} , )
+		VALUES(DIARY_DIARYNOSEQ.NEXTVAL, 1 , #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
+		#{picurl, jdbcType=VARCHAR}, #{mapname, jdbcType=VARCHAR}, #{maplati, jdbcType=FLOAT}, #{maplong, jdbcType=FLOAT},
+		#{videourl, jdbcType=VARCHAR} , DIARY_DIARYNOSEQ.NEXTVAL, 0)
 	</insert>
 	
 	<select id="diary_detail" parameterType="int" resultType="DiaryDto">
 		SELECT * FROM DIARY 
 		WHERE DIARYNO = #{diaryno}
 	</select>
-
 
    	<select id="diarylist"
 		resultType="com.saisiot.diary.dto.DiaryDto">
@@ -27,7 +27,7 @@
 		FROM(
 		SELECT
 		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
-		FILEURL, PICURL, MAPLATI, MAPLONG, VIDEOURL,
+		FILEURL, PICURL, MAPNAME, MAPLATI, MAPLONG, VIDEOURL,
 		GROUPNO, GROUPSQ, ROWNUM AS RN 
 		FROM DIARY
 		<include refid="search"></include>

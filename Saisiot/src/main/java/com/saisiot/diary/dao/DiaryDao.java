@@ -13,7 +13,6 @@ public interface DiaryDao {
 	public int insert(DiaryDto dto);
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
-	public void updateViewCnt(int diaryno);
 	
 	
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);

@@ -22,7 +22,6 @@ public class DiaryBizImpl implements DiaryBiz {
 
 	@Override
 	public DiaryDto selectOne(int diaryno) {
-		dao.updateViewCnt(diaryno);
 		return dao.selectOne(diaryno);
 	}
 

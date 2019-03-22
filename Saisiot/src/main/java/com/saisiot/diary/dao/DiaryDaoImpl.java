@@ -26,14 +26,6 @@ public class DiaryDaoImpl implements DiaryDao {
 		
 		return list;
 	}
-	
-	
-
-	@Override
-	public void updateViewCnt(int diaryno) {
-		sqlSession.update(NAMESPACE+"updateViewCnt", diaryno);
-	}
-
 
 
 	@Override
