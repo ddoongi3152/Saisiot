@@ -6,7 +6,7 @@ import com.saisiot.diary.dto.DiaryDto;
 
 public interface DiaryDao {
 	
-	String NAMESPACE="customer.";
+	String NAMESPACE="diary.";
 	
 	public List<DiaryDto> selectList();
 	public DiaryDto selectOne(int diaryno);
@@ -14,5 +14,9 @@ public interface DiaryDao {
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
 	public void updateViewCnt(int diaryno);
+	
+	
+	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
+	public int countArticle(String searchOption, String keyword);
 
 }
