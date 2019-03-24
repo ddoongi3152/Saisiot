@@ -17,5 +17,7 @@ public interface DiaryBiz {
 
 	// 게시글 레코드 갯수
 	public int countArticle(String searchOption, String keyword);
+	
+	//댓글 리스트
 
 }

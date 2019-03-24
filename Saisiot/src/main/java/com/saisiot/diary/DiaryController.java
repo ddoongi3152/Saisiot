@@ -37,7 +37,7 @@ public class DiaryController {
 
 	@Autowired
 	private FileValidator fileValidator;
-
+	
 	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String diary(Model model) {
 
@@ -155,7 +155,7 @@ public class DiaryController {
 	}
 
 	// 게시글 목록
-	@RequestMapping("/listall.do")
+	@RequestMapping("/diarylist.do")
 	// @RequestParam(defaultValue="") ==> 기본값 할당
 	public ModelAndView list(@RequestParam(defaultValue = "title") String searchOption,
 			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
@@ -167,7 +167,7 @@ public class DiaryController {
 		int start = paging.getPageBegin();
 		int end = paging.getPageEnd();
 		List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
-		/* List<PagingDto> answerlist= pagingBiz.Answerlist(pagingDto.getGroupno()); */
+		/*List<DiaryDto> answerlist= Dbiz.AnswerList(DiaryDto.getGroupno()); */
 		/* System.out.println("answerlist="+answerlist); */
 		// 데이터를 맵에 저장
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -184,5 +184,7 @@ public class DiaryController {
 		mav.setViewName("diary_list"); // 뷰를 list.jsp로 설정
 		return mav; // list.jsp로 List가 전달된다.
 	}
+	
+	
 
 }

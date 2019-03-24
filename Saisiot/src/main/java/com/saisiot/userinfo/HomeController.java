@@ -52,6 +52,8 @@ public class HomeController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	
+	
 	@RequestMapping(value = "/list.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model, HttpSession session) {
 
