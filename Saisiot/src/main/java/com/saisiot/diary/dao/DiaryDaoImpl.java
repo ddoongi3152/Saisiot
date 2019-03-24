@@ -16,48 +16,44 @@ public class DiaryDaoImpl implements DiaryDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
+
 	@Override
 	public List<DiaryDto> selectList() {
-		
+
 		List<DiaryDto> list = new ArrayList<DiaryDto>();
-		
+
 		list = sqlSession.selectList(NAMESPACE + "selectList_diary");
-		
+
 		return list;
 	}
-	
-	
 
 	@Override
 	public void updateViewCnt(int diaryno) {
-		sqlSession.update(NAMESPACE+"updateViewCnt", diaryno);
+		sqlSession.update(NAMESPACE + "updateViewCnt", diaryno);
 	}
-
-
 
 	@Override
 	public DiaryDto selectOne(int diaryno) {
-		
+
 		DiaryDto res = new DiaryDto();
-		
-		res = sqlSession.selectOne(NAMESPACE+"diary_detail",diaryno);
-		
+
+		res = sqlSession.selectOne(NAMESPACE + "diary_detail", diaryno);
+
 		return res;
 	}
 
 	@Override
 	public int insert(DiaryDto dto) {
-		
+
 		int res = 0;
-		
+
 		try {
-			res = sqlSession.insert(NAMESPACE+"diary_insert",dto);
-		} catch(Exception e) {
+			res = sqlSession.insert(NAMESPACE + "diary_insert", dto);
+		} catch (Exception e) {
 			System.out.println("diaryinsert error");
 			e.printStackTrace();
 		}
-		
+
 		return res;
 	}
 
@@ -70,7 +66,7 @@ public class DiaryDaoImpl implements DiaryDao {
 	public int delete(int diaryno) {
 		return 0;
 	}
-	
+
 	@Override
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -86,12 +82,21 @@ public class DiaryDaoImpl implements DiaryDao {
 	@Override
 	public int countArticle(String searchOption, String keyword) {
 		// 검색옵션, 키워드 맵에 저장
-		int res=0;
+		int res = 0;
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
-		res=sqlSession.selectOne(NAMESPACE + "countArticle", map);
-		return res; 
+		res = sqlSession.selectOne(NAMESPACE + "countArticle", map);
+		return res;
+	}
+
+	@Override
+	public List<DiaryDto> commentList() {
+		List<DiaryDto> list = new ArrayList<DiaryDto>();
+
+		list = sqlSession.selectList(NAMESPACE + "commentList");
+
+		return list;
 	}
 
 }

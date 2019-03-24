@@ -54,5 +54,11 @@ public class DiaryBizImpl implements DiaryBiz {
 		return dao.countArticle(searchOption, keyword);
 	}
 	
+	@Override
+	public List<DiaryDto> commentList() {
+		
+		return dao.commentList();
+	}
+	
 
 }

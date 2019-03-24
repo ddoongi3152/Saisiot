@@ -19,5 +19,5 @@ public interface DiaryBiz {
 	public int countArticle(String searchOption, String keyword);
 	
 	//댓글 리스트
-
+	public List<DiaryDto> commentList();
 }

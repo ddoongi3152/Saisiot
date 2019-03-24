@@ -155,9 +155,9 @@ public class DiaryController {
 	}
 
 	// 게시글 목록
-	@RequestMapping("/diarylist.do")
+	@RequestMapping("/diary_list.do")
 	// @RequestParam(defaultValue="") ==> 기본값 할당
-	public ModelAndView list(@RequestParam(defaultValue = "title") String searchOption,
+	public ModelAndView diarylist(@RequestParam(defaultValue = "title") String searchOption,
 			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
 			throws Exception {
 		// 총 게시글 수 계산
@@ -167,11 +167,11 @@ public class DiaryController {
 		int start = paging.getPageBegin();
 		int end = paging.getPageEnd();
 		List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
-		/*List<DiaryDto> answerlist= Dbiz.AnswerList(DiaryDto.getGroupno()); */
-		/* System.out.println("answerlist="+answerlist); */
+		List<DiaryDto> commentList= Dbiz.commentList(); 
+		/* System.out.println("commentList="+commentList); */
 		// 데이터를 맵에 저장
 		Map<String, Object> map = new HashMap<String, Object>();
-		/* map.put("answerlist=", answerlist);//답글list */
+		map.put("commentList", commentList);//답글list 
 		map.put("list", list); // list
 		map.put("count", count); // 레코드의 갯수
 		map.put("searchOption", searchOption); // 검색옵션
@@ -185,6 +185,16 @@ public class DiaryController {
 		return mav; // list.jsp로 List가 전달된다.
 	}
 	
+	/*@RequestMapping("/comment_insert")
+	public void insert(@ModelAttribute DiaryDto dto){
+
+		// 세션에 저장된 회원아이디를 댓글작성자에 세팅
+		//, HttpSession session
+		String userId = (String) session.getAttribute("userId");
+		dto.setReplyer(userId);
+		// 댓글 입력 메서드 호출
+		Dbiz.comment_insert(dto);
+	}*/
 	
 
 }
