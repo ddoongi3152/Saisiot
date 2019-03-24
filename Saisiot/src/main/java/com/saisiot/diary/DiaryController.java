@@ -6,11 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.saisiot.diary.dto.DiaryDto;
 import com.saisiot.common.UploadFile;
+import com.saisiot.common.Editor;
 import com.saisiot.common.FileValidator;
 import com.saisiot.common.Paging;
 import com.saisiot.diary.biz.DiaryBiz;
@@ -57,92 +61,110 @@ public class DiaryController {
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
 			UploadFile uploadFile, BindingResult result) throws IOException {
 
-		// ��ȿ�� �˻�(÷�������� ������ �ؿ� ��ɵ鵵 ����ȵ�.)
-		fileValidator.validate(uploadFile, result);
+		if (uploadFile.getFile().isEmpty() == false) {
+			System.out.println("true 아녀?");
+			int res = Dbiz.insert(dto);
 
-		// ���������� ����� �ٽ� form����
-		if (result.hasErrors()) {
-			return "insert_diary";
-		}
+			if (res > 0) {
 
-		MultipartFile file = uploadFile.getFile();
-		String storefilename = file.getName();
-		String filename = file.getOriginalFilename();
-		System.out.println("���� �� ���� �� : " + storefilename);
-		System.out.println("�� �Ӿ� " + filename);
+				return "diary";
 
-		UploadFile fileobj = new UploadFile();
-		fileobj.setFilename(filename);
+			} else {
 
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
+				return "redirect:insert_diary";
 
-		try {
-			inputStream = file.getInputStream();
-			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "se/upload/");
+			}
+		} else {
+			
+			System.out.println("else 아녀?");
 
-			System.out.println("���ε� �� ���� ��� : " + path);
+			// 유효성검사
+			fileValidator.validate(uploadFile, result);
 
-			/*
-			 * ��� ������ : C:\workspace\....\storage ����� : ../(���� ����) ./(���� ����)
-			 * /(root->localhost:8787/ : �̵ڿ� �ٴ´�.)
-			 */
-
-			// storage�� �������� ������ �����.
-			File storage = new File(path);
-			if (!storage.exists()) {
-				storage.mkdirs();
+			// 오류정보가 존재시 uploadForm으로 간다.
+			if (result.hasErrors()) {
+				return "uploadForm";
 			}
 
-			// newfile�� �������� ������ newfile�� �����.
-			File newfile = new File(path + "/" + filename);
-			if (!newfile.exists()) {
-				newfile.createNewFile();
-			}
+			MultipartFile file = uploadFile.getFile();
+			String filename = file.getOriginalFilename();
 
-			outputStream = new FileOutputStream(newfile);
+			UploadFile fileobj = new UploadFile();
+			fileobj.setFilename(filename);
+			fileobj.setDesc(uploadFile.getDesc());
 
-			int read = 0;
-			byte[] b = new byte[(int) file.getSize()];
+			InputStream inputStream = null;
+			OutputStream outputStream = null;
 
-			while ((read = inputStream.read(b)) != -1) {
-				outputStream.write(b, 0, read);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
 			try {
-				inputStream.close();
-				outputStream.close();
+				inputStream = file.getInputStream();
+				String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
+				System.out.println("업로드 될 실제 경로 : " + path);
+
+				/*
+				 * 경로 절대경로 : C:\workspace\....\storage 상대경로 : ../(상위 폴더) ./(현재 폴더)
+				 * /(root->localhost:8787/ : 이뒤에 붙는다.)
+				 */
+
+				// storage가 존재하지 않으면 만든다.
+				File storage = new File(path);
+				if (!storage.exists()) {
+					storage.mkdirs();
+				}
+
+				// newfile이 존재하지 않으면 newfile을 만든다.
+				File newfile = new File(path + "/" + filename);
+				if (!newfile.exists()) {
+					newfile.createNewFile();
+				}
+
+				outputStream = new FileOutputStream(newfile);
+
+				int read = 0;
+				byte[] b = new byte[(int) file.getSize()];
+
+				while ((read = inputStream.read(b)) != -1) {
+					outputStream.write(b, 0, read);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					inputStream.close();
+					outputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-		}
 
-		String img_src = dto.getContent();
-		System.out.println("img : " + img_src);
+			String picurl = "";
+			String img_src = dto.getContent();
+			System.out.println("img : " + img_src);
 
-		dto.setFileurl(filename);
-		dto.setPicurl(img_src);
+			dto.setFileurl(filename);
+			dto.setPicurl(img_src);
 
-		System.out.println("���� �Ϸοо�뷯��������" + dto.getContent());
-		System.out.println(dto.getMaplati());
-		System.out.println(dto.getMaplong());
-		System.out.println(dto.getTitle());
-		System.out.println(dto.getFileurl());
-		System.out.println(dto.getPicurl());
+			System.out.println("내용 : " + dto.getContent());
+			int a = img_src.indexOf("upload");
+			System.out.println("aaaaaa : " + a);
+			String img_src2 = img_src.substring(a);
+			System.out.println("img_src2 : " + img_src2);
+			int b = img_src2.indexOf(34);
 
-		int res = Dbiz.insert(dto);
+			picurl = img_src2.substring(8, b);
+			System.out.println("picurl : " + picurl);
 
-		if (res > 0) {
+			int res = Dbiz.insert(dto);
 
-			return "diary";
+			if (res > 0) {
 
-		} else {
+				return "diary";
 
-			return "redirect:insert_diary";
+			} else {
 
+				return "redirect:insert_diary";
+
+			}
 		}
 
 	}
