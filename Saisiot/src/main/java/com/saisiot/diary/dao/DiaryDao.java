@@ -19,4 +19,6 @@ public interface DiaryDao {
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
 	public int countArticle(String searchOption, String keyword);
 	public List<DiaryDto> commentList();
+	public int comment_update(int diaryno);
+	public void comment_insert(DiaryDto dto);
 }

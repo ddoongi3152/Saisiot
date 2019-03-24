@@ -26,15 +26,17 @@
 		<include refid="search"></include>
 		AND GROUPSQ=0
 	</select>
-	
+
 	<!-- 댓글 리스트 -->
-	<select id="commentList" resultType="com.saisiot.diary.dto.DiaryDto">
+	<select id="commentList"
+		resultType="com.saisiot.diary.dto.DiaryDto">
 		SELECT
 		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
 		FILEURL, PICURL, MAPLATI, MAPLONG, VIDEOURL,
 		GROUPNO, GROUPSQ
 		FROM DIARY
-		WHERE GROUPSQ >0
+		WHERE
+		GROUPSQ >0
 		ORDER BY GROUPNO DESC, GROUPSQ
 	</select>
 
@@ -65,5 +67,24 @@
 		) A
 		) WHERE RN BETWEEN #{start} AND #{end}
 	</sql>
+
+	<!-- 댓글 업뎃 -->
+	<update id="comment_update" >
+		UPDATE DIARY SET GROUPSQ=GROUPSQ+1
+		WHERE GROUPNO=(SELECT GROUPNO FROM DIARY WHERE DIARYNO=#{diaryno})
+		AND GROUPSQ>(SELECT GROUPSQ FROM DIARY WHERE DIARYNO=#{diaryno})
+	</update>
+	
+	<!-- 댓글 입력 -->
+	<insert id="comment_insert" >
+		INSERT INTO DIARY
+		VALUES(DIARY_DIARYNOSEQ.NEXTVAL,'1',#{title},#{content},SYSDATE,
+		'test fileurl','testpicurl','1.1','2.2','testvideourl',
+		(SELECT GROUPNO FROM DIARY WHERE DIARYNO =#{diaryno}),
+		(SELECT GROUPSQ FROM DIARY WHERE DIARYNO =#{diaryno})+1
+		)
+	</insert>
+
+
 
 </mapper>

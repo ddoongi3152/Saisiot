@@ -20,4 +20,7 @@ public interface DiaryBiz {
 	
 	//댓글 리스트
 	public List<DiaryDto> commentList();
+	
+	//
+	public void comment_insert_proc(DiaryDto dto,int diaryno);
 }

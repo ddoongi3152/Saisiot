@@ -92,6 +92,7 @@
 							<form action="${path}/mvc03/comment_insert">
 							<input type="hidden" name="groupno" value="${row.groupno }">
 							<input type="hidden" name="groupsq" value="${row.groupsq }"> 
+							<input type="hidden" name="diaryno" value="${row.diaryno }">
 							<div style="width: 650px; text-align: center;">
 								<input type="text" name="title" value="">
 								<br>
@@ -101,7 +102,7 @@
 								<br>
 								<!-- 비밀댓글 체크박스 -->
 								<input type="checkbox" id="secretReply">비밀 댓글
-								<button type="button" id="btnReply">댓글 작성</button>
+								<button type="submit" id="btnReply">댓글 작성</button>
 								<%-- </c:if> --%>
 							</div>
 							</form>

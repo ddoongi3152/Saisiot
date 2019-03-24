@@ -66,7 +66,10 @@ public class DiaryDaoImpl implements DiaryDao {
 	public int delete(int diaryno) {
 		return 0;
 	}
-
+	
+	
+	
+	//다이어리 리스트
 	@Override
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -78,7 +81,7 @@ public class DiaryDaoImpl implements DiaryDao {
 		map.put("end", end);
 		return sqlSession.selectList(NAMESPACE + "diarylist", map);
 	}
-
+	//게시글 카운트
 	@Override
 	public int countArticle(String searchOption, String keyword) {
 		// 검색옵션, 키워드 맵에 저장
@@ -89,14 +92,24 @@ public class DiaryDaoImpl implements DiaryDao {
 		res = sqlSession.selectOne(NAMESPACE + "countArticle", map);
 		return res;
 	}
-
+	//commentlist 댓글 리스트
 	@Override
 	public List<DiaryDto> commentList() {
 		List<DiaryDto> list = new ArrayList<DiaryDto>();
-
 		list = sqlSession.selectList(NAMESPACE + "commentList");
-
 		return list;
+	}
+	// 1. 댓글 업뎃
+	@Override
+	public int comment_update(int diaryno) {
+		int res=sqlSession.insert(NAMESPACE +"comment_update", diaryno);
+		return res;
+	}
+	//2. 댓글 입력
+	@Override
+	public void comment_insert(DiaryDto dto) {
+		sqlSession.insert(NAMESPACE +"comment_insert", dto);
+		
 	}
 
 }

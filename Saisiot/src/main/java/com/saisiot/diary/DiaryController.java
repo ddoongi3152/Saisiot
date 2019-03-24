@@ -185,16 +185,18 @@ public class DiaryController {
 		return mav; // list.jsp로 List가 전달된다.
 	}
 	
-	/*@RequestMapping("/comment_insert")
-	public void insert(@ModelAttribute DiaryDto dto){
+	@RequestMapping("/comment_insert")
+	public String insert(@ModelAttribute DiaryDto dto,@RequestParam int diaryno){
 
 		// 세션에 저장된 회원아이디를 댓글작성자에 세팅
 		//, HttpSession session
-		String userId = (String) session.getAttribute("userId");
-		dto.setReplyer(userId);
+		/*String userId = (String) session.getAttribute("userId");
+		dto.setReplyer(userId);*/
 		// 댓글 입력 메서드 호출
-		Dbiz.comment_insert(dto);
-	}*/
+		Dbiz.comment_insert_proc(dto,diaryno);
+		
+		return "redirect:diary_list.do";
+	}
 	
 
 }
