@@ -91,6 +91,7 @@ $(function(){
 		// 선택한 지도 값을 가져오기전에 먼저 태그 삭제(장소 선택을 바꿀 수 있게 하기 위함)
 		$("#maplati").remove();
 		$("#maplong").remove();
+		$("#mapname").remove();
 		$("#selectmap").remove();
 		$("mapdel").remove();
 				
@@ -103,6 +104,9 @@ $(function(){
 		
 		var maplong = "<input type='hidden' id='maplong' name='maplong' value='"+x+"'/>";
 		$("#insertTag").before(maplong);
+		
+		var mapname = "<input type='hidden' id='mapname' name='mapname' value='"+selectaddr+"'/>";
+		$("#insertTag").before(mapname);
 		
 		var mapdel = "<input type='button' id='mapdel' value='지도삭제' />";
 		$("#map").after(mapdel);
@@ -137,6 +141,8 @@ $(function(){
 		// 인포윈도우를 지도에 표시한다
 		infowindow.open(map, marker);
 		}
+		
+		
 
 	</script>
 </body>

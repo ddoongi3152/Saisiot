@@ -47,7 +47,7 @@ if (ServletFileUpload.isMultipartContent(request)){
                 String defaultPath = request.getSession().getServletContext().getRealPath("/");
                 //파일 기본경로 _ 상세경로
                 System.out.println("defaultPath : "+defaultPath);
-                String path = defaultPath + "/resources/upload" + File.separator;
+                String path = defaultPath + "resources/api/se/upload" + File.separator;
                 System.out.println("Path : "+path);
                 //String path ="C:\\Workspace_SeMi\\smarteditor\\WebContent\\upload" + File.separator;
               
