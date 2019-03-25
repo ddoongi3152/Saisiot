@@ -42,7 +42,10 @@
 	</c:choose>
 	<input type="hidden" value="${dto.diaryno }" name="diaryno" />
 	<input type="hidden" value="${dto.folderno }" name="folderno" />
-	<input type="file" value="${dto.fileurl }" name="fileurl" />
+	<form action="download.do" method="post">
+		<input type="text" name="filename" value="${dto.fileurl }"/>
+		<input type="submit" value="DOWNLOAD"/>
+	</form>
 	<input type="hidden" value="${dto.picurl }" name="picurl" />
 	<input type="hidden" value="${dto.maplati }" id="maplati" />
 	<input type="hidden" value="${dto.maplong }" id="maplong" />

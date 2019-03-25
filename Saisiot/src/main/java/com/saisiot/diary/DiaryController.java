@@ -61,7 +61,7 @@ public class DiaryController {
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
 			UploadFile uploadFile, BindingResult result) throws IOException {
 
-		if (uploadFile.getFile().isEmpty() == false) {
+		if (uploadFile.getFile().isEmpty() == true) {
 			System.out.println("true 아녀?");
 			int res = Dbiz.insert(dto);
 
@@ -138,24 +138,27 @@ public class DiaryController {
 			}
 
 			String picurl = "";
-			String img_src = dto.getContent();
-			System.out.println("img : " + img_src);
+			String content = dto.getContent();
+			System.out.println("content : " + content);
+			
+			int a = content.indexOf("upload");
+			System.out.println("aaaaaa : " + a);
+			String img_src = content.substring(a);
+			System.out.println("img_src2 : " + img_src);
+			int b = img_src.indexOf(34);
 
+			picurl = img_src.substring(8, b);
+			System.out.println("picurl : " + picurl);
+			
+			String img_res = request.getContextPath();
+			System.out.println("img_res : " + img_res);
+			
+			
 			dto.setFileurl(filename);
 			dto.setPicurl(img_src);
 
-			System.out.println("내용 : " + dto.getContent());
-			int a = img_src.indexOf("upload");
-			System.out.println("aaaaaa : " + a);
-			String img_src2 = img_src.substring(a);
-			System.out.println("img_src2 : " + img_src2);
-			int b = img_src2.indexOf(34);
-
-			picurl = img_src2.substring(8, b);
-			System.out.println("picurl : " + picurl);
-
 			int res = Dbiz.insert(dto);
-
+			model.addAttribute("dto",dto);
 			if (res > 0) {
 
 				return "diary";
