@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,7 @@
 		<c:when test="${ empty dto.maplati}">
 			<input type="hidden" value="${dto.maplati }" id="maplati" />
 			<input type="hidden" value="${dto.maplong }" id="maplong" />
+			<input type="hidden" value="${dto.mapname }" id="mapname" />
 		</c:when>
 		<c:otherwise>
 			<div class="map_wrap">
@@ -46,7 +48,8 @@
 		<input type="text" name="filename" value="${dto.fileurl }"/>
 		<input type="submit" value="DOWNLOAD"/>
 	</form>
-	<input type="hidden" value="${dto.picurl }" name="picurl" />
+	<img src="<spring:url value="/upload/${dto.picurl }"/>" />
+	<input type="hidden" value="${dto.mapname }" id="mapname" />
 	<input type="hidden" value="${dto.maplati }" id="maplati" />
 	<input type="hidden" value="${dto.maplong }" id="maplong" />
 	<input type="hidden" value="${dto.videourl }" name="videourl" />
@@ -60,8 +63,7 @@
 
 		var maplati = $("#maplati").val();
 		var maplong = $("#maplong").val();
-		alert(maplati);
-		alert(maplong);
+		var mapname = $("#mapname").val();
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
@@ -92,7 +94,7 @@
 
 		// 마커 위에 표시할 인포윈도우를 생성한다
 		var infowindow = new daum.maps.InfoWindow({
-			content : '<div style="padding:5px;">' + selectaddr + '</div>' // 인포윈도우에 표시할 내용
+			content : '<div style="padding:5px;">' + mapname + '</div>' // 인포윈도우에 표시할 내용
 		});
 
 		// 인포윈도우를 지도에 표시한다

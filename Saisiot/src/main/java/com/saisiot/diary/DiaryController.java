@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import com.saisiot.diary.dto.DiaryDto;
+import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.common.UploadFile;
 import com.saisiot.common.Editor;
 import com.saisiot.common.FileValidator;
@@ -61,8 +63,25 @@ public class DiaryController {
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
 			UploadFile uploadFile, BindingResult result) throws IOException {
 
+		String picurl = "";
+		
+		String content = dto.getContent();
+		
+		int a = content.indexOf("upload");
+		
+		// 이미지 파일이 업로드 되었으면
+		if(a != -1) {
+		
+		String img_src = content.substring(a);
+
+		int c = img_src.indexOf(34);
+
+		picurl = "upload\\"+img_src.substring(7, c);
+		
+		dto.setPicurl(picurl);
+		
 		if (uploadFile.getFile().isEmpty() == true) {
-			System.out.println("true 아녀?");
+
 			int res = Dbiz.insert(dto);
 
 			if (res > 0) {
@@ -76,8 +95,6 @@ public class DiaryController {
 			}
 		} else {
 			
-			System.out.println("else 아녀?");
-
 			// 유효성검사
 			fileValidator.validate(uploadFile, result);
 
@@ -98,7 +115,7 @@ public class DiaryController {
 
 			try {
 				inputStream = file.getInputStream();
-				String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
+				String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/upload");
 				System.out.println("업로드 될 실제 경로 : " + path);
 
 				/*
@@ -136,29 +153,26 @@ public class DiaryController {
 					e.printStackTrace();
 				}
 			}
-
-			String picurl = "";
-			String content = dto.getContent();
-			System.out.println("content : " + content);
-			
-			int a = content.indexOf("upload");
-			System.out.println("aaaaaa : " + a);
-			String img_src = content.substring(a);
-			System.out.println("img_src2 : " + img_src);
-			int b = img_src.indexOf(34);
-
-			picurl = img_src.substring(8, b);
-			System.out.println("picurl : " + picurl);
-			
-			String img_res = request.getContextPath();
-			System.out.println("img_res : " + img_res);
-			
 			
 			dto.setFileurl(filename);
-			dto.setPicurl(img_src);
 
 			int res = Dbiz.insert(dto);
-			model.addAttribute("dto",dto);
+
+			if (res > 0) {
+
+				return "diary";
+
+			} else {
+
+				return "redirect:insert_diary";
+
+			}
+		}
+		
+		} else {
+			
+			int res = Dbiz.insert(dto);
+
 			if (res > 0) {
 
 				return "diary";
@@ -170,6 +184,14 @@ public class DiaryController {
 			}
 		}
 
+	}
+	
+	@RequestMapping(value="/insertForm_folder")
+	public String insertForm_Folder(HttpSession session) {
+		
+		UserinfoDto userinfo = (UserinfoDto)session.getAttribute("login");
+		
+		return "insert_folder";
 	}
 
 	@RequestMapping(value = "/diaryDetail.do", method = { RequestMethod.POST, RequestMethod.GET })
