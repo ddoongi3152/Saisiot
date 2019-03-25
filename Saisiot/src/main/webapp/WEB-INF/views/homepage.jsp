@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="resources/js/bgm.js"></script>
+<script src="resources/js/bgm.js?ver=3"></script>
 <script type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/homepage_mob.css">
 <link rel="stylesheet" href="resources/css/homepage_web.css">

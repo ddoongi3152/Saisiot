@@ -9,6 +9,7 @@
 	
 	<mappers>
 		<mapper resource="/sqls/mapper.xml"/>
+		<mapper resource="/sqls/jukeboxmapper.xml"/>
 	</mappers>
 
 </configuration>

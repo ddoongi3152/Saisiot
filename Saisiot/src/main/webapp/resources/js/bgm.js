@@ -36,7 +36,6 @@
 			}
 		}
 		$("#tracks").append(appendSong);
-
 	})
 	
 	// 첫번째 곡 듣기 설정
@@ -44,6 +43,7 @@
 		var firstsong = song;
 		$("#firstSong").val(firstsong);
 		$("#musicplayer").attr({src: "resources/bgm/"+firstsong+".mp3", autoplay: "autoplay", onended: "playBack()"});
+		playSongStyle(firstsong);
 	}
 	
 	// 인덱스로 리스트 다음곡, 여러곡 설정
@@ -58,6 +58,7 @@
 		var song = tracks[idx];
 		var audio = $("#musicplayer");
 		audio.attr({src: "resources/bgm/"+song+".mp3", autoplay: "autoplay", onended: "playBack()"});
+		playSongStyle(song);
 		audio.play();
 	}
 	
@@ -99,13 +100,16 @@
 	// 현재 재생되는 곡, list에서 style 주기
 	function playSongStyle(name) {
 		var title = $(".musictitle > a");
-		$.each(title, function() {
+		$.each(title, function(i, value) {
 			var tdtext = title.eq(i).text();
-			alert(tdtext);
 			if(tdtext.indexOf(name)!=-1){
 				title.eq(i)
-				.css("color","gray")
+				.css("font-weight","bold")
 				.css("text-decoration","underline");
+			}else{
+				title.eq(i)
+				.css("font-weight","normal")
+				.css("text-decoration","none");
 			}
 		})
 	}

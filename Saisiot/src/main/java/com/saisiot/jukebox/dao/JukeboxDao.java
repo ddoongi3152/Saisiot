@@ -6,7 +6,7 @@ import com.saisiot.jukebox.dto.JukeboxDto;
 
 public interface JukeboxDao {
 
-	String namespace = "userinfo.";
+	String namespace = "jukebox.";
 	
 	public List<JukeboxDto> jukeselect(String email);
 	public List<JukeboxDto> backselect(String email, String background);

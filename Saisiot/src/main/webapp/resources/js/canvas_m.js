@@ -16,12 +16,12 @@ var picture = {
 var eventObject = {
  mode: 0,
  click : false,
- x: -355,
- y: -133,
+ x: -132,
+ y: -106,
 };
 
-var fixedX = -355;
-var fixedY = -133;
+var fixedX = -132;
+var fixedY = -106;
  
 // 초기화
 $(document).ready(function() {
@@ -97,6 +97,7 @@ function dragEvent(event) {
  eventObject.x = event.x+fixedX;
  eventObject.y = event.y+fixedY;
 
+ 
  if (eventObject.click) {
   g.lineTo(event.x+fixedX, event.y+fixedY);
   g.stroke();

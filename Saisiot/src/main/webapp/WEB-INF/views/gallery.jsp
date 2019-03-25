@@ -7,22 +7,25 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="resources/js/canvas.js?ver=10"></script>
 <script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 
 	$(window).resize(function(){
 		if ($(window).width() > 769) {
 		  $("#right_wrapper4_2").append($("#gallery"))
+		  $.getScript( 'resources/js/canvas.js' );
 		}else {
 			$("#gallery_out").append($("#gallery"))
+			$.getScript( 'resources/js/canvas_m.js?ver=2' );
 		}
 	})
 	$(document).ready(function(){
 		if ($(window).width() > 769) {
 			$("#right_wrapper4_2").append($("#gallery"))
+			$.getScript( 'resources/js/canvas.js' );
 		}else {
 			$("#gallery_out").append($("#gallery"))
+			$.getScript( 'resources/js/canvas_m.js?ver=2' );
 		}
 	  $("#folder_list_drop").click(function(){
 	    $("#folder_list_div").toggle()
@@ -104,7 +107,7 @@
 				<div id="gallery_btn">
 					<div onclick="save()"><a class="save" id="save" href="#" style="color: black; text-decoration: none;" download>save image</a></div><div>to diary</div>
 				</div>
-				<div id="showmode"> mode : <span id="mode"></span></div>
+				<div id="showmode" style="display: none;"> mode : <span id="mode"></span></div>
 				<img id="fileImage" style="display: none;">
 				<img id="myImage" style="display: none">
 			</form>
