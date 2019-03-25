@@ -15,6 +15,15 @@
       <result property="coinno" column="COINNO"/>
       <result property="usercondition" column="USERCONDITION"/>
    </resultMap>
+	<resultMap type="com.saisiot.jukebox.dto.JukeboxDto" id="jukeMap">
+		<result property="musicno" column="MUSICNO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="singer" column="SINGER"/>
+		<result property="musictitle" column="MUSICTITLE"/>
+		<result property="runtime" column="RUNTIME"/>
+		<result property="musicalbum" column="MUSICALBUM"/>
+		<result property="background" column="BACKGROUND"/>
+	</resultMap>
 
    <select id="selectList" resultMap="dtoMap">
       SELECT EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION
