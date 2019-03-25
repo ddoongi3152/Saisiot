@@ -59,7 +59,6 @@
 	
 	// 노래 검색, 노래 리스트 폼 보이기, 숨기기
 	function musiclistForm() {
-		alert("!");
 		if($("#musiclistForm").css("display")=="none"){
 			$("#musiclistForm").show();
 			$("#searchForm").hide();

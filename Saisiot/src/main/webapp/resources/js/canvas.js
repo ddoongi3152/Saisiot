@@ -16,51 +16,29 @@ var picture = {
 var eventObject = {
  mode: 0,
  click : false,
- x: 0,
- y: 0,
+ x: -355,
+ y: -133,
 };
  
 // 초기화
-window.onload = function() {
+$(document).ready(function() {
  
- picture.canvas = document.getElementById("canvas");
+ picture.canvas =document.getElementById("canvas");
  picture.context = picture.canvas.getContext("2d");
  picture.context.lineWidth = 5;
- 
  mouseListener();
  
  	$(function() {
  		//선 색상 변경
 		 $("#selectColor").change(function() {
 			var selectColor = $("#selectColor").val();
-			/*if(selectColor=="red"){
-				picture.context.strokeStyle = "red";
-				picture.context.beginPath();
-			}else if(selectColor=="yellow"){
-				picture.context.strokeStyle = "#ff0";
-				picture.context.beginPath();
-			}else if(selectColor=="orange"){
-				picture.context.strokeStyle = "#ffa500";
-				picture.context.beginPath();
-			}else if(selectColor=="green"){
-				picture.context.strokeStyle = "#008000";
-				picture.context.beginPath();
-			}else if(selectColor=="blue"){
-				picture.context.strokeStyle = "#00f";
-				picture.context.beginPath();
-			}else if(selectColor=="black"){
-				picture.context.strokeStyle = "#000000";
-				picture.context.beginPath();
-			}else if(selectColor=="white"){
-				picture.context.strokeStyle = "white";
-				picture.context.beginPath();
-			}*/
+			
 			picture.context.strokeStyle = selectColor;
 			picture.context.beginPath();
 			picture.context.stroke();
 		})
 	})
-}
+})
  
 // 현재 클릭중인지 아닌지 구분?하기위한 변수 세팅
 function setClickTrue(){
@@ -95,14 +73,13 @@ function selectImg(value) {
 			picture.context.stroke();
 		}
 		background.src = e.target.result;
-		
 	}
  	reader.readAsDataURL(value.files[0]);
 }
 
 //굵기 변경
 function selectWidth() {
-	var selectWidth = $("#selectColor").val();
+	var selectWidth = $("#selectWidth").val();
 	picture.context = picture.canvas.getContext("2d");
 	picture.context.beginPath();
 	picture.context.lineWidth = selectWidth;
@@ -111,16 +88,14 @@ function selectWidth() {
 
 // 펜일 경우의 이벤트
 function dragEvent(event) {
- 
  var g = picture.context;
  
  g.moveTo(eventObject.x, eventObject.y);
- 
- eventObject.x = event.x;
- eventObject.y = event.y;
+ eventObject.x = event.pageX-350;
+ eventObject.y = event.pageY-133;
  
  if (eventObject.click) {
-  g.lineTo(event.x, event.y);
+  g.lineTo(event.pageX-355, event.pageY-133);
   g.stroke();
  }
  
@@ -129,8 +104,8 @@ function dragEvent(event) {
 // 좌표 출력
 function printXY(e){
  var g = picture.context;
- document.getElementById("x").innerHTML = e.x;
- document.getElementById("y").innerHTML = e.y;
+/* document.getElementById("x").innerHTML = e.x;
+ document.getElementById("y").innerHTML = e.y;*/
 }
  
 // 라인, 사각형 등 이전 좌표가 필요할 경우 이전좌표 세팅
@@ -146,7 +121,6 @@ function setBeforeXY(e){
 function drawLine(e){
  
  var g = picture.context;
- 
  g.lineTo(e.x, e.y);
  g.stroke();
 }
@@ -170,33 +144,31 @@ function drawCircle(e){
  
 // 각 경우에 따라서 이벤트리스너를 달아준다.
 function mouseListener(){
- 
  var mode = Number(eventObject.mode);
  picture.canvas.addEventListener("mousemove", printXY, false);
- 
  switch(mode){
  
  case 0:
-  document.getElementById("mode").innerHTML = "pen";
+  document.getElementById("mode").innerHTML = $("#pen > input").val();
   picture.canvas.addEventListener("mousedown",setClickTrue, false);
   picture.canvas.addEventListener("mouseup", setClickFalse, false);
   picture.canvas.addEventListener("mousemove", dragEvent, false);
   break;
   
  case 1:
-  document.getElementById("mode").innerHTML = "line";
+  document.getElementById("mode").innerHTML = $("#line > input").val();
   picture.canvas.addEventListener("mousedown",setBeforeXY, false);
   picture.canvas.addEventListener("mouseup", drawLine, false);
   break;
   
  case 2:
-  document.getElementById("mode").innerHTML = "rect";
+  document.getElementById("mode").innerHTML = $("#rect > input").val();
   picture.canvas.addEventListener("mousedown",setBeforeXY, false);
   picture.canvas.addEventListener("mouseup", drawRect, false);
   break;
   
  case 3:
-	  document.getElementById("mode").innerHTML = "circ";
+	  document.getElementById("mode").innerHTML = $("#circ > input").val();
 	  picture.canvas.addEventListener("mousedown",setBeforeXY, false);
 	  picture.canvas.addEventListener("mouseup", drawCircle, false);	
 	  break;
@@ -230,6 +202,6 @@ function save(){
 	var myImage = document.getElementById('myImage');
 	myImage.src = canvas.toDataURL();//canvas를 이미지파일로 옮김 
 		
-	document.getElementById('abc').setAttribute('href',canvas.toDataURL());	
+	document.getElementById('save').setAttribute('href',canvas.toDataURL());	
 }	
 	

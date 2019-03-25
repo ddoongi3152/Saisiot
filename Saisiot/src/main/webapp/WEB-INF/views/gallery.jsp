@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="resources/js/canvas.js"></script>
+<script src="resources/js/canvas.js?ver=10"></script>
 <script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 
@@ -60,14 +60,14 @@
 					<div id="black"></div>
 				</div>
 				<div class="settings">
-					<div id="color_input"><input type="color" id="selectColor" onchange="selectWidth()"/></div>
-					<div id="line_input"><input type="range" min="1" max="30" value="5"/></div>
+					<div id="color_input"><input type="color" id="selectColor"/></div>
+					<div id="line_input"><input type="range" id="selectWidth" min="1" max="10" value="3" onchange="selectWidth()"/></div>
 				</div>
 				<div class="tools">
-					<div id="pen"><div><a class = "pen" onclick="changeMode(0)" style="display: none;">pen</a></div></div>
-					<div id="line"><div><a class = "line" onclick="changeMode(1)" style="display: none;">line</a></div></div>
-					<div id="rect"><div><a class="rect" onclick="changeMode(2)" style="display: none;">rect</a></div></div>
-					<div id="circ"><div><a class = "circ" onclick="changeMode(3)" style="display: none;">circ</a></div></div>
+					<div id="pen" class = "pen" onclick="changeMode(0)"><input type="hidden" value="pen"><div></div></div>
+					<div id="line" class = "line" onclick="changeMode(1)"><input type="hidden" value="line"><div></div></div>
+					<div id="rect" class="rect" onclick="changeMode(2)"><input type="hidden" value="rect"><div></div></div>
+					<div id="circ" class = "circ" onclick="changeMode(3)"><input type="hidden" value="circ"><div></div></div>
 				</div>
 				<div class="btns">
 					<div><input type="file" id="img" accept="image/*" onchange="selectImg(this);" placeholder="배경이미지"></div>
@@ -102,9 +102,9 @@
 				<div><canvas id = "canvas" style = "border: 1px solid #b6b6b6;border-radius: 5px; width: 100%; height: 100%; "></canvas></div>
 				<div id="gallery_content"><textarea placeholder="content"></textarea></div>
 				<div id="gallery_btn">
-					<div onclick="save()">save image</div><div>to diary</div>
+					<div onclick="save()"><a class="save" id="save" href="#" style="color: black; text-decoration: none;" download>save image</a></div><div>to diary</div>
 				</div>
-				<div id="showmode" style="display: none;"> mode : <span id="mode"></span></div>
+				<div id="showmode"> mode : <span id="mode"></span></div>
 				<img id="fileImage" style="display: none;">
 				<img id="myImage" style="display: none">
 			</form>

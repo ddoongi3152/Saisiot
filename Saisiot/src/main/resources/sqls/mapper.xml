@@ -95,10 +95,10 @@
 	
 <!-- jukebox mapper -->
 	<select id="jukeselect" parameterType="String" resultMap="jukeMap">
-		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email}
+		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} ORDER BY MUSICNO
 	</select>
 	<select id="backselect" parameterType="jukeboxDto" resultMap="jukeMap">
-		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} AND BACKGROUND = #{background}
+		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} AND BACKGROUND = #{background} ORDER BY MUSICNO
 	</select>
 	<insert id="insertSong" parameterType="jukeboxDto">
 		INSERT INTO MUSIC VALUES(JUKESEQ.NEXTVAL, #{email}, #{singer}, #{musictitle}, #{runtime}, #{musicalbum}, #{background})
@@ -107,4 +107,7 @@
 		UPDATE MUSIC SET BACKGROUND = #{background} WHERE EMAIL = #{email} AND MUSICNO = #{musicno}
 	</update>
 
+	<update id="updateCoin" parameterType="UserinfoDto">
+		UPDATE USERINFO SET COINNO = #{coinno} WHERE EMAIL = #{email}
+	</update>
 </mapper>

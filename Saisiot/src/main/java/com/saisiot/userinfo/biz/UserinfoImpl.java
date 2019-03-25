@@ -101,6 +101,12 @@ public class UserinfoImpl implements UserinfoBiz {
 		return dao.longuser();
 	}
 
+	@Override
+	public int coinupdate(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.coinupdate(dto);
+	}
+
 
 	
 	

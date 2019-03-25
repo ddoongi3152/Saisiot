@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="resources/js/bgm.js"></script>
-<script src="resources/js/jukebox.js"></script>
+<script src="resources/js/jukebox.js?ver=1"></script>
 <script type="text/javascript">
 
 	$(window).resize(function(){
@@ -131,7 +131,7 @@
 			</form>
 			<form id="musiclistForm" action="" method="post" style="display: none;">
 			<input type="hidden" name="email" id="email" value="<%=dto.getEmail()%>">
-				<div id="search_div"><div onclick="">노래 찾기</div></div>
+				<div id="search_div"><div onclick="musiclistForm();" style="width: 70px;">노래 찾기</div></div>
 				<table id="music_table">
 					<thead>
 						<tr>
@@ -155,7 +155,7 @@
 										<td>${list.singer }</td>
 										<td>${list.musictitle }</td>
 										<td>${list.runtime }</td>
-										<td>${list.musicalbum }</td>
+										<td colspan="2">${list.musicalbum }</td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>

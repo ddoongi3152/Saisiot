@@ -1,6 +1,7 @@
 package com.saisiot.jukebox;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.saisiot.common.ManiaDB;
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
-import com.saisiot.common.ManiaDB;
+import com.saisiot.userinfo.biz.UserinfoBiz;
+import com.saisiot.userinfo.dto.UserinfoDto;
 
 @Controller
 public class JukeboxController {
+	
+	@Autowired
+	private UserinfoBiz biz;
 	
 	@Autowired
 	private JukeboxDao jukedao;
@@ -29,12 +35,6 @@ public class JukeboxController {
 	public String gallery() {
 		
 		return "gallery";
-	}
-	
-	@RequestMapping("/searchMusicForm.do")
-	public String searchMusicForm() {
-		
-		return "searchMusic";
 	}
 	
 	@RequestMapping("/searchMusic.do")
@@ -59,17 +59,32 @@ public class JukeboxController {
 	
 	@RequestMapping("/buysong.do")
 	public String buySong(String email, String songOne) {
-		String[] songArr = songOne.split("#");
-		JukeboxDto dto = new JukeboxDto(0,email, songArr[0], songArr[1], songArr[2], songArr[3],"N");
-		
-		int res = 0;
-		res = jukedao.insert(dto);
-		if(res > 0) {
-			return "redirect:jukebox.do?email="+email;
+		UserinfoDto userdto = biz.selectOne(email);
+		int coin = userdto.getCoinno();
+		if((coin-5) < 0 || coin <= 0) {
+			System.out.println("프로필-구매로 보내기");
+			return "";
 		}else {
-			System.out.println("구매 실패");
-			return "redirect:jukebox.do?email="+email;
+			userdto = new UserinfoDto(email, null, null, null, null, null, null, null, null, (coin-5), 0);
+			int coinres = biz.coinupdate(userdto);
+			if(coinres > 0) {
+				String[] songArr = songOne.split("#");
+				JukeboxDto dto = new JukeboxDto(0,email, songArr[0], songArr[1], songArr[2], songArr[3],"N");
+				
+				int res = 0;
+				res = jukedao.insert(dto);
+				if(res > 0) {
+					return "redirect:jukebox.do?email="+email;
+				}else {
+					System.out.println("구매 실패");
+					return "redirect:jukebox.do?email="+email;
+				}
+			}else {
+				System.out.println("구매 실패");
+				return "redirect:jukebox.do?email="+email;
+			}
 		}
+		
 	}
 	
 	@RequestMapping("/updateBack.do")

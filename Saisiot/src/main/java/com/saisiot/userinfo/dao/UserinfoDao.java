@@ -24,4 +24,5 @@ public interface UserinfoDao {
 	public int passupdate(UserinfoDto dto);
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
+	public int coinupdate(UserinfoDto dto);
 }
