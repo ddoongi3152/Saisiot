@@ -141,6 +141,8 @@ $(function(){
 		// 인포윈도우를 지도에 표시한다
 		infowindow.open(map, marker);
 		}
+		
+		
 
 	</script>
 </body>
