@@ -19,11 +19,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -58,6 +60,13 @@ public class DiaryController {
 
 		return "insert_diary";
 	}
+	
+	@RequestMapping(value="/video.do")
+	public String video() {
+		
+		return "videotest";
+	}
+	
 
 	@RequestMapping(value = "/diary_insert.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
@@ -186,7 +195,27 @@ public class DiaryController {
 
 	}
 	
-	@RequestMapping(value="/insertForm_folder")
+	@RequestMapping("/download.do")
+	@ResponseBody
+	public byte[] fileDown(HttpServletRequest request,HttpServletResponse response, String filename) throws IOException {
+		
+		String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/upload");
+		File file = new File(path+"/"+filename);
+		
+		byte[] bytes = FileCopyUtils.copyToByteArray(file); // 가져온 file값을 copyToByteArray를 이용하여 배열로 모든 data를가져옴
+		String fn = new String(file.getName().getBytes(),"8859_1");
+		
+		response.setHeader("Content-Disposition", "attachment;filename=\""+fn+"\"");
+		response.setContentLength(bytes.length);
+		response.setContentType("image/jpeg");
+		// servers - tomcat - web.xml에서 mime-mapping을 보면 jpg,doc,ppt 등등 다운받을수있는 파일의 타입을 잡아줄수있다. 
+		// 기본적인 값 외에 내가 필요한게 있으면 따로 추가 가능하다.
+		
+		return bytes;
+	}
+	
+
+	@RequestMapping(value="/insertForm_folder.do")
 	public String insertForm_Folder(HttpSession session) {
 		
 		UserinfoDto userinfo = (UserinfoDto)session.getAttribute("login");

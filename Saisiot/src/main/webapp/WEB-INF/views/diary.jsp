@@ -40,8 +40,11 @@
 		</c:choose>
 
 		<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<input type="button" value="글쓰기" onclick="location.href='insertForm_diary.do'" />
+			</td>
+			<td colspan="4">
+				<input type="button" value="비디오" onclick="location.href='video.do'"/>
 			</td>
 		</tr>
 	</table>
