@@ -7,7 +7,6 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.Locale" %>
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -191,11 +190,11 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div onclick="location.href='home.do'">home</div>
+		<div onclick="location.href='homepage.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
 		<div><a href="diary.do">diary</a></div>
 		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
-		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
