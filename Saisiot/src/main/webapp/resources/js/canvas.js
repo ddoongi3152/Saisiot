@@ -141,7 +141,7 @@ function drawRect(e){
 function drawCircle(e){
 	var g = picture.context;
 	g.beginPath();
-	g.arc(eventObject.x, eventObject.y, (e.x+fixedX)-eventObject.x, 0, 2*Math.PI, false);
+	g.arc(e.x+fixedX, e.y+fixedY, (e.x+fixedX)-eventObject.x, 0, 2*Math.PI, false);
 	g.stroke();
 }
  
@@ -206,5 +206,6 @@ function save(){
 	myImage.src = canvas.toDataURL();//canvas를 이미지파일로 옮김 
 		
 	document.getElementById('save').setAttribute('href',canvas.toDataURL());	
-}	
+}
+
 	

@@ -133,10 +133,10 @@
   }
   #gallery_canvas{
     flex: 0 0 auto;
-    background-color: #c3c0c0;
     width: 99%;
     height: 250px;
     border: 0;
+    background: white;
   }
   #gallery_content{
     background-color: #a3a0a0;

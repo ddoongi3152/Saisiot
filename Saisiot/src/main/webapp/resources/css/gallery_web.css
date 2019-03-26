@@ -289,10 +289,10 @@
   #gallery_canvas{
     order: 2;
     flex: 0 0 auto;
-    background-color: #c3c0c0;
     width: 100%;
     height: 300px;
     border: 0;
+    background: white;
   }
   #gallery_content{
     order: 3;

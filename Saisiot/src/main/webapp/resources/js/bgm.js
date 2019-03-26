@@ -42,8 +42,10 @@
 	function firstSong(song) {
 		var firstsong = song;
 		$("#firstSong").val(firstsong);
-		$("#musicplayer").attr({src: "resources/bgm/"+firstsong+".mp3", autoplay: "autoplay", onended: "playBack()"});
+		var audio = $("#musicplayer");
+		audio.attr({src: "resources/bgm/"+firstsong+".mp3", autoplay: "autoplay", onended: "playBack()"});
 		playSongStyle(firstsong);
+		audio.play();
 	}
 	
 	// 인덱스로 리스트 다음곡, 여러곡 설정

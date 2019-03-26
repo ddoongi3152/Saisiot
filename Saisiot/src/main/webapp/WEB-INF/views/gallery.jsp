@@ -12,30 +12,43 @@
 
 	$(window).resize(function(){
 		if ($(window).width() > 769) {
-		  $("#right_wrapper4_2").append($("#gallery"))
-		  $.getScript( 'resources/js/canvas.js' );
+			$("#canvas").attr({width:"498px", height: "300px"});
+			$("#right_wrapper4_2").append($("#gallery"))
+			$.getScript( 'resources/js/canvas.js?ver=4' );
+		  
 		}else {
+			$("#canvas").attr({width:"290px", height: "250px"});
 			$("#gallery_out").append($("#gallery"))
-			$.getScript( 'resources/js/canvas_m.js?ver=2' );
+			$.getScript( 'resources/js/canvas_m.js?ver=4' );
 		}
 	})
 	$(document).ready(function(){
 		if ($(window).width() > 769) {
+			$("#canvas").attr({width:"498px", height: "300px"});
 			$("#right_wrapper4_2").append($("#gallery"))
-			$.getScript( 'resources/js/canvas.js' );
+			$.getScript( 'resources/js/canvas.js?ver=4' );
+			
 		}else {
+			$("#canvas").attr({width:"290px", height: "250px"});
 			$("#gallery_out").append($("#gallery"))
-			$.getScript( 'resources/js/canvas_m.js?ver=2' );
+			$.getScript( 'resources/js/canvas_m.js?ver=4' );
+			
 		}
 	  $("#folder_list_drop").click(function(){
 	    $("#folder_list_div").toggle()
 	  });
+	  
+		// 이미지 가져오기 태그를 클릭하면 file 태그 실행
+		$("#pushFile").click(function(e) {
+			e.preventDefault();
+			$("#img").click();
+	  	})
 	});
 
 
 </script>
-<link rel="stylesheet" href="resources/css/gallery_web.css">
-<link rel="stylesheet" href="resources/css/gallery_mob.css">
+<link rel="stylesheet" href="resources/css/gallery_web.css?ver=1">
+<link rel="stylesheet" href="resources/css/gallery_mob.css?ver=1">
 <title>Insert title here</title>
 </head>
 <body>
@@ -73,8 +86,9 @@
 					<div id="circ" class = "circ" onclick="changeMode(3)"><input type="hidden" value="circ"><div></div></div>
 				</div>
 				<div class="btns">
-					<div><input type="file" id="img" accept="image/*" onchange="selectImg(this);" placeholder="배경이미지"></div>
+					<div id="pushFile">이미지 가져오기</div>
 					<div onclick="clearCanvas()">새로그리기</div>
+					<input type="file" id="img" accept="image/*" onchange="selectImg(this);" style="display: none;">
 				</div>
 			</div>
 		</div>
@@ -102,7 +116,7 @@
 			 	<input type="hidden" name="command" value="insert_canvas">
  				<input type="hidden" id="path" name="path" value="">
 				<div id="gallery_title"><input placeholder="title" type="text"/></div>
-				<div><canvas id = "canvas" style = "border: 1px solid #b6b6b6;border-radius: 5px; width: 100%; height: 100%; "></canvas></div>
+				<div id="gallery_canvas"><canvas id = "canvas" width="498px" height="300px" style = "border: 1px solid #b6b6b6;border-radius: 5px;"></canvas></div>
 				<div id="gallery_content"><textarea placeholder="content"></textarea></div>
 				<div id="gallery_btn">
 					<div onclick="save()"><a class="save" id="save" href="#" style="color: black; text-decoration: none;" download>save image</a></div><div>to diary</div>

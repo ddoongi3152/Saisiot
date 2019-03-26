@@ -16,13 +16,20 @@ var picture = {
 var eventObject = {
  mode: 0,
  click : false,
- x: -132,
- y: -106,
+ x: -128,
+ y: -102,
 };
 
-var fixedX = -132;
-var fixedY = -106;
- 
+var fixedX = -128;
+var fixedY = -102;
+/* 
+$(window).resize(function(){
+	eventObject.x = -$("#canvas").offset().left;
+	eventObject.y = -$("#canvas").offset().top;
+	fixedX = -$("#canvas").offset().left;
+	fixedY = -$("#canvas").offset().top;
+})
+*/
 // 초기화
 $(document).ready(function() {
  
@@ -41,6 +48,7 @@ $(document).ready(function() {
 			picture.context.stroke();
 		})
 	})
+	
 })
  
 // 현재 클릭중인지 아닌지 구분?하기위한 변수 세팅
@@ -93,7 +101,6 @@ function selectWidth() {
 function dragEvent(event) {
  var g = picture.context;
  g.moveTo(eventObject.x, eventObject.y);
-
  eventObject.x = event.x+fixedX;
  eventObject.y = event.y+fixedY;
 
@@ -142,7 +149,7 @@ function drawRect(e){
 function drawCircle(e){
 	var g = picture.context;
 	g.beginPath();
-	g.arc(eventObject.x, eventObject.y, (e.x+fixedX)-eventObject.x, 0, 2*Math.PI, false);
+	g.arc(e.x+fixedX, e.y+fixedY, (e.x+fixedX)-eventObject.x, 0, 2*Math.PI, false);
 	g.stroke();
 }
  
