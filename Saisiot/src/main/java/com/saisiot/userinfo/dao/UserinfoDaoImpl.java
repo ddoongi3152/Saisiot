@@ -46,8 +46,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		int res = 0;
 		
-		System.out.println(dto.getBirthdate());
-		
 		try {
 		res = sqlSession.insert(NAMESPACE + "userinsert",dto);
 		}catch(Exception e) {
@@ -150,6 +148,9 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public UserinfoDto emailpwfind(String email) {
 				
+		/*Map<String, Object> map = new HashMap<String, Object>();
+		map.put("birthday", birthday);
+		map.put("name", name);*/
 		UserinfoDto dto = new UserinfoDto(email);
 	
 		return sqlSession.selectOne(NAMESPACE + "emailpwfind" ,dto);
@@ -324,5 +325,4 @@ public class UserinfoDaoImpl implements UserinfoDao {
 
 	}
 	//seo's editing end---------------------
-
 }
