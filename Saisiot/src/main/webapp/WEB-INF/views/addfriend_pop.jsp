@@ -10,7 +10,7 @@
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#add_friend").click(function() {
+		$("#search").click(function() {
 			location.href = "otherhome.do?email="+this.value
 		});
 	});
