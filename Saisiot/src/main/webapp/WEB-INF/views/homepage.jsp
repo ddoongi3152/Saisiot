@@ -4,8 +4,9 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <%@page import="java.util.Locale" %>
+<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,6 +14,8 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="resources/js/bgm.js?ver=3"></script>
 <link rel="stylesheet" href="resources/css/homepage_mob.css">
 <link rel="stylesheet" href="resources/css/homepage_web.css">
 <!-- d3 import 하기 -->
@@ -163,10 +166,10 @@
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
 		<div>home</div>
-		<div>gallery</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
 		<div>diary</div>
-		<div>jukebox</div>
 		<div><a href="profile.do">profile</a></div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
 		<div>chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
@@ -250,21 +253,33 @@ var tooltip = d3.select("#graph").append("div").attr("class", "count").style("di
 </script>
 
 		<div id="audio">
-			<audio controls controlsList="nodownload" loop>
-			  <source src="test.mp3" type="audio/mpeg">
-			  Your browser does not support the audio tag.
+			<audio id="musicplayer" autoplay="autoplay" controls controlsList="nodownload">
+				<source src="" type="audio/mpeg" >
+				Your browser does not support the audio tag.
 			</audio>
 		</div>
 		<div id="audio_list">
 			<table>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
+				<c:choose>
+					<c:when test="${empty background }">
+						<tr>
+							<td align="center">- 선택된 배경음악이 없습니다 -</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${background }" var="back">
+							<tr>
+								<td class="musictitle"><a>${back.musictitle}</a></td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</table>
+		</div>
+		<div id="tracks" style="display: none;">
+			<input type="hidden" id="firstSong" value="">
+			<input type="hidden" id="songindex" value="">
+			<input type="hidden" id="repeat" value="">
 		</div>
 	</div>
 

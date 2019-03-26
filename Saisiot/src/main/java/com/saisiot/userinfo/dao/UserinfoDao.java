@@ -25,7 +25,8 @@ public interface UserinfoDao {
 	public int passupdate(UserinfoDto dto);
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
-	
+
+	//유정
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email);
 	// 방문시, 방문자수 +1
@@ -36,4 +37,7 @@ public interface UserinfoDao {
 	public int visit_total(Map visit_email);
 	// 일주일 간 방문자 수
 	public List<Object> visit_weekdata(Map visit_email);
+
+	public int coinupdate(UserinfoDto dto);
+
 }
