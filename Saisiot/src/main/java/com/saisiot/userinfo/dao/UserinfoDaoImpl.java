@@ -237,4 +237,15 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	}
 	
 	//lees editing end==----------------------------------------------------
+
+	//seo's editing---------------------
+	@Override
+	public int coinupdate(UserinfoDto dto) {
+		System.out.println("coin 갯수 업데이트");
+		
+		int res = sqlSession.update(NAMESPACE+"updateCoin", dto);
+		
+		return res;
+	}
+	//seo's editing end---------------------
 }

@@ -100,7 +100,6 @@ public class UserinfoImpl implements UserinfoBiz {
 		// TODO Auto-generated method stub
 		return dao.longuser();
 	}
-
 	
 	//---lee's editing-------------------------------------------------
 	@Override
@@ -130,7 +129,15 @@ public class UserinfoImpl implements UserinfoBiz {
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
 		return 0;
+	//---lee's editing end----------------------------------------------
+		
+	//seo's editing------------------
+	@Override
+	public int coinupdate(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.coinupdate(dto);
 	}
+	//seo's editing end----------
 
 
 	

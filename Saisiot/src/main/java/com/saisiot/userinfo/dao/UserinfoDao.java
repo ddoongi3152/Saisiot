@@ -32,4 +32,7 @@ public interface UserinfoDao {
 	public int friendInsert(String email1, String email2);
 	public int friendUpdate(String email);
 	public int friendDelete(String email);
+
+	public int coinupdate(UserinfoDto dto);
+	//------------------lee's editing end
 }
