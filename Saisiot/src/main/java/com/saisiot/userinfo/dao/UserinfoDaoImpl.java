@@ -191,6 +191,37 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return list;
 	}
 
+	@Override
+	public int comebackuser(UserinfoDto dto) {
+	System.out.println("계정 복귀");
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "comebackuser", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int snscomback(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "snscomeback", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int userinfoplus(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "userinfoplus", dto);
+		
+		return res;
+	}
+
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email) {
@@ -291,6 +322,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		int res = sqlSession.update(NAMESPACE+"updateCoin", dto);
 		
 		return res;
+
 	}
 	//seo's editing end---------------------
 }

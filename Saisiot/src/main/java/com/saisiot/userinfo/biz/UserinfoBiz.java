@@ -22,6 +22,9 @@ public interface UserinfoBiz {
 	public int passupdate(UserinfoDto dto);
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
+	public int comebackuser(UserinfoDto dto);
+	public int snscomback(UserinfoDto dto);
+	public int userinfoplus(UserinfoDto dto);
 
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email);

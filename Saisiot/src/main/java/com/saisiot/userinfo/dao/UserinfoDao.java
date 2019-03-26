@@ -25,7 +25,12 @@ public interface UserinfoDao {
 	public int passupdate(UserinfoDto dto);
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
-	
+
+	public int comebackuser(UserinfoDto dto);
+	public int snscomback(UserinfoDto dto);
+	public int userinfoplus(UserinfoDto dto);
+
+
 	//-----------------lee's editing
 	
 	public List<UserinfoDto> selectFriendList(String email);
