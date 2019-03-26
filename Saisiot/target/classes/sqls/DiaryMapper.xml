@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="diary">
+   	<select id="diarylist"
+		resultType="com.saisiot.diary.dto.DiaryDto">
+		<!-- 페이지 나누기를 포함한 게시글 목록 -->
+		<!-- 페이징 -->
+		SELECT A.*
+		FROM(
+		SELECT
+		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
+		FILEURL, PICURL, MAPLATI, MAPLONG, VIDEOURL,
+		GROUPNO, GROUPSQ, ROWNUM AS RN 
+		FROM DIARY
+		<include refid="search"></include>
+		AND GROUPSQ=0
+		ORDER BY GROUPNO DESC, GROUPSQ
+		) A WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 게시글 갯수 -->
+	<select id="countArticle" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		DIARY
+		<!-- WHERE절을 include 태그로 삽입 -->
+		<include refid="search"></include>
+	</select>
+	
+	<!-- 검색조건 -->
+	<sql id="search">
+		<choose>
+			<!-- 검색옵션이 전체 검색일 경우 -->
+			<when test="searchOption == 'all'">
+				WHERE
+				(content like '%'||#{keyword}||'%'
+				OR
+				title like
+				'%'||#{keyword}||'%')
+			</when>
+			<otherwise>
+				WHERE
+				${searchOption} like
+				'%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+
+</mapper>
