@@ -190,7 +190,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return list;
 	}
-<<<<<<< HEAD
+
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email) {
@@ -234,7 +234,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 
 		return res;
 
-=======
+	}
 
 	
 	//lee's editing------------------------------------------------------------------------
@@ -291,7 +291,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		int res = sqlSession.update(NAMESPACE+"updateCoin", dto);
 		
 		return res;
->>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
 	}
 	//seo's editing end---------------------
 }

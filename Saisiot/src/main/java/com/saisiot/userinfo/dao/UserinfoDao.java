@@ -25,7 +25,6 @@ public interface UserinfoDao {
 	public int passupdate(UserinfoDto dto);
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
-<<<<<<< HEAD
 	
 	//-----------------lee's editing
 	
@@ -34,7 +33,6 @@ public interface UserinfoDao {
 	public int friendInsert(String email1, String email2);
 	public int friendUpdate(String email);
 	public int friendDelete(String email);
-=======
 
 	//유정
 	// 중복 방문 방지를 위해 오늘 방문자 비교
@@ -47,12 +45,9 @@ public interface UserinfoDao {
 	public int visit_total(Map visit_email);
 	// 일주일 간 방문자 수
 	public List<Object> visit_weekdata(Map visit_email);
->>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
 
 	public int coinupdate(UserinfoDto dto);
-<<<<<<< HEAD
-	//------------------lee's editing end
-=======
 
->>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
+	//------------------lee's editing end
+
 }

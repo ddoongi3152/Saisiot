@@ -42,6 +42,7 @@ import java.util.Map;
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
+import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
@@ -51,7 +52,7 @@ import com.saisiot.userinfo.recapthca.*;
 public class HomeController {
 
 	@Autowired
-	private UserinfoBiz biz;
+	private UserinfoBizImpl biz;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -251,11 +252,9 @@ public class HomeController {
 		
 		session.setAttribute("friendList", friendList);
 		
-		return "homepage";
-
 		//------------메인홈피에 배경음악 붙이기
-		UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
-		String email = dto.getEmail();
+		
+		email = dto.getEmail();
 		List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
 		jukelist = jukedao.backselect(email, "Y");
 

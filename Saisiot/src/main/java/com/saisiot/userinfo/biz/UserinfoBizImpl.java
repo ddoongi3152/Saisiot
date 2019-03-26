@@ -12,7 +12,7 @@ import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
 @Service
-public class UserinfoImpl implements UserinfoBiz {
+public class UserinfoBizImpl implements UserinfoBiz {
 
 	@Autowired
 	private UserinfoDao dao;
@@ -130,6 +130,7 @@ public class UserinfoImpl implements UserinfoBiz {
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
 	//---lee's editing end----------------------------------------------
 		
 	//seo's editing------------------
@@ -161,6 +162,7 @@ public class UserinfoImpl implements UserinfoBiz {
 	public List<Object> visit_weekdata(Map visit_email) {
 		// TODO Auto-generated method stub
 		return dao.visit_weekdata(visit_email);
+	}
 	public int coinupdate(UserinfoDto dto) {
 		// TODO Auto-generated method stub
 		return dao.coinupdate(dto);
