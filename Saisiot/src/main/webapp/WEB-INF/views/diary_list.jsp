@@ -112,6 +112,9 @@ $(function(){
 									title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" />
 								</a>
 								<script type='text/javascript'>
+									var url_this_page = location.href;
+									var title_this_page = document.title;
+									var url=url_this_page+title_this_page
 									//<![CDATA[
 									// // 사용할 앱의 JavaScript 키를 설정해 주세요.
 									Kakao
@@ -121,19 +124,19 @@ $(function(){
 										container : '#kakao-link-btn',
 										objectType : 'feed',
 										content : {
-											title : '카카오 링크 보내기',
+											title : '${row.title}',
 											description : '${row.title}',
 											imageUrl : '${row.picurl}',
 											link : {
-												mobileWebUrl : 'location.href',
-												webUrl : 'location.href'
+												mobileWebUrl : url,
+												webUrl : url
 											}
 										},
 										buttons : [ {
 											title : '웹으로 보기',
 											link : {
-												mobileWebUrl : 'location.href',
-												webUrl : 'location.href'
+												mobileWebUrl : url,
+												webUrl : url
 											}
 										} ]
 									});
