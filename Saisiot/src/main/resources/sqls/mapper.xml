@@ -91,5 +91,23 @@
 	<select id="longuser" resultMap="dtoMap">
 		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
 	</select>
+	
+	
+<!-- jukebox mapper -->
+	<select id="jukeselect" parameterType="String" resultMap="jukeMap">
+		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} ORDER BY MUSICNO
+	</select>
+	<select id="backselect" parameterType="jukeboxDto" resultMap="jukeMap">
+		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} AND BACKGROUND = #{background} ORDER BY MUSICNO
+	</select>
+	<insert id="insertSong" parameterType="jukeboxDto">
+		INSERT INTO MUSIC VALUES(JUKESEQ.NEXTVAL, #{email}, #{singer}, #{musictitle}, #{runtime}, #{musicalbum}, #{background})
+	</insert>
+	<update id="updateBack" parameterType="jukeboxDto">
+		UPDATE MUSIC SET BACKGROUND = #{background} WHERE EMAIL = #{email} AND MUSICNO = #{musicno}
+	</update>
 
+	<update id="updateCoin" parameterType="UserinfoDto">
+		UPDATE USERINFO SET COINNO = #{coinno} WHERE EMAIL = #{email}
+	</update>
 </mapper>

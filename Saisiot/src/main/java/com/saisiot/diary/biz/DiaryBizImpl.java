@@ -41,4 +41,18 @@ public class DiaryBizImpl implements DiaryBiz {
 		return 0;
 	}
 
+	//검색 조건 리스트
+	@Override
+	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
+		// TODO Auto-generated method stub
+		return dao.diarylist(start, end, searchOption, keyword);
+	}
+	
+	// 게시글 레코드 갯수
+	@Override
+	public int countArticle(String searchOption, String keyword) {
+		return dao.countArticle(searchOption, keyword);
+	}
+	
+
 }
