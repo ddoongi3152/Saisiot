@@ -44,7 +44,10 @@
 	}
 	
 	List<String> friendList = (List<String>)session.getAttribute("friendList");
-
+	
+	if(dto.getAddr() == null){
+		response.sendRedirect("user_info_plus.do");
+	}
 	//방문자수와 통계 그래프를 위한 코드 - 유정
 
 	//일주일간 방문자 통계 리스트
@@ -78,6 +81,7 @@
 			three_date = ago_date;
 		}
 	}
+
 %>
 
 	<div id="left_wrapper1">

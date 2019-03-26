@@ -12,7 +12,7 @@ import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
 @Service
-public class UserinfoBizImpl implements UserinfoBiz {
+public class UserinfoImpl implements UserinfoBiz {
 
 	@Autowired
 	private UserinfoDao dao;
@@ -162,7 +162,13 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	public List<Object> visit_weekdata(Map visit_email) {
 		// TODO Auto-generated method stub
 		return dao.visit_weekdata(visit_email);
+
 	}
+
+		
+	
+
+	
 	public int coinupdate(UserinfoDto dto) {
 		// TODO Auto-generated method stub
 		return dao.coinupdate(dto);
