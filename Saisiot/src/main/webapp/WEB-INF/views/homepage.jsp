@@ -44,7 +44,6 @@
 	}
 	
 	List<String> friendList = (List<String>)session.getAttribute("friendList");
-	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
 
 	//방문자수와 통계 그래프를 위한 코드 - 유정
 
@@ -79,7 +78,6 @@
 			three_date = ago_date;
 		}
 	}
->>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
 %>
 
 	<div id="left_wrapper1">
@@ -192,7 +190,7 @@
 		<div onclick="location.href='home.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
 		<div><a href="diary.do">diary</a></div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
 		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
