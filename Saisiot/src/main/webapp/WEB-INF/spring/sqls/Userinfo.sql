@@ -17,19 +17,19 @@ CREATE TABLE USERINFO (
 DROP TABLE DIARY;
 
 CREATE TABLE DIARY (
-	diaryno number	NOT NULL,
-	folderno number	NOT NULL,
+	diaryno number NOT NULL,
+	folderno number NOT NULL,
 	title varchar2(1000) NULL,
 	content varchar2(3000) NULL,
 	regdate date NULL,
 	fileurl varchar2(3000) NULL,
 	picurl varchar2(3000) NULL,
 	mapname varchar2(1000) NULL,
-	maplati	number NULL,
-	maplong	number NULL,
-	videourl varchar2(3000)	NULL,
-	groupno	number NULL,
-	groupsq	number NULL
+	maplati number NULL,
+	maplong number NULL,
+	videourl varchar2(3000) NULL,
+	groupno number NULL,
+	groupsq number NULL
 );
 
 DROP TABLE MUSIC;
