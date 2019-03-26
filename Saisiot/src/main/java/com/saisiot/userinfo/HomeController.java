@@ -41,6 +41,9 @@ import java.util.Map;
 
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
+import com.saisiot.profile.biz.ProfileBiz;
+import com.saisiot.profile.biz.ProfileBizImpl;
+import com.saisiot.profile.dto.ProfileDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
@@ -78,7 +81,7 @@ public class HomeController {
 	public String insert(@ModelAttribute UserinfoDto dto) {
 
 		int res = biz.insert(dto);
-
+		
 		if (res > 0) {
 			return "redirect:list.do";
 		} else {
@@ -307,6 +310,10 @@ public class HomeController {
 				
 				UserinfoDto dto = new UserinfoDto(email,password,null,null,null,name,null,null,null,0,1);
 				int res = biz.kakaoinsert(dto);
+				//유정 profile 기본값 셋팅
+				ProfileBiz biz_p = new ProfileBizImpl();
+				int res_p = biz_p.insert_P(dto.getEmail()); 
+				
 				if(res>0) {
 					System.out.println("카카오 회원가입 성공");
 			
