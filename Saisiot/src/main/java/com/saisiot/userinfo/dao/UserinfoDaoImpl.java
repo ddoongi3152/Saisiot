@@ -190,4 +190,48 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return list;
 	}
+	
+	// 중복 방문 방지를 위해 오늘 방문자 비교
+	public String visit_overlap_check(Map visit_email) {
+		String res = sqlSession.selectOne(NAMESPACE + "overlap_visit", visit_email);
+
+		return res;
+	}
+
+	// 방문시, 방문자수 +1
+	public void add_visit_count(Map visit_email) {
+		int res = 0;
+
+		res = sqlSession.insert(NAMESPACE + "add_visit_count", visit_email);
+	}
+
+	// 오늘의 방문자 수
+	public int visit_today(Map visit_email) {
+
+		int res = sqlSession.selectOne(NAMESPACE + "todaycount", visit_email);
+
+		return res;
+	}
+
+	// 총 방문자 수
+	public int visit_total(Map visit_email) {
+
+		int res = sqlSession.selectOne(NAMESPACE + "totalcount", visit_email);
+
+		return res;
+	}
+
+	// 일주일 간 방문자 수
+	public List<Object> visit_weekdata(Map visit_email) {
+
+		List<Object> res = new ArrayList<Object>();
+
+		for (int i = 1; i < 8; i++) {
+			visit_email.put("DAYN", i);
+			res.add(sqlSession.selectOne(NAMESPACE + "week_visit_data", visit_email));
+		}
+
+		return res;
+
+	}
 }

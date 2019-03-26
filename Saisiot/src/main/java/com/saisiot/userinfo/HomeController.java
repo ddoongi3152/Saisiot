@@ -33,12 +33,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.saisiot.userinfo.biz.UserinfoBiz;
+import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
 
@@ -203,7 +205,26 @@ public class HomeController {
 	@RequestMapping(value = "/homepage.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String homepage(Model model, HttpSession session) {
 		
-		session.getAttribute("login");
+		UserinfoDto Udto = (UserinfoDto)session.getAttribute("login");
+		
+		Map<String, Object> visit_email = new HashMap<String, Object>();
+		visit_email.put("email", Udto.getEmail());
+		
+		
+        //오늘 방문자 수
+        int todayCount = biz.visit_today(visit_email);
+		
+        //전체 방문자수
+        int totalCount = biz.visit_total(visit_email);
+        
+        //일주일 방문자 수 통계
+        List<Object> week_visit_date = biz.visit_weekdata(visit_email);
+        
+        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
+        
+        model.addAttribute("todayCount", todayCount);
+        model.addAttribute("totalCount",totalCount);
+        model.addAttribute("week_visit_date", week_visit_date);
 		
 		
 		return "homepage";
@@ -225,7 +246,7 @@ public class HomeController {
 	public String insertuser(@ModelAttribute UserinfoDto dto){
 		
 		System.out.println(dto.getBirthdate());
-		
+		System.out.println(dto);
 		try {
 			int res = biz.insert(dto);
 			System.out.println(res);
