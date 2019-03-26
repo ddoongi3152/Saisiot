@@ -24,4 +24,12 @@ public interface UserinfoDao {
 	public int passupdate(UserinfoDto dto);
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
+	
+	//-----------------lee's editing
+	
+	public List<UserinfoDto> selectFriendList(String email);
+	public List<UserinfoDto> selectFriendDto(List<String> friendList);
+	public int friendInsert(String email1, String email2);
+	public int friendUpdate(String email);
+	public int friendDelete(String email);
 }

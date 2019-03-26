@@ -101,6 +101,37 @@ public class UserinfoImpl implements UserinfoBiz {
 		return dao.longuser();
 	}
 
+	
+	//---lee's editing-------------------------------------------------
+	@Override
+	public List<UserinfoDto> selectFriendList(String email) {
+		return dao.selectFriendList(email);
+	}
+
+	@Override
+	public String selectFriendOne(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int friendInsert(String email1, String email2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int friendUpdate(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int friendDelete(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 	
 	

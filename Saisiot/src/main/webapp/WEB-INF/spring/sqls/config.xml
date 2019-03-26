@@ -10,6 +10,7 @@
 	<mappers>
 		<mapper resource="/sqls/UserinfoMapper.xml"/>
 		<mapper resource="/sqls/DiaryMapper.xml"/>
+		<mapper resource="/sqls/FriendMapper.xml"/>
 	</mappers>
 
 </configuration>

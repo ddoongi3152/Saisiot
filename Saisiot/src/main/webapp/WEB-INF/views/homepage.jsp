@@ -1,18 +1,36 @@
+<%@page import="java.util.List"%>
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript"></script>
+<script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#friend_select > select").change(function() {
+			location.href = "otherhome.do?email="+this.value
+		});
+	});
+
+</script>
 <link rel="stylesheet" href="resources/css/homepage_mob.css">
 <link rel="stylesheet" href="resources/css/homepage_web.css">
 <title>Insert title here</title>
 </head>
 <body>
 <%
-	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+	String whos = (String)session.getAttribute("whos");
+	UserinfoDto dto;
+	if(whos.equals("mine")){
+		dto = (UserinfoDto)session.getAttribute("login");
+	}else{
+		dto = (UserinfoDto)session.getAttribute("others");
+	}
+	
+	List<String> friendList = (List<String>)session.getAttribute("friendList");
 %>
 
 	<div id="left_wrapper1">
@@ -42,7 +60,10 @@
 			<div id="owner_name"><%=dto.getUsername()%><input type="button" value="로그아웃" onclick="location.href='logout.do'"></div>
 			<div id="friend_select">
 				<select>
-					<option>낭만고양이</option>
+					<option value=<%=dto.getEmail() %>><%=dto.getUsername()%></option>
+					<c:forEach items="${friendList}" var="dtos">
+					<option value=${dtos.email }>${dtos.username }</option>
+					</c:forEach>
 				</select>
 			</div>
 		</div>
@@ -119,12 +140,12 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div>home</div>
-		<div>gallery</div>
-		<div>diary</div>
-		<div>jukebox</div>
-		<div>profile</div>
-		<div>chat</div>
+		<div><a href="home.do">home</a></div>
+		<div><a href="gallery.do">gallery</a></div>
+		<div><a href="diary.do">diary</a></div>
+		<div><a href="jukebox.do">jukebox</a></div>
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
+		<div><a href="chat.do">chat</a></div>
 	</div>
 	<!--webtabs end(desktop only)-->
 	
