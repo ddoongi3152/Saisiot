@@ -190,6 +190,39 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return list;
 	}
+
+
+	@Override
+	public int comebackuser(UserinfoDto dto) {
+	System.out.println("계정 복귀");
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "comebackuser", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int snscomback(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "snscomeback", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int userinfoplus(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "userinfoplus", dto);
+		
+		return res;
+	}
+
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email) {
@@ -232,8 +265,57 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		}
 
 		return res;
+
+	}
+
+	
+	//lee's editing------------------------------------------------------------------------
+	@Override
+	public List<UserinfoDto> selectFriendList(String email) {
+		
+		List<UserinfoDto> friendList = sqlSession.selectList("friend."+"selectList_friend", email);
+		
+		System.out.println("UserDao: selectList_friend");
+		return friendList;
+		
+	}
+
+	@Override
+	public List<UserinfoDto> selectFriendDto(List<String> friendList) {
+		
+		for(String email: friendList) {
+			UserinfoDto dtos = sqlSession.selectOne("friend."+"selectList_friend", email);
+		}
+		
+		
+		System.out.println("UserDao: selectList_friend"+friendList.get(0));
+		return null;
+	}
+
+	@Override
+	public int friendInsert(String email1, String email2) {
+		
+		String[] emails = {email1, email2};
+		
+		int res = sqlSession.insert(NAMESPACE+"selectList_friend", emails);
+		return res;
+	}
+
+	@Override
+	public int friendUpdate(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int friendDelete(String email) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
+	//lees editing end==----------------------------------------------------
+
+	//seo's editing---------------------
 	@Override
 	public int coinupdate(UserinfoDto dto) {
 		System.out.println("coin 갯수 업데이트");
@@ -241,5 +323,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		int res = sqlSession.update(NAMESPACE+"updateCoin", dto);
 		
 		return res;
+
 	}
+	//seo's editing end---------------------
 }

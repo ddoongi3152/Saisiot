@@ -18,13 +18,14 @@ import com.saisiot.common.ManiaDB;
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
+import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
 @Controller
 public class JukeboxController {
 	
 	@Autowired
-	private UserinfoBiz biz;
+	private UserinfoBizImpl biz;
 	
 	@Autowired
 	private JukeboxDao jukedao;

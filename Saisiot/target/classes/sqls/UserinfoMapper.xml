@@ -80,9 +80,23 @@
 	</update>
 	
 	<select id="longuser" resultMap="dtoMap">
-		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
+		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-1/1440]]> AND USERCONDITION = (1)
 	</select>
-
+	
+	<update id="comebackuser" parameterType="UserinfoDto">
+		UPDATE USERINFO
+      	SET PASSWORD= #{password} ,USERCONDITION = (1) WHERE EMAIL=#{email}	
+	</update>
+	
+	<update id="snscomeback" parameterType="UserinfoDto">
+		UPDATE USERINFO
+      	SET USERCONDITION = (1) WHERE EMAIL=#{email}	
+	</update>
+	
+	<update id="userinfoplus" parameterType="UserinfoDto">
+		UPDATE USERINFO
+      	SET GENDER =#{gender}, ADDR =#{addr} WHERE EMAIL=#{email}	
+	</update>
 
 	<select id="overlap_visit" resultType="String">
 		SELECT * 

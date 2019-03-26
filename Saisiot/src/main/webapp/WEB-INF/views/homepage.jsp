@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Date"%>
@@ -9,10 +10,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#friend_select > select").change(function() {
+			location.href = "otherhome.do?email="+this.value
+		});
+	});
+
+</script>
 <script type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="resources/js/bgm.js?ver=3"></script>
@@ -24,7 +35,21 @@
 </head>
 <body>
 <%
-	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+	String whos = (String)session.getAttribute("whos");
+	UserinfoDto dto;
+	if(whos.equals("mine")){
+		dto = (UserinfoDto)session.getAttribute("login");
+	}else{
+		dto = (UserinfoDto)session.getAttribute("others");
+	}
+	
+	List<String> friendList = (List<String>)session.getAttribute("friendList");
+	//UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+	
+	if(dto.getAddr() == null){
+		response.sendRedirect("user_info_plus.do");
+	}
+
 
 	//방문자수와 통계 그래프를 위한 코드 - 유정
 
@@ -59,6 +84,7 @@
 			three_date = ago_date;
 		}
 	}
+
 %>
 
 	<div id="left_wrapper1">
@@ -88,7 +114,10 @@
 			<div id="owner_name"><%=dto.getUsername()%><input type="button" value="로그아웃" onclick="location.href='logout.do'"></div>
 			<div id="friend_select">
 				<select>
-					<option>낭만고양이</option>
+					<option value=<%=dto.getEmail() %>><%=dto.getUsername()%></option>
+					<c:forEach items="${friendList}" var="dtos">
+					<option value=${dtos.email }>${dtos.username }</option>
+					</c:forEach>
 				</select>
 			</div>
 		</div>
@@ -165,12 +194,12 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div>home</div>
+		<div onclick="location.href='home.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
-		<div>diary</div>
-		<div><a href="profile.do">profile</a></div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
-		<div>chat</div>
+		<div><a href="diary.do">diary</a></div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
+		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
 	
