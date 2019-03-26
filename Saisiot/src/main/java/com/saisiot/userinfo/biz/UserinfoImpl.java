@@ -2,6 +2,7 @@ package com.saisiot.userinfo.biz;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,6 +101,76 @@ public class UserinfoImpl implements UserinfoBiz {
 		// TODO Auto-generated method stub
 		return dao.longuser();
 	}
+	
+	//---lee's editing-------------------------------------------------
+	@Override
+	public List<UserinfoDto> selectFriendList(String email) {
+		return dao.selectFriendList(email);
+	}
+
+	@Override
+	public String selectFriendOne(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int friendInsert(String email1, String email2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int friendUpdate(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int friendDelete(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	//---lee's editing end----------------------------------------------
+		
+	//seo's editing------------------
+	@Override
+	public String visit_overlap_check(Map visit_email) {
+		// TODO Auto-generated method stub
+		return dao.visit_overlap_check(visit_email);
+	}
+
+	@Override
+	public void add_visit_count(Map visit_email) {
+		// TODO Auto-generated method stub
+		dao.add_visit_count(visit_email);
+	}
+
+	@Override
+	public int visit_today(Map visit_email) {
+		// TODO Auto-generated method stub
+		return dao.visit_today(visit_email);
+	}
+
+	@Override
+	public int visit_total(Map visit_email) {
+		// TODO Auto-generated method stub
+		return dao.visit_total(visit_email);
+	}
+
+	@Override
+	public List<Object> visit_weekdata(Map visit_email) {
+		// TODO Auto-generated method stub
+		return dao.visit_weekdata(visit_email);
+		
+	}
+	
+	
+	public int coinupdate(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.coinupdate(dto);
+	}
+	//seo's editing end----------
 
 	@Override
 	public int comebackuser(UserinfoDto dto) {

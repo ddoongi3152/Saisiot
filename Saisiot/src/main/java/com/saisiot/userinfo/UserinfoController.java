@@ -33,11 +33,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.saisiot.jukebox.dao.JukeboxDao;
+import com.saisiot.jukebox.dto.JukeboxDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
@@ -52,6 +55,9 @@ public class UserinfoController {
 	// 메일인증을 위해
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private JukeboxDao jukedao;
 	
 	//비상용
 	@RequestMapping(value = "/list.do", method = { RequestMethod.GET, RequestMethod.POST })
@@ -226,10 +232,53 @@ public class UserinfoController {
 	@RequestMapping(value = "/homepage.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String homepage(Model model, HttpSession session) {
 		
-		session.getAttribute("login");
-		
-		
-		return "homepage";
+		//lee's editing. show different friendlist depend on variable:'whos'
+				String whos = (String)session.getAttribute("whos");
+				UserinfoDto dto;
+				if(whos.equals("mine")) {
+					dto = (UserinfoDto)session.getAttribute("login");
+				}else {
+					dto = (UserinfoDto)session.getAttribute("others");
+				}
+				UserinfoDto Udto = (UserinfoDto)session.getAttribute("login");
+				
+				Map<String, Object> visit_email = new HashMap<String, Object>();
+				visit_email.put("email", Udto.getEmail());
+				
+				
+		        //오늘 방문자 수
+		        int todayCount = biz.visit_today(visit_email);
+				
+		        //전체 방문자수
+		        int totalCount = biz.visit_total(visit_email);
+		        
+		        //일주일 방문자 수 통계
+		        List<Object> week_visit_date = biz.visit_weekdata(visit_email);
+		        
+		        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
+		        
+		        model.addAttribute("todayCount", todayCount);
+		        model.addAttribute("totalCount",totalCount);
+		        model.addAttribute("week_visit_date", week_visit_date);
+				
+				String email  = dto.getEmail();
+				List<UserinfoDto> friendList = biz.selectFriendList(email);
+				
+				session.setAttribute("friendList", friendList);
+				
+
+				//------------메인홈피에 배경음악 붙이기
+
+				email = dto.getEmail();
+				List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
+				jukelist = jukedao.backselect(email, "Y");
+
+				if(jukelist==null) {
+					return "homepage";
+				}else {
+					session.setAttribute("background",jukelist);
+					return "homepage";
+				}
 	}
 	
 	// 로그아웃
@@ -794,6 +843,18 @@ public class UserinfoController {
 		
 		return returnURL;
 	}
+	
+	//--------------lee's editing------------------------------------------------------
+	
+		@RequestMapping(value = "/otherhome.do", method = { RequestMethod.GET, RequestMethod.POST })
+		public String otherhome(Model model, HttpSession session, HttpServletRequest request) {
+			
+			String email = request.getParameter("email");
+			session.setAttribute("whos","others");
+			session.setAttribute("others", biz.selectOne(email));
+
+			return "redirect:homepage.do";
+		}
 	
 } 
 
