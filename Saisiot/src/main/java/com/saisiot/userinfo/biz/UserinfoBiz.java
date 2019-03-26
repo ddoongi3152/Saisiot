@@ -22,4 +22,11 @@ public interface UserinfoBiz {
 	public List<UserinfoDto> longuser();
 	
 	
+	//-------lee's editing---------------------
+	public List<UserinfoDto> selectFriendList(String email);
+	public String selectFriendOne(String email);
+	public int friendInsert(String email1, String email2);
+	public int friendUpdate(String email);
+	public int friendDelete(String email);
+	
 }

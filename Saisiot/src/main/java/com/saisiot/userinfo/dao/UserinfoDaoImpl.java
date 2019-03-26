@@ -190,4 +190,51 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return list;
 	}
+
+	
+	//lee's editing------------------------------------------------------------------------
+	@Override
+	public List<UserinfoDto> selectFriendList(String email) {
+		
+		List<UserinfoDto> friendList = sqlSession.selectList("friend."+"selectList_friend", email);
+		
+		System.out.println("UserDao: selectList_friend");
+		return friendList;
+		
+	}
+
+	@Override
+	public List<UserinfoDto> selectFriendDto(List<String> friendList) {
+		
+		for(String email: friendList) {
+			UserinfoDto dtos = sqlSession.selectOne("friend."+"selectList_friend", email);
+		}
+		
+		
+		System.out.println("UserDao: selectList_friend"+friendList.get(0));
+		return null;
+	}
+
+	@Override
+	public int friendInsert(String email1, String email2) {
+		
+		String[] emails = {email1, email2};
+		
+		int res = sqlSession.insert(NAMESPACE+"selectList_friend", emails);
+		return res;
+	}
+
+	@Override
+	public int friendUpdate(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int friendDelete(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	//lees editing end==----------------------------------------------------
 }

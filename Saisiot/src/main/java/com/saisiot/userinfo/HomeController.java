@@ -142,6 +142,8 @@ public class HomeController {
 	@RequestMapping(value= "/logingo.do", method = {RequestMethod.POST})
 	public String login(String email, @RequestParam("pw") String password, HttpSession session) {
 		
+		//lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
+		session.setAttribute("whos", "mine");
 		String returnURL = "";
 		
 		System.out.println("+++++++++++++++++++");
@@ -199,15 +201,28 @@ public class HomeController {
 			return returnURL;
 	}
 	
+	
 
 	@RequestMapping(value = "/homepage.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String homepage(Model model, HttpSession session) {
 		
-		session.getAttribute("login");
+		//lee's editing. show different friendlist depend on variable:'whos'
+		String whos = (String)session.getAttribute("whos");
+		UserinfoDto dto;
+		if(whos.equals("mine")) {
+			dto = (UserinfoDto)session.getAttribute("login");
+		}else {
+			dto = (UserinfoDto)session.getAttribute("others");
+		}
 		
+		String email  = dto.getEmail();
+		List<UserinfoDto> friendList = biz.selectFriendList(email);
+		
+		session.setAttribute("friendList", friendList);
 		
 		return "homepage";
 	}
+	
 	
 	
 	@RequestMapping("/logout.do")
@@ -252,6 +267,8 @@ public class HomeController {
 		
 		String returnURL = "";
 		
+		//lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
+		session.setAttribute("whos", "mine");
 		try {
 			System.out.println(email);
 			System.out.println(password);
@@ -333,6 +350,8 @@ public class HomeController {
 	@ResponseBody
 	public String naverlogin(String email, String password, String name, HttpSession session) {
 		
+		//lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
+		session.setAttribute("whos", "mine");
 		String returnURL = "";
 		
 		try {
@@ -612,6 +631,18 @@ public class HomeController {
 			//List<UserinfoDto> dto = biz.longuser();
 		}	
 		
+	}
+	
+	//--------------lee's editing------------------------------------------------------
+	
+	@RequestMapping(value = "/otherhome.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String otherhome(Model model, HttpSession session, HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		session.setAttribute("whos","others");
+		session.setAttribute("others", biz.selectOne(email));
+
+		return "redirect:homepage.do";
 	}
 	
 } 
