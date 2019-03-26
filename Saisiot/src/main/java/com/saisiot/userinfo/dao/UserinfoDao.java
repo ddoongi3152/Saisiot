@@ -26,6 +26,19 @@ public interface UserinfoDao {
 	public int longupdate(UserinfoDto dto);
 	public List<UserinfoDto> longuser();
 
+	public int comebackuser(UserinfoDto dto);
+	public int snscomback(UserinfoDto dto);
+	public int userinfoplus(UserinfoDto dto);
+
+
+	//-----------------lee's editing
+	
+	public List<UserinfoDto> selectFriendList(String email);
+	public List<UserinfoDto> selectFriendDto(List<String> friendList);
+	public int friendInsert(String email1, String email2);
+	public int friendUpdate(String email);
+	public int friendDelete(String email);
+
 	//유정
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email);
@@ -39,5 +52,7 @@ public interface UserinfoDao {
 	public List<Object> visit_weekdata(Map visit_email);
 
 	public int coinupdate(UserinfoDto dto);
+
+	//------------------lee's editing end
 
 }
