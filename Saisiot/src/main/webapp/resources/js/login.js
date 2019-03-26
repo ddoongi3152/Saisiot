@@ -30,8 +30,12 @@
 					//data:kakaoemail,
 					success:function(data){
 						//alert("로그인 성공");
-						location.href='homepage.do';
-							
+						
+						if(data=="1"){
+							location.href='homepage.do';
+						}else if(data=="2"){
+							location.href='condition.do';
+						}			
 					},
 					error:function(){
 						alert("로그인실패");
@@ -136,6 +140,34 @@
 	
 	function notnull(){
 		
+		
+		var date = document.getElementById("birthdate").value;
+
+		var year = date.substr(0,4);
+
+		var month = date.substr(5,2);
+
+		var day = date.substr(8,2);
+
+		var fullday = year+month+day;
+
+		var datechange = parseInt(fullday);
+		
+		var yyyy = new Date().getFullYear().toString();
+
+		var mm = (new Date().getMonth()+1).toString();
+
+		var dd = (new Date().getDate()).toString();;
+		
+		var mmint = parseInt(mm);
+		if(mmint < 10){
+			var today = parseInt(yyyy + "0" + mm + dd);
+		}else{
+			var today = parseInt(yyyy + mm + dd);
+		}
+		
+		var yourdate = parseInt(fullday);
+		
 		if(document.getElementById("insertemail").value == null){
 			alert("이메일을 입력해주세요");
 			return false;
@@ -152,11 +184,11 @@
 			alert("비밀번호를 입력해주세요");
 			return false;
 		}
-		if(document.getElementById("birthday").value == null){
+		if(document.getElementById("birthdate").value == null){
 			alert("생년월일을 입력해주세요");
 			return false;
 		}
-		if(document.getElementById("birthday").value == ""){
+		if(document.getElementById("birthdate").value == ""){
 			alert("생년월일을 입력해주세요");
 			return false;
 		}
@@ -185,8 +217,14 @@
 		if(document.getElementById("recaptcha_chk").value == ""){
 			alert("자동입력방지를 확인해주세요");
 			return false;
+
 		}
 		
+		if(today - yourdate <= 0){
+			alert("현재날짜보다 생일이 더 늦을수는 없습니다.")
+			return false;
+		}
+			
 		return true;
 	}
 	
@@ -211,7 +249,23 @@
 			return false;
 		}
 		
-	
-		return true;
+		
+	return true;
 	}
+	
+	function gendercheckbox(chk){
+			
+		var check = document.getElementsByName("gender");
+		
+			if(check[0]==chk){
+				check[1].checked = false;
+			}else if(check[1]==chk){
+				check[0].checked = false;
+			}
+	
+	}
+	
+	
+	
+	
 	

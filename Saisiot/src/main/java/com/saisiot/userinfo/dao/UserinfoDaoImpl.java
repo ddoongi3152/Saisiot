@@ -46,6 +46,8 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		int res = 0;
 		
+		System.out.println(dto.getBirthdate());
+		
 		try {
 		res = sqlSession.insert(NAMESPACE + "userinsert",dto);
 		}catch(Exception e) {
@@ -148,9 +150,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public UserinfoDto emailpwfind(String email) {
 				
-		/*Map<String, Object> map = new HashMap<String, Object>();
-		map.put("birthday", birthday);
-		map.put("name", name);*/
 		UserinfoDto dto = new UserinfoDto(email);
 	
 		return sqlSession.selectOne(NAMESPACE + "emailpwfind" ,dto);
@@ -190,4 +189,37 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return list;
 	}
+
+	@Override
+	public int comebackuser(UserinfoDto dto) {
+	System.out.println("계정 복귀");
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "comebackuser", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int snscomback(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "snscomeback", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int userinfoplus(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "userinfoplus", dto);
+		
+		return res;
+	}
+
+
 }

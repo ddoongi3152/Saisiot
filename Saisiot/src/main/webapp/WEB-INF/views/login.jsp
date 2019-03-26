@@ -3,8 +3,18 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
-
-
+<%
+	response.setHeader("Pragma", "no-chche");
+	response.setHeader("Cache-control", "no-store");
+	response.setHeader("Expries", "0");
+	/* 데이터가 변경되었을 떄, 이전 내용을 화면에 보여주는 이유 -> 서버의 값이  아닌 캐시에 저장된 내용을 가져오기 때문
+	
+	브라우저가 캐시에 응답결과를 저장하지 않도록 설
+	response.setHeader("Pragma", "no-chche");			// http 1.0
+	response.setHeader("Cache-control", "no-store");	// http 1.1
+	response.setHeader("Expries", "0");					// proxy server	
+	 */ 
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +61,7 @@
 					  	naver_id_login.init_naver_id_login();	
 						</script>
 					
-						<div align="center"><input type="submit" value="로그인"/>&nbsp;<input type="button" value="EMAIL/PW찾기" onclick="emailpwFind();"/> </div>
+						<div align="center"><input type="submit" class="btn" value="로그인"/>&nbsp;<input type="button" class="btn" value="EMAIL/PW찾기" onclick="emailpwFind();"/> </div>
 				
 				</form>
 			</div>
@@ -59,7 +69,7 @@
 		<div id="left_wrapper5_2">
 			회원가입
 			<div id="left_wrapper6_2" align="center">
-				<form action="userinsert.do" method="post" name="myForm" onsubmit="return notnull();">
+				<form action="userinsert.do" method="post" name="userinfo" onsubmit="return notnull();">
 					<label>EMAIL</label>
 						<input type="text" id="insertemail" name="email" placeholder="이메일을 입력해주세요" readonly="readonly" onclick="mailcon();"/>					
 					<label>PASSWORD</label>			
@@ -69,18 +79,17 @@
 						<input type="text" id="insertpasswordchk" placeholder="비밀번호를 다시 입력해주세요" onchange="pwchk();">
 						<span id="same02"></span>
 					<label>GENDER</label>		
-						<div id="regist_gender" >
-							<input type="checkbox" class="checkbox" name="gender" value="M"><label>남</label><input type="checkbox" class="checkbox" name="gender" value="W"><label>여</label>
+						<div>
+							<input type="checkbox" class="checkbox" name="gender" value="M" onclick="gendercheckbox(this);"><label>남</label><input type="checkbox" class="checkbox" name="gender" value="W" onclick="gendercheckbox(this);"><label>여</label>
 						</div>
 					<label>BIRTHDAY</label>	
-						<input type="date" id="birthday" name="birthday" placeholder="생년월일을 입력해주세요" />
+						<input type="date" id="birthdate" name="birthdate" placeholder="생년월일을 입력해주세요" />
 					<label>NAME</label>
-						<input type="text" id="insertname" name="name" placeholder="이름을 입력해주세요">
+						<input type="text" id="insertname" name="username" placeholder="이름을 입력해주세요">
 					<label>ADDRESS</label>	
-						<input type="text" id="insertaddress" name="address" placeholder="주소를 입력해주세요" readonly="readonly" onclick="goPopup();">
+						<input type="text" id="insertaddress" name="addr" placeholder="주소를 입력해주세요" readonly="readonly" onclick="goPopup();">
 						<input type="hidden" id="recaptcha_chk">
-				
-						<div><input type="submit" id="recaptcha_btn" value="가입"></div>							
+						<div><input type="submit" class="btn" id="recaptcha_btn" value="가입"></div>							
 				</form>
 					<div class="g-recaptcha" data-sitekey="6LfiDJcUAAAAADcFYZpJvash2bUuQrFwky-zgQwx" >
 			</div>
@@ -102,7 +111,7 @@
 	<div id="right_wrapper4">
 		<!-- right_wrapper4_2: right contentbox start -->
 			<div id="right_wrapper4_2">
-
+				<img alt="임시이미지" src="resources/img/99E7B933599BF9DD16.jpg">
 			</div>
 		</div>
 		<!-- right_wrapper4_2 end -->

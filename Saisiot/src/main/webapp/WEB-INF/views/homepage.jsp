@@ -12,6 +12,10 @@
 <body>
 <%
 	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+	
+	if(dto.getAddr() == null){
+		response.sendRedirect("user_info_plus.do");
+	}
 %>
 
 	<div id="left_wrapper1">
