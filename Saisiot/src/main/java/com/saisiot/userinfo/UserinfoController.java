@@ -42,6 +42,7 @@ import java.util.Map;
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
+import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
 
@@ -50,7 +51,7 @@ public class UserinfoController {
 	
 	// 데이터베이스 접근을 위해
 	@Autowired
-	private UserinfoBiz biz;
+	private UserinfoBizImpl biz;
 	
 	// 메일인증을 위해
 	@Autowired
