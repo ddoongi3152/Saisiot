@@ -11,7 +11,25 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#search").click(function() {
-			location.href = "otherhome.do?email="+this.value
+			var searchEmail = $("#search_email").text();
+    	 $.ajax({	
+				type:"POST",
+				url:"findfriend.do",
+				data:"email="+searchEmail,
+				success:function(data){
+					//alert("로그인 성공");
+					
+					if(data=="1"){
+						location.href='homepage.do';
+					}else if(data=="2"){
+						location.href='condition.do';
+					}			
+				},
+				error:function(){
+					alert("로그인실패");
+				}
+
+			})
 		});
 	});
 

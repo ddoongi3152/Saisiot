@@ -17,5 +17,17 @@ public class ProfileController {
 
 		return "profile";
 	}
+	
+	@RequestMapping("/addfriendpop.do")
+	public String addfriendpop(Model model) {
+
+		return "addfriend_pop";
+	}
+	
+	@RequestMapping("/findfriend.do")
+	public String addfriend(Model model) {
+		
+		return "addfriend";
+	}
 
 }
