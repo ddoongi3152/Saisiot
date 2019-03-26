@@ -26,7 +26,4 @@
 		UPDATE MUSIC SET BACKGROUND = #{background} WHERE EMAIL = #{email} AND MUSICNO = #{musicno}
 	</update>
 
-	<update id="updateCoin" parameterType="UserinfoDto">
-		UPDATE USERINFO SET COINNO = #{coinno} WHERE EMAIL = #{email}
-	</update>
 </mapper>

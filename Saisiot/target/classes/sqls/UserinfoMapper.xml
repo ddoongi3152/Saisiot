@@ -82,5 +82,9 @@
 	<select id="longuser" resultMap="dtoMap">
 		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
 	</select>
+	
+	<update id="updateCoin" parameterType="UserinfoDto">
+		UPDATE USERINFO SET COINNO = #{coinno} WHERE EMAIL = #{email}
+	</update>
 
 </mapper>
