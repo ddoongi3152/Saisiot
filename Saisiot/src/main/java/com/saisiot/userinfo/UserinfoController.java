@@ -158,7 +158,8 @@ public class UserinfoController {
 	// 일반 로그인
 	@RequestMapping(value= "/logingo.do", method = {RequestMethod.POST})
 	public String login(String email, @RequestParam("pw") String password, HttpSession session, HttpServletResponse response) throws IOException {
-		
+      //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
+      session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		response.setContentType("text/html; charset=UTF-8");
@@ -332,6 +333,8 @@ public class UserinfoController {
 	@ResponseBody
 	public String kakaologin(String email, String password, String name, HttpSession session) {
 		
+	      //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
+	      session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		try {
@@ -434,6 +437,8 @@ public class UserinfoController {
 	@ResponseBody
 	public String naverlogin(String email, String password, String name, HttpSession session) {
 		
+	      //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
+	      session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		try {
