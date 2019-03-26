@@ -103,7 +103,6 @@ public class UserinfoImpl implements UserinfoBiz {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public String visit_overlap_check(Map visit_email) {
 		// TODO Auto-generated method stub
 		return dao.visit_overlap_check(visit_email);
@@ -131,11 +130,11 @@ public class UserinfoImpl implements UserinfoBiz {
 	public List<Object> visit_weekdata(Map visit_email) {
 		// TODO Auto-generated method stub
 		return dao.visit_weekdata(visit_email);
-=======
+	}
+	
 	public int coinupdate(UserinfoDto dto) {
 		// TODO Auto-generated method stub
 		return dao.coinupdate(dto);
->>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
 	}
 
 

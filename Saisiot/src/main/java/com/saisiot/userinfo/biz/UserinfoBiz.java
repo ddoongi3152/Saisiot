@@ -34,4 +34,6 @@ public interface UserinfoBiz {
 	// 일주일 간 방문자 수
 	public List<Object> visit_weekdata(Map visit_email);
 	
+	public int coinupdate(UserinfoDto dto);
+	
 }
