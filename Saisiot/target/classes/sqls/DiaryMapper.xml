@@ -8,7 +8,7 @@
 		<include refid="pagingHeader"></include>
 		SELECT
 		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
-		FILEURL, PICURL, MAPLATI, MAPLONG, VIDEOURL,
+		FILEURL, PICURL, MAPNAME, MAPLATI, MAPLONG, VIDEOURL,
 		GROUPNO, GROUPSQ, ROWNUM
 		FROM DIARY
 		<include refid="search"></include>
@@ -32,7 +32,7 @@
 		resultType="com.saisiot.diary.dto.DiaryDto">
 		SELECT
 		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
-		FILEURL, PICURL, MAPLATI, MAPLONG, VIDEOURL,
+		FILEURL, PICURL, MAPNAME,MAPLATI, MAPLONG, VIDEOURL,
 		GROUPNO, GROUPSQ
 		FROM DIARY
 		WHERE
@@ -79,7 +79,7 @@
 	<insert id="comment_insert" >
 		INSERT INTO DIARY
 		VALUES(DIARY_DIARYNOSEQ.NEXTVAL,'1',#{title},#{content},SYSDATE,
-		'test fileurl','testpicurl','1.1','2.2','testvideourl',
+		'test fileurl','testpicurl','mapname','1.1','2.2','testvideourl',
 		(SELECT GROUPNO FROM DIARY WHERE DIARYNO =#{diaryno}),
 		(SELECT GROUPSQ FROM DIARY WHERE DIARYNO =#{diaryno})+1
 		)

@@ -90,7 +90,7 @@ $(function(){
 		<c:choose>
 			<c:when test="${empty map.list }">
 				<tr>
-					<td colspan="3" aslign="center">---작성된 글이 없습니다.---</td>
+					<td colspan="5" aslign="center">---작성된 글이 없습니다.---</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
@@ -234,7 +234,7 @@ $(function(){
 										placeholder="댓글을 작성해주세요"></textarea>
 									<br>
 									
-									<button type="button" class="btnComment">댓글 작성</button>
+									<button type="submit" class="btnComment">댓글 작성</button>
 									<%-- </c:if> --%>
 								</div>
 								
