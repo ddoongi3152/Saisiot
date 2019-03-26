@@ -37,8 +37,15 @@
 		data:"email="+email+"&password="+"naveruser"+"&name="+nickname,
 		success:function(data){
 			//alert("네이버 전송 성공");
-			opener.parent.window.location.href="homepage.do";
-			self.close();
+			//alert(data);
+			if(data == "1"){
+				opener.parent.window.location.href="homepage.do";
+				self.close();
+			}else if(data =="2"){
+				opener.parent.window.location.href="condition.do";
+				self.close();
+			}
+			
 			
 		},
 		error:function(){

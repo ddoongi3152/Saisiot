@@ -307,6 +307,7 @@
       flex-direction: column;
     }
     #web_tabs>div{
+   		text-decoration: none;
       color: #ffffff;
       border: 1px solid #605f5f;
       border-left: 0;

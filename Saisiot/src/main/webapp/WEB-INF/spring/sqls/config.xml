@@ -11,6 +11,7 @@
 	<mappers>
 		<mapper resource="/sqls/UserinfoMapper.xml"/>
 		<mapper resource="/sqls/DiaryMapper.xml"/>
+		<mapper resource="/sqls/FriendMapper.xml"/>
 		<mapper resource="/sqls/jukeboxmapper.xml"/>
 	</mappers>
 
