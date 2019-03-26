@@ -47,7 +47,20 @@
 	var url_combine_naver = url_default_naver + encodeURI(url_this_page)
 			+ title_default_naver + encodeURI(title_this_page);
 </script>
-
+<script type="text/javascript">
+$(function(){
+	
+	
+	$(".comment-box-reply-wrap").hide();
+	$(".comment-box-up-wrap").hide();
+	$(".btn-reply").click(function(){
+		$(this).parent().parent().parent().parent().children(".comment-box-reply-wrap").toggle();
+	});
+	$(".btn-update").click(function(){
+		$(this).parent().parent().parent().parent().children(".comment-box-up-wrap").toggle();
+	});
+});
+</script>
 
 </head>
 <body>
@@ -73,6 +86,7 @@
 			<th>작성일</th>
 			<th>그룹번호</th>
 		</tr>
+		<!-- 다이어리 원글 리스트 -->
 		<c:choose>
 			<c:when test="${empty map.list }">
 				<tr>
@@ -95,7 +109,8 @@
 							<div style="width: 100%; text-align: center; margin-bottom: 64px;">
 								<a id="kakao-link-btn" href="javascript:;"> 
 								<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
-									title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" /></a>
+									title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" />
+								</a>
 								<script type='text/javascript'>
 									//<![CDATA[
 									// // 사용할 앱의 JavaScript 키를 설정해 주세요.
@@ -127,12 +142,12 @@
 								<!-- 트위터 공유 버튼 -->
 								<a href="" onclick="window.open(url_combine_tw, '', 'scrollbars=no, width=600, height=600'); return false;">
 									<img src="resources/img/snsshare/twitter_1.png"
-									title="트위터로 공유하기" class="sharebtn_custom" style="width: 32px;">
+									title="트위터로 공유하기" class="sharebtn_custom" style="width: 32px;"/>
 								</a>
 								<!-- 네이버 공유 버튼 -->
 								<a href=""
 									onclick="window.open(url_combine_naver, '', 'scrollbars=no, width=600, height=600'); return false;">
-									<img src="resources/img/snsshare/naver.png" title="네이버로 공유하기" class="sharebtn_custom" style="width: 32px;">
+									<img src="resources/img/snsshare/naver.png" title="네이버로 공유하기" class="sharebtn_custom" style="width: 32px;"/>
 								</a>
 								<!-- 밴드 공유 버튼 -->
 								<a href=""
@@ -140,24 +155,66 @@
 									<img src="resources/img/snsshare/nband_1.png" title="밴드로 공유하기"
 									class="sharebtn_custom" style="width: 32px;">
 								</a>
-							</div> <!-- SNS버튼 끝 -->
+							</div> 
+							<!-- SNS버튼 끝 -->
 						</td>
 					</tr>
 
+					<tr>
+						<td colspan="5" >
+							<div class="comment-box-recomment">
+								<a class="btn-reply">답글</a>
+							</div>
+							<div class="comment-box-button">
+								<div class="comment-button">
+									<a class="btn-delete"
+										onclick="">삭제</a>
+								</div>
+								<div class="comment-button">
+									<a class="btn-update">수정</a>
+								</div>
+							</div>
+						</td>
+					</tr>
 					<!-- 댓글리스트 -->
 					<c:forEach var="cmt" items="${map.commentList}">
 						<c:if test="${row.groupno eq cmt.groupno }">
 							<tr>
-								<td>${row.groupno}:${cmt.groupno}</td>
+								<td>
+									<div class="comment-box-reply-wrap">
+										<p style="float: left; margin-right: 10px;">ㄴ</p>
+										<input class="comment-box-reply" name="jr_cmcontent"type="text">
+										<div class="comment-cmbutton">
+											<input type="hidden" name="jr_cmno"value=""> 
+											<input type="hidden" name="jr_boardno"value=""> 
+											<input type="hidden" name="user_id" value="">
+											<input type="hidden" name="user_img" value="">
+											<input type="hidden" name="user_nick" value=""> 
+											<input type="submit" class="btn-reply-sumbit" value="확인" />
+										</div>
+									</div>
+									<div class="comment-box-up-wrap">
+										<p style="float: left; margin-right: 10px;">ㄴ</p>
+										<input class="comment-box-reply" id="jr_cmcontent2"name="jr_cmcontent2" type="text" value="">
+										<div class="comment-cmbutton">
+											<input type="hidden" class="jr_cmno2" name="jr_cmno2"value=""> 
+											<input type="hidden" class="jr_boardno2" name="jr_boardno2"value=""> 
+											<input type="hidden" class="user_id2" name="user_id2" value="">
+											<input type="button" class="jrup" value="확인" />
+										</div>
+									</div>
+								</td>
 								<td>${cmt.title }</td>
 								<td>${cmt.content }</td>
 								<td>그룹 번호=${cmt.groupno }</td>
 								<td>그룹 순서=${cmt.groupsq }</td>
+								
 							</tr>
+							
 						</c:if>
 					</c:forEach>
-					<!-- 댓글 작성 영역 -->
 
+					<!-- 댓글 작성 영역 -->
 					<tr>
 						<td colspan="5">
 							<form action="${path}/mvc03/comment_insert">
@@ -177,6 +234,7 @@
 									<button type="button" class="btnComment">댓글 작성</button>
 									<%-- </c:if> --%>
 								</div>
+								
 							</form>
 						</td>
 					</tr>
