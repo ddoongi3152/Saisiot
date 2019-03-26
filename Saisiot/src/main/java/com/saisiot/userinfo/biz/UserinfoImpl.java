@@ -101,6 +101,24 @@ public class UserinfoImpl implements UserinfoBiz {
 		return dao.longuser();
 	}
 
+	@Override
+	public int comebackuser(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.comebackuser(dto);
+	}
+
+	@Override
+	public int snscomback(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.snscomback(dto);
+	}
+
+	@Override
+	public int userinfoplus(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.userinfoplus(dto);
+	}
+
 
 	
 	
