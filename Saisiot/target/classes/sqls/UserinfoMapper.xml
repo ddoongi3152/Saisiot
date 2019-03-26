@@ -83,4 +83,38 @@
 		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
 	</select>
 
+
+	<select id="overlap_visit" resultType="String">
+		SELECT * 
+		FROM VISIT 
+		WHERE EMAIL = #{email} 
+		AND V_EMAIL = #{v_email}
+		AND TO_CHAR(V_DATE) = TO_CHAR(SYSDATE)
+	</select>
+
+	<insert id="totalvisit">
+		INSERT INTO VISIT (EMAIL, V_EMAIL, V_DATE)
+		VALUES (#{email}, #{v_email}, SYSDATE)
+	</insert>
+	
+	<select id="todaycount" resultType="int">
+		SELECT COUNT(*) 
+		FROM VISIT 
+		WHERE EMAIL = #{email} 		
+		AND SUBSTR(TO_CHAR(V_DATE),1,9) = TO_DATE(SYSDATE, 'yy/MM/dd')
+	</select>
+	
+	<select id="totalcount" resultType="int">
+		SELECT COUNT(*)
+		FROM VISIT
+		WHERE EMAIL = #{email} 	
+	</select>
+	
+	<select id="week_visit_data" resultType="String">		
+		SELECT 
+		SUM( DECODE (SUBSTR(TO_CHAR(V_DATE),1,9),TO_DATE(SYSDATE-#{DAYN}, 'yy/MM/dd'), 1, 0)) 
+		FROM VISIT 	
+		WHERE EMAIL = #{email} 		
+	</select>
+	
 </mapper>

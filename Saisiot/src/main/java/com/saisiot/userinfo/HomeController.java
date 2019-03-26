@@ -33,12 +33,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.saisiot.jukebox.dao.JukeboxDao;
+import com.saisiot.jukebox.dto.JukeboxDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
+import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
 
@@ -51,6 +55,9 @@ public class HomeController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private JukeboxDao jukedao;
 	
 	@RequestMapping(value = "/list.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model, HttpSession session) {
@@ -167,7 +174,11 @@ public class HomeController {
 					System.out.println("마지막 로그인 시간 변경");
 					// 관리자 : 0 , 일반회원 : 1, 휴면계정 : 2, 탈퇴회원 : 3, 이용정지: 4
 					System.out.println("휴면계정 상태 (0 : 관리자 , 1 : 일반회원 , 2 : 휴면계정, 3 : 탈퇴회원, 4 : 이용정지) : " + dto.getUsercondition());
-					if(dto.getUsercondition()==1) {
+					if(dto.getUsercondition()==0) {
+						session.setAttribute("login", dto);
+						System.out.println("휴면계정이 아닙니다.");
+						returnURL = "redirect:homepage.do";
+					}else if(dto.getUsercondition()==1) {
 						session.setAttribute("login", dto);
 						System.out.println("휴면계정이 아닙니다.");
 						returnURL = "redirect:homepage.do";
@@ -203,10 +214,39 @@ public class HomeController {
 	@RequestMapping(value = "/homepage.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String homepage(Model model, HttpSession session) {
 		
-		session.getAttribute("login");
+		UserinfoDto Udto = (UserinfoDto)session.getAttribute("login");
+		
+		Map<String, Object> visit_email = new HashMap<String, Object>();
+		visit_email.put("email", Udto.getEmail());
 		
 		
-		return "homepage";
+        //오늘 방문자 수
+        int todayCount = biz.visit_today(visit_email);
+		
+        //전체 방문자수
+        int totalCount = biz.visit_total(visit_email);
+        
+        //일주일 방문자 수 통계
+        List<Object> week_visit_date = biz.visit_weekdata(visit_email);
+        
+        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
+        
+        model.addAttribute("todayCount", todayCount);
+        model.addAttribute("totalCount",totalCount);
+        model.addAttribute("week_visit_date", week_visit_date);
+		
+		////////////////////메인홈피에 배경음악 붙이기
+		UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+		String email = dto.getEmail();
+		List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
+		jukelist = jukedao.backselect(email, "Y");
+
+		if(jukelist==null) {
+			return "homepage";
+		}else {
+			session.setAttribute("background",jukelist);
+			return "homepage";
+		}
 	}
 	
 	
@@ -225,7 +265,7 @@ public class HomeController {
 	public String insertuser(@ModelAttribute UserinfoDto dto){
 		
 		System.out.println(dto.getBirthdate());
-		
+		System.out.println(dto);
 		try {
 			int res = biz.insert(dto);
 			System.out.println(res);
@@ -585,8 +625,7 @@ public class HomeController {
 		return returnURL;
 	}
 	
-	
-	@Scheduled(cron = "*/10 * * * * *")
+	@Scheduled(cron = "* * 1 * * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
