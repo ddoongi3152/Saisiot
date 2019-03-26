@@ -15,15 +15,18 @@ public class DiaryDto {
 	private Float maplong;
 	private String videourl;
 	private Integer viewtime;
-	
+	private Integer groupno;
+	private Integer groupsq;
 	
 	
 	public DiaryDto() {
 		super();
 	}
 
+	
 	public DiaryDto(Integer diaryno, Integer folderno, String title, String content, Date regdate, String fileurl,
-			String picurl, Float maplati, Float maplong, String videourl, Integer viewtime) {
+			String picurl, Float maplati, Float maplong, String videourl, Integer viewtime, Integer groupno,
+			Integer groupsq) {
 		super();
 		this.diaryno = diaryno;
 		this.folderno = folderno;
@@ -36,8 +39,31 @@ public class DiaryDto {
 		this.maplong = maplong;
 		this.videourl = videourl;
 		this.viewtime = viewtime;
+		this.groupno = groupno;
+		this.groupsq = groupsq;
 	}
-	
+
+
+	public Integer getGroupno() {
+		return groupno;
+	}
+
+
+	public void setGroupno(Integer groupno) {
+		this.groupno = groupno;
+	}
+
+
+	public Integer getGroupsq() {
+		return groupsq;
+	}
+
+
+	public void setGroupsq(Integer groupsq) {
+		this.groupsq = groupsq;
+	}
+
+
 	public Integer getDiaryno() {
 		return diaryno;
 	}

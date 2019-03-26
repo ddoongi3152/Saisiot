@@ -605,7 +605,6 @@ public class HomeController {
 		return returnURL;
 	}
 	
-	
 	@Scheduled(cron = "* * 1 * * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");

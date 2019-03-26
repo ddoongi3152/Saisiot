@@ -82,5 +82,5 @@
 	<select id="longuser" resultMap="dtoMap">
 		SELECT * FROM USERINFO WHERE <![CDATA[ VISITDATE < SYSDATE-5/1440]]> AND USERCONDITION = (1)
 	</select>
-	
+
 </mapper>
