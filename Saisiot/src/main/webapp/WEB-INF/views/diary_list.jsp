@@ -11,9 +11,13 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- 카카오 sdk -->
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
 	$(document).ready(function() {
-		listReply();
+		$("#btnComment").click(function() {
+			reply(); // 폼데이터 형식으로 입력
+		});
 		$("#btnWrite").click(function() {
 			// 페이지 주소 변경(이동)
 			location.href = "${path}/mvc03/diary_write.do";
@@ -26,6 +30,25 @@
 				+ "&keyword=${map.keyword}";
 	}
 </script>
+<!-- SNS 공유용 주소 연결 용 -->
+<script type="text/javascript" async>
+	var url_default_tw_txt = "https://twitter.com/intent/tweet?text=";
+	var url_default_tw_url = "&url=";
+	var url_default_band = "http://band.us/plugin/share?body=";
+	var url_route_band = "&route=";
+	var url_default_naver = "http://share.naver.com/web/shareView.nhn?url=";
+	var title_default_naver = "&title=";
+	var url_this_page = location.href;
+	var title_this_page = document.title;
+	var url_combine_tw = url_default_tw_txt + document.title
+			+ url_default_tw_url + url_this_page;
+	var url_combine_band = url_default_band + encodeURI(url_this_page) + '%0A'
+			+ encodeURI(title_this_page) + '%0A' + '&route=tistory.com';
+	var url_combine_naver = url_default_naver + encodeURI(url_this_page)
+			+ title_default_naver + encodeURI(title_this_page);
+</script>
+
+
 </head>
 <body>
 	<h2>페이징목록이긔</h2>
@@ -58,7 +81,6 @@
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="row" items="${map.list}">
-					<%-- <c:if test="${row.groupsq eq 0}"> --%>
 					<tr>
 						<td>${row.diaryno }</td>
 						<td>${row.title }</td>
@@ -66,6 +88,60 @@
 						<td><fmt:formatDate value="${row.regdate}"
 								pattern="yyyy-MM-dd HH:mm" /></td>
 						<td id="groupno">그룹 번호${row.groupno }</td>
+					</tr>
+					<tr>
+						<td colspan="5">
+							<!-- SNS버튼 시작 -->
+							<div style="width: 100%; text-align: center; margin-bottom: 64px;">
+								<a id="kakao-link-btn" href="javascript:;"> 
+								<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+									title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" /></a>
+								<script type='text/javascript'>
+									//<![CDATA[
+									// // 사용할 앱의 JavaScript 키를 설정해 주세요.
+									Kakao
+											.init('1c8b81ba3e8a0181c778c2d6d46e4767');
+									// // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+									Kakao.Link.createDefaultButton({
+										container : '#kakao-link-btn',
+										objectType : 'feed',
+										content : {
+											title : '카카오 링크 보내기',
+											description : '${row.title}',
+											imageUrl : '${row.picurl}',
+											link : {
+												mobileWebUrl : 'location.href',
+												webUrl : 'location.href'
+											}
+										},
+										buttons : [ {
+											title : '웹으로 보기',
+											link : {
+												mobileWebUrl : 'location.href',
+												webUrl : 'location.href'
+											}
+										} ]
+									});
+									//]]>
+								</script>
+								<!-- 트위터 공유 버튼 -->
+								<a href="" onclick="window.open(url_combine_tw, '', 'scrollbars=no, width=600, height=600'); return false;">
+									<img src="resources/img/snsshare/twitter_1.png"
+									title="트위터로 공유하기" class="sharebtn_custom" style="width: 32px;">
+								</a>
+								<!-- 네이버 공유 버튼 -->
+								<a href=""
+									onclick="window.open(url_combine_naver, '', 'scrollbars=no, width=600, height=600'); return false;">
+									<img src="resources/img/snsshare/naver.png" title="네이버로 공유하기" class="sharebtn_custom" style="width: 32px;">
+								</a>
+								<!-- 밴드 공유 버튼 -->
+								<a href=""
+									onclick="window.open(url_combine_band, '', 'scrollbars=no, width=584, height=635'); return false;">
+									<img src="resources/img/snsshare/nband_1.png" title="밴드로 공유하기"
+									class="sharebtn_custom" style="width: 32px;">
+								</a>
+							</div> <!-- SNS버튼 끝 -->
+						</td>
 					</tr>
 
 					<!-- 댓글리스트 -->
@@ -80,37 +156,32 @@
 							</tr>
 						</c:if>
 					</c:forEach>
-					<%-- <tr>
-							<td colspan="5">
-								<%@ include file="/WEB-INF/views/diary_comment.jsp"%>
-							</td>
-						</tr> --%>
-
 					<!-- 댓글 작성 영역 -->
+
 					<tr>
 						<td colspan="5">
 							<form action="${path}/mvc03/comment_insert">
-							<input type="hidden" name="groupno" value="${row.groupno }">
-							<input type="hidden" name="groupsq" value="${row.groupsq }"> 
-							<input type="hidden" name="diaryno" value="${row.diaryno }">
-							<div style="width: 650px; text-align: center;">
-								<input type="text" name="title" value="">
-								<br>
-								<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
-								<%-- <c:if test="${sessionScope.userId != null}"> --%>
-								<textarea rows="5" cols="80" id="replytext" name="content" placeholder="댓글을 작성해주세요"></textarea>
-								<br>
-								<!-- 비밀댓글 체크박스 -->
-								<input type="checkbox" id="secretReply">비밀 댓글
-								<button type="submit" id="btnReply">댓글 작성</button>
-								<%-- </c:if> --%>
-							</div>
+								<input type="hidden" name="groupno" value="${row.groupno }">
+								<input type="hidden" name="groupsq" value="${row.groupsq }">
+								<input type="hidden" class="diaryno" name="diaryno"
+									value="${row.diaryno }">
+								<div style="width: 650px; text-align: center;">
+									<input type="text" class="title" name="title" value="">
+									<br>
+									<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
+									<%-- <c:if test="${sessionScope.userId != null}"> --%>
+									<textarea rows="5" cols="80" class="replytext" name="content"
+										placeholder="댓글을 작성해주세요"></textarea>
+									<br>
+									
+									<button type="button" class="btnComment">댓글 작성</button>
+									<%-- </c:if> --%>
+								</div>
 							</form>
 						</td>
 					</tr>
 					<!-- 댓글 작성 영역 -->
 
-					<%-- </c:if> --%>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
@@ -119,16 +190,14 @@
 		<!-- 페이징 -->
 		<tr>
 			<td colspan="5">
-				<!-- 처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력--> 
-				<c:if test="${map.paging.curBlock >= 1}">
+				<!-- 처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력--> <c:if
+					test="${map.paging.curBlock >= 1}">
 					<a href="javascript:list('1')">[처음]</a>
-				</c:if> 
-				<!-- 이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 --> 
-				<c:if test="${map.paging.curBlock > 1}">
+				</c:if> <!-- 이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 --> <c:if
+					test="${map.paging.curBlock > 1}">
 					<a href="javascript:list('${map.paging.prevPage}')">[이전]</a>
-				</c:if> 
-				<!-- **하나의 블럭 시작페이지부터 끝페이지까지 반복문 실행 --> 
-				<c:forEach var="num" begin="${map.paging.blockBegin}" end="${map.paging.blockEnd}">
+				</c:if> <!-- **하나의 블럭 시작페이지부터 끝페이지까지 반복문 실행 --> <c:forEach var="num"
+					begin="${map.paging.blockBegin}" end="${map.paging.blockEnd}">
 					<!-- 현재페이지이면 하이퍼링크 제거 -->
 					<c:choose>
 						<c:when test="${num == map.paging.curPage}">
@@ -138,13 +207,11 @@
 							<a href="javascript:list('${num}')">${num}</a>&nbsp;
 						</c:otherwise>
 					</c:choose>
-				</c:forEach> 
-				<!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
+				</c:forEach> <!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
 				<c:if test="${map.paging.curBlock <= map.paging.totBlock}">
 					<a href="javascript:list('${map.paging.nextPage}')">[다음]</a>
-				</c:if> 
-				<!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 --> 
-				<c:if test="${map.paging.curPage <= map.paging.totPage}">
+				</c:if> <!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 --> <c:if
+					test="${map.paging.curPage <= map.paging.totPage}">
 					<a href="javascript:list('${map.paging.totPage}')">[끝]</a>
 				</c:if>
 			</td>
@@ -152,8 +219,8 @@
 		<!-- 페이징 -->
 
 	</table>
-	
-	
-	
+
+
+
 </body>
 </html>

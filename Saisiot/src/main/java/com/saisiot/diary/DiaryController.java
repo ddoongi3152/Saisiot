@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -186,6 +187,7 @@ public class DiaryController {
 	}
 	
 	@RequestMapping("/comment_insert")
+	@ResponseBody
 	public String insert(@ModelAttribute DiaryDto dto,@RequestParam int diaryno){
 
 		// 세션에 저장된 회원아이디를 댓글작성자에 세팅

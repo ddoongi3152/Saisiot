@@ -22,6 +22,7 @@ public class DiaryDaoImpl implements DiaryDao {
 
 		List<DiaryDto> list = new ArrayList<DiaryDto>();
 
+		
 		list = sqlSession.selectList(NAMESPACE + "selectList_diary");
 
 		return list;
