@@ -17,7 +17,7 @@ public class Scheduler {
         System.out.println("fixedDelay: 7sec -> " + new Date());
     }*/
 	
-    @Scheduled(cron = "* * *1 * * *") // 1초마다 수행
+    @Scheduled(cron = "* * * 1 * *") // 1초마다 수행
     public void cronTest() {
     	//System.out.println("서버접속시간 : " + new Date());
     	

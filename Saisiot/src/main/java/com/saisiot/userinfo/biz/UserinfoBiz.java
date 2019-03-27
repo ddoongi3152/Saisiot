@@ -43,7 +43,7 @@ public interface UserinfoBiz {
 	//-------lee's editing---------------------
 	public List<UserinfoDto> selectFriendList(String email);
 	public String selectFriendOne(String email);
-	public int friendInsert(String email1, String email2);
+	public int friendInsert(String emailFriend, String emailMe);
 	public int friendUpdate(String email);
 	public int friendDelete(String email);
 
