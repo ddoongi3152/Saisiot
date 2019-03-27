@@ -61,6 +61,27 @@
 	});
 	
 	$(document).ready(function(){
+		  $(".usernames").click(function(){
+			  var email = $(this).text();
+			  alert($(this).val());
+	/* 	    	 $.ajax({	
+						type:"POST",
+						url:"findfriend.do",
+						data:"email="+searchEmail,
+						success:function(data){
+							$("#search_res>div").remove();
+							$("#search_res").append('<div>'+data+'</div>');	
+							searchEmail = $("#search_email").val();
+						},
+						error:function(){
+							searchEmail = 0;
+							alert("ajax실패");
+						}
+		
+					}) */
+		  })
+	});
+	$(document).ready(function(){
 		$(".input-submit").click(function() {
 			if($(".input-submit").text!=""){
 				sendMessage();
@@ -71,9 +92,8 @@
 	    $("#chat_list_div").toggle()
 	  });
 	  
-	  $("#chat_list_div>ul").click(function(){
-		  
-	  })
+
+
 	});
 	 
 
@@ -99,7 +119,7 @@
 				<ul>
 					<li><img src="resources/img/folder_icon.png"><a>친구목록</a></li>
 					<c:forEach items="${friendList }" var="dtos">
-					<li><a>${dtos.username}</a></li>
+					<li class="usernames" id="${dtos.email }">${dtos.username}</li>
 					</c:forEach>
 					<li><a>순서변경</a></li>
 				</ul>

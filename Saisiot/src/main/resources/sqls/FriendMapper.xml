@@ -9,9 +9,9 @@
 		FROM FRIENDCREATE WHERE EMAIL = #{email}))
 	</select>
 	
-	<select id="select_room">
-		SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #{emailFriend} AND
-		RELATIONNO IN(SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #{emailMe})
+	<select id="select_room" parameterType="hashmap">
+		SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #emailFriend# AND
+		RELATIONNO IN(SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #emailMe#)
 	</select>
 	
 	<insert id="insert_before">
