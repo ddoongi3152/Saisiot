@@ -40,7 +40,7 @@
 
 	// 검색한 목록에서 구매하기 누르면 이어지는 function. 구매 후 리스트 추가까지
 	function buySong(e) {
-		var confirmWindow = confirm("코인 5개로 선택하신 노래를 구매합니다. \n 구매하시겠습니까?");
+		var confirmWindow = confirm("코인 5개로 선택하신 노래를 구매합니다. \n구매하시겠습니까?");
 		if(confirmWindow){
 			var songOne = $(e).children('input').val();
 			var email = $("#email").val();
