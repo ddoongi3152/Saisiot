@@ -37,7 +37,7 @@
 		FROM DIARY
 		WHERE
 		GROUPSQ >0
-		ORDER BY GROUPNO DESC, GROUPSQ DESC
+		ORDER BY GROUPNO DESC, GROUPSQ
 	</select>
 
 	<!-- 검색조건 -->
@@ -84,6 +84,10 @@
 		(SELECT GROUPSQ FROM DIARY WHERE DIARYNO =#{diaryno})+1
 		)
 	</insert>
+	
+	<delete id="comment_delete">
+		DELETE FROM DIARY WHERE DIARYNO=#{diaryno}
+	</delete>
 
 
 

@@ -71,6 +71,11 @@ public class DiaryBizImpl implements DiaryBiz {
 		
 		
 	}
+
+	@Override
+	public void comment_delete(DiaryDto dto) {
+		dao.comment_delete(dto);
+	}
 	
 
 }

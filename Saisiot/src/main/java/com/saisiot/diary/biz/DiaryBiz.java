@@ -23,4 +23,7 @@ public interface DiaryBiz {
 	
 	//
 	public void comment_insert_proc(DiaryDto dto,int diaryno);
+	
+	public void comment_delete(DiaryDto dto);
+	
 }

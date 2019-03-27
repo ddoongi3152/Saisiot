@@ -113,4 +113,9 @@ public class DiaryDaoImpl implements DiaryDao {
 		
 	}
 
+	@Override
+	public void comment_delete(DiaryDto dto) {
+		sqlSession.delete(NAMESPACE+"comment_delete",dto);
+	}
+
 }

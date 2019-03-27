@@ -245,5 +245,12 @@ public class DiaryController {
 		
 	}
 	
+	@RequestMapping("/comment_delete")
+	public String comment_delete(@ModelAttribute DiaryDto dto) {
+		Dbiz.comment_delete(dto);
+		
+		return "redirect:diary.do";
+	}
+	
 
 }

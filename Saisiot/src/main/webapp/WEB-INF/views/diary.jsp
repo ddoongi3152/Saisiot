@@ -120,6 +120,11 @@
 													<div class="reply">
 														<div class="reply_writer">${cmt.email }</div>
 														<div class="reply_content">${cmt.content }</div>
+														<br>
+														<div class="reply_btn">
+															<fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd HH:mm" />
+															<input type="button" value="삭제" onclick="location.href='comment_delete?diaryno=${cmt.diaryno}'">
+														</div>
 													</div>
 												</div>
 											</c:if>
