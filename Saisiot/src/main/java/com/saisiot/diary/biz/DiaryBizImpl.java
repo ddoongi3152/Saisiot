@@ -52,6 +52,29 @@ public class DiaryBizImpl implements DiaryBiz {
 	public int countArticle(String searchOption, String keyword) {
 		return dao.countArticle(searchOption, keyword);
 	}
+	// 댓글 리스트
+	@Override
+	public List<DiaryDto> commentList() {
+		return dao.commentList();
+	}
+	@Override
+	public void comment_insert_proc(DiaryDto dto,int diaryno) {
+		//부모 번호
+		int parent_diaryno=diaryno;
+		//글 순서 업뎃
+		int comment_update=dao.comment_update(parent_diaryno);
+		//글 입력
+		dao.comment_insert(dto);
+
+		/*return ((insertdto + comment_update) > 0) ? 1 : 0;*/
+		
+		
+	}
+
+	@Override
+	public void comment_delete(DiaryDto dto) {
+		dao.comment_delete(dto);
+	}
 	
 
 }

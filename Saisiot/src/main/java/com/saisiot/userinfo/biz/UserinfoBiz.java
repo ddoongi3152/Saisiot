@@ -44,7 +44,7 @@ public interface UserinfoBiz {
 	public List<UserinfoDto> selectFriendList(String email);
 	public String selectFriendOne(String email);
 	public int friendInsert(String emailFriend, String emailMe);
-	public int friendUpdate(String email);
+	public int selectRoom(String emailFriend, String emailMe);
 	public int friendDelete(String email);
 
 	

@@ -6,6 +6,7 @@ public class DiaryDto {
 
 	private Integer diaryno;
 	private Integer folderno;
+	private String email;
 	private String title;
 	private String content;
 	private Date regdate;
@@ -23,13 +24,14 @@ public class DiaryDto {
 		super();
 	}
 
-	
-	public DiaryDto(Integer diaryno, Integer folderno, String title, String content, Date regdate, String fileurl,
-			String picurl, String mapname, Float maplati, Float maplong, String videourl, Integer viewtime,
+	public DiaryDto(Integer diaryno, Integer folderno, String email, String title, String content, Date regdate,
+			String fileurl, String picurl, String mapname, Float maplati, Float maplong, String videourl, Integer viewtime,
 			Integer groupno, Integer groupsq) {
+
 		super();
 		this.diaryno = diaryno;
 		this.folderno = folderno;
+		this.email = email;
 		this.title = title;
 		this.content = content;
 		this.regdate = regdate;
@@ -58,6 +60,14 @@ public class DiaryDto {
 
 	public void setFolderno(Integer folderno) {
 		this.folderno = folderno;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getTitle() {
@@ -100,6 +110,14 @@ public class DiaryDto {
 		this.picurl = picurl;
 	}
 
+	public String getMapname() {
+		return mapname;
+	}
+
+	public void setMapname(String mapname) {
+		this.mapname = mapname;
+	}
+
 	public Float getMaplati() {
 		return maplati;
 	}
@@ -130,14 +148,6 @@ public class DiaryDto {
 
 	public void setViewtime(Integer viewtime) {
 		this.viewtime = viewtime;
-	}
-
-	public String getMapname() {
-		return mapname;
-	}
-
-	public void setMapname(String mapname) {
-		this.mapname = mapname;
 	}
 
 	public Integer getGroupno() {

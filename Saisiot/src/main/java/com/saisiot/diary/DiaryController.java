@@ -1,4 +1,3 @@
-
 package com.saisiot.diary;
 
 import java.io.File;
@@ -97,7 +96,7 @@ public class DiaryController {
 		
 		int a = content.indexOf("upload");
 		
-		// 이미지 파일이 업로드 되었으면
+		// ?��미�? ?��?��?�� ?��로드 ?��?��?���?
 		if(a != -1) {
 		
 		String img_src = content.substring(a);
@@ -123,10 +122,10 @@ public class DiaryController {
 			}
 		} else {
 			
-			// 유효성검사
+			// ?��?��?���??��
 			fileValidator.validate(uploadFile, result);
 
-			// 오류정보가 존재시 uploadForm으로 간다.
+			// ?��류정보�? 존재?�� uploadForm?���? 간다.
 			if (result.hasErrors()) {
 				return "uploadForm";
 			}
@@ -144,20 +143,20 @@ public class DiaryController {
 			try {
 				inputStream = file.getInputStream();
 				String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/upload");
-				System.out.println("업로드 될 실제 경로 : " + path);
+				System.out.println("?��로드 ?�� ?��?�� 경로 : " + path);
 
 				/*
-				 * 경로 절대경로 : C:\workspace\....\storage 상대경로 : ../(상위 폴더) ./(현재 폴더)
-				 * /(root->localhost:8787/ : 이뒤에 붙는다.)
+				 * 경로 ?��??경로 : C:\workspace\....\storage ?��??경로 : ../(?��?�� ?��?��) ./(?��?�� ?��?��)
+				 * /(root->localhost:8787/ : ?��?��?�� 붙는?��.)
 				 */
 
-				// storage가 존재하지 않으면 만든다.
+				// storage�? 존재?���? ?��?���? 만든?��.
 				File storage = new File(path);
 				if (!storage.exists()) {
 					storage.mkdirs();
 				}
 
-				// newfile이 존재하지 않으면 newfile을 만든다.
+				// newfile?�� 존재?���? ?��?���? newfile?�� 만든?��.
 				File newfile = new File(path + "/" + filename);
 				if (!newfile.exists()) {
 					newfile.createNewFile();
@@ -221,14 +220,14 @@ public class DiaryController {
 		String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/upload");
 		File file = new File(path+"/"+filename);
 		
-		byte[] bytes = FileCopyUtils.copyToByteArray(file); // 가져온 file값을 copyToByteArray를 이용하여 배열로 모든 data를가져옴
+		byte[] bytes = FileCopyUtils.copyToByteArray(file); // �??��?�� file값을 copyToByteArray�? ?��?��?��?�� 배열�? 모든 data를�??��?��
 		String fn = new String(file.getName().getBytes(),"8859_1");
 		
 		response.setHeader("Content-Disposition", "attachment;filename=\""+fn+"\"");
 		response.setContentLength(bytes.length);
 		response.setContentType("image/jpeg");
-		// servers - tomcat - web.xml에서 mime-mapping을 보면 jpg,doc,ppt 등등 다운받을수있는 파일의 타입을 잡아줄수있다. 
-		// 기본적인 값 외에 내가 필요한게 있으면 따로 추가 가능하다.
+		// servers - tomcat - web.xml?��?�� mime-mapping?�� 보면 jpg,doc,ppt ?��?�� ?��?��받을?��?��?�� ?��?��?�� ???��?�� ?��?��줄수?��?��. 
+		// 기본?��?�� �? ?��?�� ?���? ?��?��?���? ?��?���? ?���? 추�? �??��?��?��.
 		
 		return bytes;
 	}
@@ -241,35 +240,35 @@ public class DiaryController {
 		return "diary_detail";
 	}
 
-	// 게시글 목록
+	// 게시�? 목록
 	@RequestMapping("/listall.do")
-	// @RequestParam(defaultValue="") ==> 기본값 할당
+	// @RequestParam(defaultValue="") ==> 기본�? ?��?��
 	public ModelAndView list(@RequestParam(defaultValue = "title") String searchOption,
 			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
 			throws Exception {
-		// 총 게시글 수 계산
+		// �? 게시�? ?�� 계산
 		int count = Dbiz.countArticle(searchOption, keyword);
-		// 페이지 나누기 관련 처리
+		// ?��?���? ?��?���? �??�� 처리
 		Paging paging = new Paging(count, curPage);
 		int start = paging.getPageBegin();
 		int end = paging.getPageEnd();
 		List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
 		/* List<PagingDto> answerlist= pagingBiz.Answerlist(pagingDto.getGroupno()); */
 		/* System.out.println("answerlist="+answerlist); */
-		// 데이터를 맵에 저장
+		// ?��?��?���? 맵에 ???��
 		Map<String, Object> map = new HashMap<String, Object>();
-		/* map.put("answerlist=", answerlist);//답글list */
+		/* map.put("answerlist=", answerlist);//?���?list */
 		map.put("list", list); // list
-		map.put("count", count); // 레코드의 갯수
-		map.put("searchOption", searchOption); // 검색옵션
-		map.put("keyword", keyword); // 검색키워드
+		map.put("count", count); // ?��코드?�� �??��
+		map.put("searchOption", searchOption); // �??��?��?��
+		map.put("keyword", keyword); // �??��?��?��?��
 		map.put("paging", paging);
-		// ModelAndView - 모델과 뷰
+		// ModelAndView - 모델�? �?
 		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("map", map); // 맵에 저장된 데이터를 mav에 저장
-		mav.setViewName("diary_list"); // 뷰를 list.jsp로 설정
-		return mav; // list.jsp로 List가 전달된다.
+		mav.addObject("map", map); // 맵에 ???��?�� ?��?��?���? mav?�� ???��
+		mav.setViewName("diary_list"); // 뷰�?? list.jsp�? ?��?��
+		return mav; // list.jsp�? List�? ?��?��?��?��.
 	}
 
 }
