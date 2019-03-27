@@ -44,14 +44,13 @@ $(function(){
     
     //장소선택 버튼 클릭이벤트
     $("#selectmap_btn").click(function(){
-    	window.open('/mvc03/resources/js/map.jsp',"장소 선택","width=600, height=400")
+    	window.open('selectForm_map.do',"장소 선택","width=600, height=400")
     });
     
     //동영상추가 버튼 클릭이벤트
     $("#selectvideo_btn").click(function(){
-    	window.open('/mvc03/resources/js/video.jsp',"동영상 추가","width=300,height=100")
-    });
-    
+    	window.open('selectForm_video.do',"동영상 추가","width=300,height=100")
+    });    
     
 });
 </script>

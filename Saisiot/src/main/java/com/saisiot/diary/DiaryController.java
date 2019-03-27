@@ -59,13 +59,31 @@ public class DiaryController {
 	@RequestMapping(value = "/insertForm_diary.do")
 	public String insertForm_Diary() {
 
-		return "insert_diary";
+		return "diary_insert";
 	}
 	
-	@RequestMapping(value="/video.do")
-	public String video() {
+	@RequestMapping(value="/insertForm_folder.do")
+	public String insertForm_Folder() {
 		
-		return "videotest";
+		return "folder_insert";
+	}
+	
+	@RequestMapping("/folder_insert.do")
+	public String insert_Folder() {
+		
+		return "";
+	}
+	
+	@RequestMapping("/selectForm_map.do")
+	public String selectForm_Map() {
+		
+		return "map";
+	}
+	
+	@RequestMapping("/selectForm_video.do")
+	public String selectForm_Video() {
+		
+		return "video";
 	}
 	
 
@@ -100,7 +118,7 @@ public class DiaryController {
 
 			} else {
 
-				return "redirect:insert_diary";
+				return "redirect:diary_insert";
 
 			}
 		} else {
@@ -174,7 +192,7 @@ public class DiaryController {
 
 			} else {
 
-				return "redirect:insert_diary";
+				return "redirect:diary_insert";
 
 			}
 		}
@@ -189,7 +207,7 @@ public class DiaryController {
 
 			} else {
 
-				return "redirect:insert_diary";
+				return "redirect:diary_insert";
 
 			}
 		}
@@ -213,15 +231,6 @@ public class DiaryController {
 		// 기본적인 값 외에 내가 필요한게 있으면 따로 추가 가능하다.
 		
 		return bytes;
-	}
-	
-
-	@RequestMapping(value="/insertForm_folder.do")
-	public String insertForm_Folder(HttpSession session) {
-		
-		UserinfoDto userinfo = (UserinfoDto)session.getAttribute("login");
-		
-		return "insert_folder";
 	}
 
 	@RequestMapping(value = "/diaryDetail.do", method = { RequestMethod.POST, RequestMethod.GET })

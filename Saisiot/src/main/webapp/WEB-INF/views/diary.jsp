@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	function insert_Folder(){
+		window.open("insertForm_folder.do","폴더 추가","width=300,height=100")
+	}
+</script>
 </head>
 <body>
 
@@ -19,7 +24,6 @@
 			<th>제	목</th>
 			<th>내	용</th>
 			<th>날	짜</th>
-			<th>조 회 수</th>
 		</tr>
 		<c:choose>
 			<c:when test="${empty list }">
@@ -33,18 +37,19 @@
 						<td><input type="hidden" id="diaryno" value="${dto.diaryno }"/><a href="/mvc03/diaryDetail.do?diaryno=${dto.diaryno}" >${dto.title }</a></td>
 						<td>${dto.content }</td>
 						<td>${dto.regdate }</td>
-						<td>${dto.viewtime }</td>
 					</tr>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
 
 		<tr>
-			<td colspan="4">
+			<td colspan="3">
 				<input type="button" value="글쓰기" onclick="location.href='insertForm_diary.do'" />
 			</td>
-			<td colspan="4">
-				<input type="button" value="비디오" onclick="location.href='video.do'"/>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<a href='javascript:void(0);' onclick="insert_Folder();"> 폴더 추가</a>
 			</td>
 		</tr>
 	</table>
