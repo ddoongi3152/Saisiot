@@ -70,6 +70,10 @@
 	  $("#chat_list_drop").click(function(){
 	    $("#chat_list_div").toggle()
 	  });
+	  
+	  $("#chat_list_div>ul").click(function(){
+		  
+	  })
 	});
 	 
 
@@ -94,15 +98,9 @@
 			<div id="chat_list_div">
 				<ul>
 					<li><img src="resources/img/folder_icon.png"><a>친구목록</a></li>
-					<li><a>마루</a></li>
-					<li><a>홍시</a></li>
-					<li><a>제제</a></li>
-					<li><a>김무년</a></li>
-					<li><a>김유정</a></li>
-					<li><a>이승혜</a></li>
-					<li><a>서지석</a></li>
-					<li><a>장정훈</a></li>
-					<li><a>최승언</a></li>
+					<c:forEach items="${friendList }" var="dtos">
+					<li><a>${dtos.username}</a></li>
+					</c:forEach>
 					<li><a>순서변경</a></li>
 				</ul>
 			</div>
