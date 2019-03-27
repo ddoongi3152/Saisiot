@@ -115,9 +115,9 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	}
 
 	@Override
-	public int friendInsert(String email1, String email2) {
+	public int friendInsert(String emailFriend, String emailMe) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.friendInsert(emailFriend, emailMe);
 	}
 
 	@Override
