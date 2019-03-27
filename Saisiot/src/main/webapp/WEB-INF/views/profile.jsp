@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
@@ -10,9 +11,13 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#add_friend").click(function() {
-			location.href = "otherhome.do?email="+this.value
+			window.open("addfriendpop.do", "친구찾기", "width=500,height=300");
 		});
 	});
+	
+	function reset(){
+		location.href="profile.do";
+	}
 
 </script>
 <link rel="stylesheet" href="resources/css/profile_web.css">
@@ -22,6 +27,8 @@
 <body>
 <%
 	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+
+
 
 %>
 

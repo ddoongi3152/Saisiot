@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.saisiot.userinfo.dto.UserinfoDto;
 
@@ -291,14 +295,16 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		System.out.println("UserDao: selectList_friend"+friendList.get(0));
 		return null;
 	}
-
+	
+	@Transactional
 	@Override
-	public int friendInsert(String email1, String email2) {
+	public int friendInsert(String emailFriend, String emailMe) {
 		
-		String[] emails = {email1, email2};
+			int res1 = sqlSession.insert("friend."+"insert_friend", emailFriend);
+			int res2 = sqlSession.insert("friend."+"insert_friend_me", emailMe);
 		
-		int res = sqlSession.insert(NAMESPACE+"selectList_friend", emails);
-		return res;
+		return res1*res2;
+		
 	}
 
 	@Override
