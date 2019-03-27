@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.transaction.InvalidTransactionException;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -302,6 +304,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public int friendInsert(String emailFriend, String emailMe) {
 		
+			int res0 = sqlSession.insert("friend."+"insert_before");
 			int res1 = sqlSession.insert("friend."+"insert_friend", emailFriend);
 			int res2 = sqlSession.insert("friend."+"insert_friend_me", emailMe);
 		
@@ -310,11 +313,11 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	}
 
 	@Override
-	public int friendUpdate(String email) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int selectRoom(String emailFriend, String emailMe) {
+		
+			int res = 0;
+		return res;
 	}
-
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
