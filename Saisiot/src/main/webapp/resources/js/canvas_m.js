@@ -25,7 +25,10 @@ var fixedY = -102;
 
 // 초기화
 $(document).ready(function() {
- 
+	eventObject.x = -$("#canvas").offset().left;
+	eventObject.y = -$("#canvas").offset().top;
+	fixedX = -$("#canvas").offset().left;
+	fixedY = -$("#canvas").offset().top;
  picture.canvas =document.getElementById("canvas");
  picture.context = picture.canvas.getContext("2d");
  picture.context.lineWidth = 3;

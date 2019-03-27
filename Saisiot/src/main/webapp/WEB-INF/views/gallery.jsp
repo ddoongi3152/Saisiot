@@ -46,7 +46,7 @@
 	  	
 	});
 	
-
+	// 창 사이즈 변경이 완료되면 리로드
   	window.onresize = function() {
 		document.location.reload();
 	}
