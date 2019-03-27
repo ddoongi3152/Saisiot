@@ -1,4 +1,6 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
+<%@page import="java.sql.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
@@ -8,17 +10,28 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
+<script src="resources/js/bgm.js?ver=3"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#add_friend").click(function() {
 			window.open("addfriendpop.do", "친구찾기", "width=500,height=300");
 		});
+		
+		$("#personal_func").click(function() {
+			$("#update_personal").submit();
+		})
 	});
 	
 	function reset(){
 		location.href="profile.do";
 	}
-
+	
+	function update_pw() {
+		$("#pw_change").hide();
+		$("#updatepw").show();
+		$("#pw_ok").show();
+		
+	}
 </script>
 <link rel="stylesheet" href="resources/css/profile_web.css">
 <link rel="stylesheet" href="resources/css/profile_mob.css">
@@ -27,9 +40,8 @@
 <body>
 <%
 	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
-
-
-
+	SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+	String birth = dateformat.format(dto.getBirthdate());
 %>
 
 	<div id="left_wrapper1">
@@ -82,15 +94,20 @@
 		<!-- right_wrapper4_2: right contentbox start -->
 		<div id="right_wrapper4_2">
 			<div class="div_title">개인정보관리</div>
-			<div id="personal_div">
-				<div><label>도토리</label><label><%=dto.getCoinno() %></label><div>충전</div></div>
-				<div><label>비밀번호</label><div>변경하기</div></div>
-				<div><label>이름</label><input type="text"/ value="<%=dto.getUsername() %>"></div>
-				<div><label>생일</label><input type="text"/ value="<%=dto.getBirthdate() %>"></div>
-				<div><label>성별</label><input type="text"/ value="<%=dto.getGender() %>"></div>
-				<div><label>주소</label><textarea><%=dto.getAddr() %></textarea></div>
-			</div>
-			<div id="personal_ok_btn"><div>수정완료</div></div>
+			<form id="update_personal" action="updatePersonal.do" method="post">
+				<div id="personal_div">
+					<input type="hidden" name="email" value="<%=dto.getEmail()%>">
+					<div><label>도토리</label><label><%=dto.getCoinno() %></label><div>충전</div></div>
+					<div><label>비밀번호</label><div id="pw_change" onclick="update_pw()">변경하기</div>
+						<input type="text" id="updatepw" style="width: 70px; display: none"><div id="pw_ok" style="display: none">확인</div>
+					</div>
+					<div><label>이름</label><input type="text" name="username" value="<%=dto.getUsername() %>"></div>
+					<div><label>생일</label><input type="date" name="birthdate" value="<%=birth %>"></div>
+					<div><label>성별</label><input type="text" name="gender" value="<%=dto.getGender() %>"></div>
+					<div><label>주소</label><textarea name="addr"><%=dto.getAddr() %></textarea></div>
+				</div>
+			<div id="personal_ok_btn"><div id="personal_func">수정완료</div></div>
+			</form>
 			<div id="friend_title"><div class="div_title">친구관리</div><div id="add_friend">친구추가하기</div></div>
 			<div id="friend_div">
 				<c:forEach items="${friendList}" var="dtos">
@@ -110,12 +127,12 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div>home</div>
-		<div>gallery</div>
-		<div>diary</div>
-		<div>jukebox</div>
-		<div>profile</div>
-		<div>chat</div>
+		<div onclick="location.href='homepage.do'">home</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
+		<div><a href="diary.do">diary</a></div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
+		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
 
@@ -123,21 +140,33 @@
 		<div id="to_home">메인홈으로</div>
 		<div id="graph">그래프표시영역</div>
 		<div id="audio">
-			<audio controls controlsList="nodownload" loop>
-			  <source src="test.mp3" type="audio/mpeg">
-			  Your browser does not support the audio tag.
+			<audio id="musicplayer" autoplay="autoplay" controls controlsList="nodownload">
+				<source src="" type="audio/mpeg" >
+				Your browser does not support the audio tag.
 			</audio>
 		</div>
 		<div id="audio_list">
 			<table>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
+				<c:choose>
+					<c:when test="${empty background }">
+						<tr>
+							<td align="center">- 선택된 배경음악이 없습니다 -</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${background }" var="back">
+							<tr>
+								<td class="musictitle"><a>${back.musictitle}</a></td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</table>
+		</div>
+		<div id="tracks" style="display: none;">
+			<input type="hidden" id="firstSong" value="">
+			<input type="hidden" id="songindex" value="">
+			<input type="hidden" id="repeat" value="">
 		</div>
 	</div>
 

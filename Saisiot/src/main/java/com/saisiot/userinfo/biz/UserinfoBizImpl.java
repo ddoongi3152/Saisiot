@@ -187,6 +187,12 @@ public class UserinfoBizImpl implements UserinfoBiz {
 		return dao.userinfoplus(dto);
 	}
 
+	@Override
+	public int update_personal(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.update_personal(dto);
+	}
+
 
 	
 	

@@ -135,4 +135,8 @@
 		WHERE EMAIL = #{email} 		
 	</select>
 	
+	<update id="updatePersonal" parameterType="UserinfoDto">
+		UPDATE USERINFO SET GENDER = #{gender}, BIRTHDATE = #{birthdate}, USERNAME = #{username}, ADDR = #{addr} WHERE EMAIL = #{email}
+	</update>
+	
 </mapper>

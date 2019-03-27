@@ -46,6 +46,8 @@ public interface UserinfoBiz {
 	public int friendInsert(String emailFriend, String emailMe);
 	public int friendUpdate(String email);
 	public int friendDelete(String email);
-
+	
+	// 개인 정보 수정
+	public int update_personal(UserinfoDto dto);
 	
 }

@@ -54,5 +54,8 @@ public interface UserinfoDao {
 	public int coinupdate(UserinfoDto dto);
 
 	//------------------lee's editing end
+	
+	// 개인정보 수정(seo)
+	public int update_personal(UserinfoDto dto);
 
 }

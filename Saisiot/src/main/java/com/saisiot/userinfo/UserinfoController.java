@@ -862,5 +862,27 @@ public class UserinfoController {
 			return "redirect:homepage.do";
 		}
 	
+		
+	// 개인정보 업데이트(seo)
+	@RequestMapping("/updatePersonal.do")
+	public String updatePersonal(@ModelAttribute UserinfoDto dto, HttpSession session, HttpServletResponse response) throws ParseException, IOException {
+		session.getAttribute("login");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		int res = biz.update_personal(dto);
+		if(res > 0) {
+			session.removeAttribute("login");
+			session.setAttribute("login", dto);
+			out.println("<script>alert('개인정보 수정 성공');</script>");
+			out.flush();
+			return "profile";
+		}else {
+			out.println("<script>alert('개인정보 수정 실패, 재시도 후 관리자에게 문의해주세요.');</script>");
+			out.flush();
+			return "profile";
+		}
+		
+	}
 } 
 
