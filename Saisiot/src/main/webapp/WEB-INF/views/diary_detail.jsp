@@ -21,8 +21,6 @@
 			<td>${dto.title }</td>
 			<th>작성일</th>
 			<td>${dto.regdate }</td>
-			<th>조회수</th>
-			<td>${dto.viewtime }</td>
 		</tr>
 		<tr>
 			<th>내 용</th>
@@ -36,24 +34,39 @@
 			<input type="hidden" value="${dto.mapname }" id="mapname" />
 		</c:when>
 		<c:otherwise>
+			<input type="hidden" id="mapname" value="${dto.mapname }"/>
+			<input type="hidden" id="maplati"  value="${dto.maplati }"/>
+			<input type="hidden" id="maplong" value="${dto.maplong }"/>
 			<div class="map_wrap">
 				<div id="map"
 					style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 			</div>
 		</c:otherwise>
 	</c:choose>
-	<input type="hidden" value="${dto.diaryno }" name="diaryno" />
-	<input type="hidden" value="${dto.folderno }" name="folderno" />
-	<form action="download.do" method="post">
-		<input type="text" name="filename" value="${dto.fileurl }"/>
-		<input type="submit" value="DOWNLOAD"/>
-	</form>
-	<img src="<spring:url value="/upload/${dto.picurl }"/>" />
-	<input type="hidden" value="${dto.mapname }" id="mapname" />
-	<input type="hidden" value="${dto.maplati }" id="maplati" />
-	<input type="hidden" value="${dto.maplong }" id="maplong" />
-	<input type="hidden" value="${dto.videourl }" name="videourl" />
-
+	<c:choose>
+		<c:when test="${ empty dto.videourl }">
+		</c:when>
+		<c:otherwise>
+			 <iframe width="640" height="480" src="${dto.videourl }" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${ empty dto.picurl }">
+		</c:when>
+		<c:otherwise>
+			<img src="<spring:url value="/upload/${dto.picurl }"/>" />
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${ empty dto.fileurl }">
+		</c:when>
+		<c:otherwise>
+			<form action="download.do" method="post">
+				<input type="text" name="filename" value="${dto.fileurl }"/>
+				<input type="submit" value="DOWNLOAD"/>
+			</form>
+		</c:otherwise>
+	</c:choose>
 
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1fe75f64aaf4512f8f75ce29f8ceb483&libraries=services"></script>

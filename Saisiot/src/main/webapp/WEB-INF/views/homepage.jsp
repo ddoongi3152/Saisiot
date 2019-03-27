@@ -87,7 +87,7 @@
 					<hr>
 					<table>
 						<tr>
-							<td><input type="button" value="다이어리 1/2" onclick="location.href='diary.do'"/></td><td>쥬크박스 0/1</td>
+							<td>다이어리1/2</td><td>쥬크박스 0/1</td>
 						</tr>
 						<tr>
 							<td>친구 1</td><td>채팅방 1</td>
@@ -121,7 +121,7 @@
 	<div id="web_tabs">
 		<div>home</div>
 		<div>gallery</div>
-		<div>diary</div>
+		<div><a href="diary.do">diary</a></div>
 		<div>jukebox</div>
 		<div>profile</div>
 		<div>chat</div>

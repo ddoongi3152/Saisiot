@@ -42,9 +42,14 @@ $(function(){
         $("#frm").submit();
     });
     
-    //장소선택버튼 클릭이벤트
+    //장소선택 버튼 클릭이벤트
     $("#selectmap_btn").click(function(){
     	window.open('/mvc03/resources/js/map.jsp',"장소 선택","width=600, height=400")
+    });
+    
+    //동영상추가 버튼 클릭이벤트
+    $("#selectvideo_btn").click(function(){
+    	window.open('/mvc03/resources/js/video.jsp',"동영상 추가","width=300,height=100")
     });
     
     
@@ -65,6 +70,7 @@ $(function(){
 					<input type="button" name="selectmap_btn" id="selectmap_btn" value="장소 선택"/>
 					<input type="button" name="testbtn" id="testbtn" value="test"/>
 					<input type="file" name="file"/>
+					<input type="button" name="selectvideo_btn" id="selectvideo_btn" value="동영상 추가"/>
 				</td>
 			</tr>
 			<tr>
@@ -96,8 +102,8 @@ $(function(){
 		$("mapdel").remove();
 				
 		// 선택한 지도 값을 이용하여 태그 생성 (map,maplati,maplong)
-		var insTag = "<tr id='selectmap'> <th>지	도</th><td><div id='map' style='width:350px;height:350px;'></div></td></tr>";
-		$("#insertTag").before(insTag);
+		var insTag_map = "<tr id='selectmap'> <th>지	도</th><td><div id='map' style='width:350px;height:350px;'></div></td></tr>";
+		$("#insertTag").before(insTag_map);
 		
 		var maplati = "<input type='hidden' id='maplati' name='maplati' value='"+y+"'/>";
 		$("#insertTag").before(maplati);
@@ -141,6 +147,18 @@ $(function(){
 		// 인포윈도우를 지도에 표시한다
 		infowindow.open(map, marker);
 		}
+		
+	    function videoCallBack(videourl){
+	    	
+	    	$("#selectvideo").remove();
+	    	$("#videourl").remove();
+	    	
+			var insTag_video = "<tr id='selectvideo'> <th>동 영 상</th><td><iframe width='640' height='480' value='" + videourl + "'src='"+ videourl +"' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></td></tr>";
+			$("#insertTag").before(insTag_video);
+			
+			var videourl_res = "<input type='hidden' id='videourl' name='videourl' value='"+videourl+"'/>";
+			$("#insertTag").before(videourl_res);
+	    }
 		
 		
 
