@@ -8,4 +8,16 @@
 		WHERE EMAIL != #{email} AND RELATIONNO IN (SELECT RELATIONNO
 		FROM FRIENDCREATE WHERE EMAIL = #{email}))
 	</select>
+	
+	<insert id="insert_friend" parameterType="string">
+		INSERT INTO FRIENDCREATE
+		(FRIENDCRENO, EMAIL, RELATIONNO)
+		VALUES (FRIENDSEQ.NEXTVAL, #{emailFriend},RELATIONSEQ.NEXTVAL)
+	</insert>
+	
+	<insert id="insert_friend_me">
+		INSERT INTO FRIENDCREATE
+		(FRIENDCRENO, EMAIL, RELATIONNO)
+		VALUES (FRIENDSEQ.NEXTVAL, #{emailMe},RELATIONSEQ.CURRVAL)
+	</insert>
 </mapper>
