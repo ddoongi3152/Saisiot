@@ -296,14 +296,11 @@
             <version>4.1.6.RELEASE</version>
         </dependency>
         
-
-<<<<<<< HEAD
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.4</version>
 		</dependency>	    
-=======
         <!-- jackson -->
 		<dependency>
 		  <groupId>com.fasterxml.jackson.core</groupId>
@@ -320,9 +317,7 @@
 		</dependency>
 		<!--*********************lee part end******************************-->
 	</dependencies>
->>>>>>> refs/heads/master
 
-	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -360,13 +355,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-<<<<<<< HEAD
-		
-=======
-
-
-
->>>>>>> refs/heads/master
 	</build>
 
 
