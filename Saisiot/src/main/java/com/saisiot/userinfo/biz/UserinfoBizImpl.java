@@ -121,7 +121,7 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	}
 
 	@Override
-	public int friendUpdate(String email) {
+	public int selectRoom(String emailFriend, String emailMe) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
