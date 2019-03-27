@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import com.saisiot.diary.dto.DiaryDto;
+import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.common.UploadFile;
 import com.saisiot.common.FileValidator;
 import com.saisiot.common.Paging;
@@ -180,8 +182,21 @@ public class DiaryController {
 	@RequestMapping("/diary_list.do")
 	// @RequestParam(defaultValue="") ==> 기본값 할당
 	public ModelAndView diarylist(@RequestParam(defaultValue = "title") String searchOption,
-			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
+			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage,
+			HttpSession session)
 			throws Exception {
+		//lee's editing. show different friendlist depend on variable:'whos'
+		String whos = (String)session.getAttribute("whos");
+		UserinfoDto dto;
+		if(whos.equals("mine")) {
+			dto = (UserinfoDto)session.getAttribute("login");
+		}else {
+			dto = (UserinfoDto)session.getAttribute("others");
+		}
+		UserinfoDto Udto = (UserinfoDto)session.getAttribute("login");
+		
+		
+		
 		// 총 게시글 수 계산
 		int count = Dbiz.countArticle(searchOption, keyword);
 		// 페이지 나누기 관련 처리
@@ -193,6 +208,7 @@ public class DiaryController {
 		/* System.out.println("commentList="+commentList); */
 		// 데이터를 맵에 저장
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("email",Udto.getEmail());
 		map.put("commentList", commentList);//답글list 
 		map.put("list", list); // list
 		map.put("count", count); // 레코드의 갯수
@@ -208,17 +224,25 @@ public class DiaryController {
 	}
 	
 	@RequestMapping("/comment_insert")
-	@ResponseBody
-	public String insert(@ModelAttribute DiaryDto dto,@RequestParam int diaryno){
+	public String insert(@ModelAttribute DiaryDto dto,@RequestParam int diaryno,HttpSession session){
 
-		// 세션에 저장된 회원아이디를 댓글작성자에 세팅
-		//, HttpSession session
-		/*String userId = (String) session.getAttribute("userId");
-		dto.setReplyer(userId);*/
-		// 댓글 입력 메서드 호출
-		Dbiz.comment_insert_proc(dto,diaryno);
+		//세션에 저장된 회원아이디를 댓글작성자에 세팅
+		String whos = (String)session.getAttribute("whos");
+		UserinfoDto userdto;
+		if(whos.equals("mine")) {
+			userdto = (UserinfoDto)session.getAttribute("login");
+			dto.setEmail(userdto.getEmail());
+			// 댓글 입력 메서드 호출
+			Dbiz.comment_insert_proc(dto,diaryno);
+			return "redirect:diary.do";
+		}else {
+			userdto = (UserinfoDto)session.getAttribute("others");
+			dto.setEmail(userdto.getEmail());
+			// 댓글 입력 메서드 호출
+			Dbiz.comment_insert_proc(dto,diaryno);
+			return "redirect:diary.do";
+		}
 		
-		return "redirect:diary_list.do";
 	}
 	
 

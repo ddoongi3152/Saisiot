@@ -230,7 +230,7 @@ $(function(){
 									<br>
 									<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
 									<%-- <c:if test="${sessionScope.userId != null}"> --%>
-									<textarea rows="5" cols="80" class="replytext" name="content"
+									<textarea rows="5" cols="70" class="replytext" name="content"
 										placeholder="댓글을 작성해주세요"></textarea>
 									<br>
 									

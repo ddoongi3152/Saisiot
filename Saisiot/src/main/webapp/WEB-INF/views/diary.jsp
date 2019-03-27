@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@page import="java.util.List"%>
+<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +24,22 @@
 </script>
 </head>
 <body>
+	<%
+		String whos = (String) session.getAttribute("whos");
+		UserinfoDto dto;
+		if (whos.equals("mine")) {
+			dto = (UserinfoDto) session.getAttribute("login");
+		} else {
+			dto = (UserinfoDto) session.getAttribute("others");
+		}
+
+		List<String> friendList = (List<String>) session.getAttribute("friendList");
+		//UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+
+		if (dto.getAddr() == null) {
+			response.sendRedirect("user_info_plus.do");
+		}
+	%>
 	<div id="left_wrapper1">
 		<div id="left_wrapper2">
 			<div id="left_wrapper3">
@@ -100,12 +118,35 @@
 											<c:if test="${row.groupno eq cmt.groupno }">
 												<div class="diary_reply">
 													<div class="reply">
-														<div class="reply_writer">이승혜</div>
+														<div class="reply_writer">${cmt.email }</div>
 														<div class="reply_content">${cmt.content }</div>
 													</div>
 												</div>
 											</c:if>
 										</c:forEach>
+
+										<!-- 댓글 작성 영역 -->
+										<div>
+											<div>
+												<form action="${path}/mvc03/comment_insert">
+													<input type="hidden" name="groupno" value="${row.groupno }">
+													<input type="hidden" name="groupsq" value="${row.groupsq }">
+													<input type="hidden" class="diaryno" name="diaryno" value="${row.diaryno }">
+													<div style="width: 100%; text-align: center;">
+														<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
+														<%-- <c:if test="${sessionScope.userId != null}"> --%>
+														<textarea rows="2" cols="70" class="replytext"
+															name="content" placeholder="댓글을 작성해주세요"></textarea>
+														<br>
+														<button type="submit" class="btnComment">댓글 작성</button>
+														<%-- </c:if> --%>
+													</div>
+
+												</form>
+											</div>
+										</div>
+										<!-- 댓글 작성 영역 -->
+
 									</div>
 								</c:forEach>
 							</c:otherwise>
@@ -144,7 +185,7 @@
 								</c:if>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 				<!-- right_wrapper4_2 end -->
@@ -163,7 +204,10 @@
 		<div onclick="location.href='gallery.do'">gallery</div>
 		<div onclick="location.href='diary.do'">diary</div>
 		<%-- <div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'"> --%>
-		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
+		<div
+			style="display:<%=(!session.getAttribute("whos").equals("mine")) ? "none" : ""%>">
+			<a href="profile.do">profile</a>
+		</div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->

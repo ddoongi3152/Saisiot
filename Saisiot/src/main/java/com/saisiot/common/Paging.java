@@ -2,7 +2,7 @@ package com.saisiot.common;
 
 public class Paging {
 	// 페이지당 게시물 수
-	public static final int PAGE_SCALE = 5;
+	public static final int PAGE_SCALE = 3;
 	// 화면당 페이지 수
 	public static final int BLOCK_SCALE = 10;
 	private int curPage; // 현재 페이수
@@ -37,8 +37,7 @@ public class Paging {
 		// (현재페이지-1)/페이지 블록단위+1
 		// 1페이지 => 1블록 (1-1)/10 + 1 => 1
 		// 9페이지 => 1블록 (9-1)/10 + 1 => 1
-		// 11페이지 => 2블록 (11-1)/10 + 1 => 2
-		// 57페이지 => 6블록 (57-1)/10 + 1 => 6
+		
 		curBlock = (int) Math.ceil((curPage - 1) / BLOCK_SCALE) + 1;
 		// *현재 페이지 블록의 시작, 끝 번호 계산
 		// 페이지 블록의 시작번호

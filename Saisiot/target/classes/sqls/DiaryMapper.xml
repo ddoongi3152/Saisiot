@@ -7,7 +7,7 @@
 		<!-- 페이징 -->
 		<include refid="pagingHeader"></include>
 		SELECT
-		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
+		DIARYNO, FOLDERNO, EMAIL, TITLE, CONTENT, REGDATE,
 		FILEURL, PICURL, MAPNAME, MAPLATI, MAPLONG, VIDEOURL,
 		GROUPNO, GROUPSQ, ROWNUM
 		FROM DIARY
@@ -31,13 +31,13 @@
 	<select id="commentList"
 		resultType="com.saisiot.diary.dto.DiaryDto">
 		SELECT
-		DIARYNO, FOLDERNO, TITLE, CONTENT, REGDATE,
+		DIARYNO, FOLDERNO, EMAIL,TITLE, CONTENT, REGDATE,
 		FILEURL, PICURL, MAPNAME,MAPLATI, MAPLONG, VIDEOURL,
 		GROUPNO, GROUPSQ
 		FROM DIARY
 		WHERE
 		GROUPSQ >0
-		ORDER BY GROUPNO DESC, GROUPSQ
+		ORDER BY GROUPNO DESC, GROUPSQ DESC
 	</select>
 
 	<!-- 검색조건 -->
@@ -78,7 +78,7 @@
 	<!-- 댓글 입력 -->
 	<insert id="comment_insert" >
 		INSERT INTO DIARY
-		VALUES(DIARY_DIARYNOSEQ.NEXTVAL,'1',#{title},#{content},SYSDATE,
+		VALUES(DIARY_DIARYNOSEQ.NEXTVAL,'1',#{email},'comment',#{content},SYSDATE,
 		'test fileurl','testpicurl','mapname','1.1','2.2','testvideourl',
 		(SELECT GROUPNO FROM DIARY WHERE DIARYNO =#{diaryno}),
 		(SELECT GROUPSQ FROM DIARY WHERE DIARYNO =#{diaryno})+1
