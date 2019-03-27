@@ -7,6 +7,30 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/profile_mob.css">
 <link rel="stylesheet" href="resources/css/profile_web.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+
+	function update_p(){
+		var email = $("#email").val();
+		var p_picurl = $("#profile_pic").children().attr('src');
+		var p_content = $("#profile_content").val();
+		var p_title_bf = $("#p_title").val();
+		var p_title_web = $("#p_title_web").val();
+		var p_title_mob = $("#p_title_mob").val();
+		
+		if(p_title_web == p_title_mob){
+			var p_title = p_title_web;
+		}else{
+			if(p_title_web != p_title_bf){
+				var p_title = p_title_web;
+			}else{
+				var p_title = p_title_mob;
+			}
+		}
+		location.href="updateprofile.do?p_picurl="+p_picurl+"&p_content="+p_content+"&p_title="+p_title+"&email="+email;
+	}
+	
+</script>
 </head>
 <body>
 <body>
@@ -15,29 +39,27 @@
 	<div id="left_wrapper2">
 	<div id="left_wrapper3">
 	<div id="left_wrapper4">
-		<div id="left_wrapper5_1">today | total</div>
+		<div id="left_wrapper5_1">${todayCount} today | total  ${totalCount}</div>
 		<div id="left_wrapper5_2">
 		<div id="left_wrapper6">
-			<div id="mob_top">사이좋은 사람들 사이시옷</div>
+			<div id="mob_top"><input type="text" id="p_title_mob" value="${pdto.p_title }"/></div>
 			<div id="tmpdiv">|프로필|다이어리|갤러리|쥬크박스|</div>
 			<div id="profile_title">프로필 수정</div>
-			<div id="profile_pic"><img alt="profile_img" src="checkbox.PNG"></div>
-			<div id="profile_pic_edit">사진변경하기</div>
+			<div id="profile_pic"><img alt="profile_img" src=${pdto.p_picurl }></div>
+			
+			
+			<form action="update_pic.do" method="post" enctype="multipart/form-data">
+			<div id="profile_pic_edit"><input type="file" name="p_picurl">이미지 선택</div>
+			<div id="profile_pic_edit"><input type="submit">이미지 저장</div>
+			</form>
+			
 			<hr id="profile_hr1">
-			<textarea id="profile_content">
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-인생.....★ 사이좋은 사람들 사이시옷
-		</textarea>
-			<div id="profile_edit">수정완료</div>
+			<textarea id="profile_content">${pdto.p_content }</textarea>
+			<div id="profile_edit" onclick="update_p()">수정완료</div>
 			<hr id="profile_hr2">
-			<div id="owner_name">마루홍시(♪)</div>
+			<div id="owner_name">${login.username }</div>
+			<input type="hidden" id="email" value=${login.email }>
+			<input type="hidden" id="p_title" value="${pdto.p_title }">
 
 		</div>
 		</div>
@@ -56,7 +78,7 @@
 	<div id="right_wrapper2">
 	<div id="right_wrapper3">
 	<div id="right_wrapper4">
-		<div id="right_wrapper4_1">사이좋은 사람들 사이시옷</div>
+		<div id="right_wrapper4_1"><input type="text" id="p_title_web" value="${pdto.p_title }"/></div>
 
 		<!-- right_wrapper4_2: right contentbox start -->
 		<div id="right_wrapper4_2">

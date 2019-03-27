@@ -1,6 +1,7 @@
 package com.saisiot.userinfo;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.awt.print.PrinterException;
@@ -39,12 +41,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
+import com.saisiot.profile.dto.ProfileDto;
 import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
+
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 @Controller
 public class UserinfoController {
@@ -239,6 +245,10 @@ public class UserinfoController {
 				UserinfoDto dto;
 				if(whos.equals("mine")) {
 					dto = (UserinfoDto)session.getAttribute("login");
+					ProfileDto pdto = (ProfileDto)biz.select_p(dto.getEmail());
+					session.setAttribute("pdto", pdto);
+					
+					
 				}else {
 					dto = (UserinfoDto)session.getAttribute("others");
 				}
@@ -251,7 +261,7 @@ public class UserinfoController {
 		        //오늘 방문자 수
 		        int todayCount = biz.visit_today(visit_email);
 				
-		        //전체 방문자수
+		        //전체 방문자수     
 		        int totalCount = biz.visit_total(visit_email);
 		        
 		        //일주일 방문자 수 통계
@@ -303,8 +313,11 @@ public class UserinfoController {
 		
 		try {
 			int res = biz.insert(dto);
-			
+			//cheon's editing - profile basic setting
+			int res_p = biz.insert_P(dto);
+			System.out.println("프로필 기본값 주입" + res_p);
 			System.out.println(res);
+			
 			if(res>0) {
 				System.out.println("회원가입 성공");
 				out.println("<script>alert('회원가입 성공');</script>");
@@ -352,6 +365,10 @@ public class UserinfoController {
 				
 				UserinfoDto dto = new UserinfoDto(email,password,null,null,null,name,null,null,null,0,1);
 				int res = biz.kakaoinsert(dto);
+				//cheon's editing - profile basic setting
+				int res_p = biz.insert_P(dto);
+				System.out.println("프로필 기본값 주입" + res_p);
+				
 				if(res>0) {
 					System.out.println("카카오 회원가입 성공");
 			
@@ -454,6 +471,10 @@ public class UserinfoController {
 				
 				UserinfoDto dto = new UserinfoDto(email,password,null,null,null,name,null,null,null,0,1);
 				int res = biz.kakaoinsert(dto);
+				//cheon's editing - profile basic setting
+				int res_p = biz.insert_P(dto);
+				System.out.println("프로필 기본값 주입" + res_p);
+				
 				if(res>0) {
 					System.out.println("네이버 회원가입 성공");
 			
@@ -861,6 +882,43 @@ public class UserinfoController {
 
 			return "redirect:homepage.do";
 		}
+		
+		//-----------lee's editing end---------------------------------
+		
+		
+		@RequestMapping(value = "/updateprofile.do", method = { RequestMethod.GET, RequestMethod.POST })
+		public String update_p(HttpSession session, Model model, HttpServletRequest request) throws IOException {
+			
+			String email = request.getParameter("email");
+			String p_picurl = request.getParameter("p_picurl");
+			String p_content = request.getParameter("p_content");
+			String p_title = request.getParameter("p_title");
+			
+			ProfileDto pdto = new ProfileDto(email, p_picurl, p_content, p_title);
+			
+			int res = biz.update_p(pdto);
+			
+			if(res > 0) {
+				System.out.println("회원 정보 수정 완료");
+			}
+			
+			return "redirect:homepage.do";
+		}
+		
+		@RequestMapping(value = "/update_pic.do", method = { RequestMethod.POST })
+		public String update_pic(HttpSession session, Model model, HttpServletRequest request) {
+			ServletContext context = getServletContext();
+			
+			MultipartRequest multi = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
+
+			
+
+			String dd = request.getParameter("p_picurl");
+			System.out.println(dd + "아쓔아쓔");
+			
+			return "redirect:homepage.do";
+		}
+		
 	
 } 
 

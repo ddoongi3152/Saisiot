@@ -19,7 +19,7 @@
 /*---------------------mobile-version----------------------*/
 @media screen and (max-width: 768px){
 	body{
-		background-image: url("checkbox.PNG");
+		background-image: url("img/checkbox.PNG");
 		display: flex;
 		align-items: center;
 		flex-direction: column;
@@ -150,6 +150,7 @@
     width: 50%;
     display: flex;
     justify-content: flex-end;
+    cursor: pointer;
 	}
 	#profile_hr2{
     display: none;

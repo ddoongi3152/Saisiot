@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.saisiot.profile.dto.ProfileDto;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
 public interface UserinfoBiz {
@@ -26,6 +27,7 @@ public interface UserinfoBiz {
 	public int snscomback(UserinfoDto dto);
 	public int userinfoplus(UserinfoDto dto);
 
+	//-------cheon's editing---------------------
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email);
 	// 방문시, 방문자수 +1
@@ -36,7 +38,13 @@ public interface UserinfoBiz {
 	public int visit_total(Map visit_email);
 	// 일주일 간 방문자 수
 	public List<Object> visit_weekdata(Map visit_email);
-	
+	// profile basic setting when register
+	public int insert_P(UserinfoDto dto);
+	// profile update 
+	public int update_p(ProfileDto Pdto);
+	// prifile info select
+	public ProfileDto select_p(String email);
+	//-------cheon's editing end------------------
 
 	public int coinupdate(UserinfoDto dto);
 

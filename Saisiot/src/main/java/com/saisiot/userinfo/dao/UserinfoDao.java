@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.saisiot.profile.dto.ProfileDto;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
 
@@ -54,5 +55,11 @@ public interface UserinfoDao {
 	public int coinupdate(UserinfoDto dto);
 
 	//------------------lee's editing end
+	
+	//cheon's editing-------
+	public int insert_P(UserinfoDto dto);
+	public int update_p(ProfileDto pdto);
+	public ProfileDto select_p(String email);
+	//cheon's editing end ---
 
 }
