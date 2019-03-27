@@ -2,15 +2,25 @@ package com.saisiot.userinfo.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class UserinfoDto {
 	
 	private String email;
 	private String password;
 	private String gender;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date joindate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthdate;
 	private String username;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date visitdate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pwdate;
 	private String addr;
 	private int coinno;
