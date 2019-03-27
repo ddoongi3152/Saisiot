@@ -202,6 +202,7 @@
 	}
 	#right_wrapper4_2{/*inner_whitebox*/
 		order:2;
+		overflow-y: auto;
 		padding: 10px;
 		background-color: #ffffff;
 		border-radius : 10px;

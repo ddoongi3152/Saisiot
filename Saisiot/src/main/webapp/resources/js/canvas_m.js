@@ -22,14 +22,7 @@ var eventObject = {
 
 var fixedX = -128;
 var fixedY = -102;
-/* 
-$(window).resize(function(){
-	eventObject.x = -$("#canvas").offset().left;
-	eventObject.y = -$("#canvas").offset().top;
-	fixedX = -$("#canvas").offset().left;
-	fixedY = -$("#canvas").offset().top;
-})
-*/
+
 // 초기화
 $(document).ready(function() {
  
@@ -43,6 +36,13 @@ $(document).ready(function() {
 		 $("#selectColor").change(function() {
 			var selectColor = $("#selectColor").val();
 			
+			picture.context.strokeStyle = selectColor;
+			picture.context.beginPath();
+			picture.context.stroke();
+		})
+		$(".color > div").click(function() {
+			var idx = $(".color > div").index(this);
+			var selectColor = $(".color > div:eq("+idx+")").attr("id");
 			picture.context.strokeStyle = selectColor;
 			picture.context.beginPath();
 			picture.context.stroke();

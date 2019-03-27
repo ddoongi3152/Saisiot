@@ -41,8 +41,8 @@
 
 
 </script>
-<link rel="stylesheet" href="resources/css/jukebox_web.css">
-<link rel="stylesheet" href="resources/css/jukebox_mob.css">
+<link rel="stylesheet" href="resources/css/jukebox_web.css?ver=1">
+<link rel="stylesheet" href="resources/css/jukebox_mob.css?ver=1">
 <title>Insert title here</title>
 </head>
 <body>
@@ -59,7 +59,14 @@
 		<div id="left_wrapper6">
 			<div id="mob_top">사이좋은 사람들 사이시옷</div>
 			<div id="tmpdiv">|프로필|다이어리|갤러리|쥬크박스|</div>
-			<div id="music_list_drop" checked="true">아이유-나만 몰랐던 이야기</div>
+			<c:choose>
+				<c:when test="${empty jukelist }">
+					<div id="music_list_drop" checked="true">노래 목록이 없습니다.</div>
+				</c:when>
+				<c:otherwise>
+					<div id="music_list_drop" checked="true">${jukelist[0].musictitle }</div>
+				</c:otherwise>
+			</c:choose>
 			<form id="updateBackForm" action="updateBack.do" method="post">
 			<input type="hidden" name="email" value="<%=dto.getEmail()%>">
 			<div id="music_list_div">

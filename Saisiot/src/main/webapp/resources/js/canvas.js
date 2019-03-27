@@ -40,6 +40,13 @@ $(document).ready(function() {
 			picture.context.beginPath();
 			picture.context.stroke();
 		})
+		$(".color > div").click(function() {
+			var idx = $(".color > div").index(this);
+			var selectColor = $(".color > div:eq("+idx+")").attr("id");
+			picture.context.strokeStyle = selectColor;
+			picture.context.beginPath();
+			picture.context.stroke();
+		})
 	})
 })
  
@@ -130,7 +137,6 @@ function drawLine(e){
  
 // setBeforeXY 에서 세팅한 좌표부터 현재 좌표까지 사각형을 그림
 function drawRect(e){
- 
  var g = picture.context;
  g.rect(eventObject.x, eventObject.y, (e.x+fixedX)-eventObject.x, (e.y+fixedY)-eventObject.y);
  g.stroke();

@@ -43,7 +43,13 @@
 			e.preventDefault();
 			$("#img").click();
 	  	})
+	  	
 	});
+	
+
+  	window.onresize = function() {
+		document.location.reload();
+	}
 
 
 </script>
