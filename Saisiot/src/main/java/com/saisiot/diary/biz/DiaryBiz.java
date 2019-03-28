@@ -7,10 +7,13 @@ import com.saisiot.diary.dto.DiaryRootDto;
 
 public interface DiaryBiz {
 
-	public DiaryDto selectOne(int diaryno);
 	public int insert(DiaryDto dto);
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
+	//폴더 추가
+	public void folder_insert(DiaryRootDto dto);
+	//폴더 리스트
+	public List<DiaryRootDto> folderList();
 
 	// 게시글 전체 목록 ==> 검색옵션, 키워드 매개변수 추가
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
@@ -21,12 +24,10 @@ public interface DiaryBiz {
 	//댓글 리스트
 	public List<DiaryDto> commentList();
 	
-	//
+	//댓글 업뎃&작성
 	public void comment_insert_proc(DiaryDto dto,int diaryno);
-	
+	//댓글 삭제
 	public void comment_delete(DiaryDto dto);
 	
-	public void folder_insert(DiaryRootDto dto);
-	public List<DiaryRootDto> folderList();
 	
 }

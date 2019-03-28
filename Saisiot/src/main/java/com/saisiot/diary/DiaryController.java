@@ -206,13 +206,6 @@ public class DiaryController {
 		return bytes;
 	}
 
-	@RequestMapping(value = "/diaryDetail.do", method = { RequestMethod.POST, RequestMethod.GET })
-	public String diaryDetail(@RequestParam int diaryno, Model model) {
-
-		model.addAttribute("dto", Dbiz.selectOne(diaryno));
-
-		return "diary_detail";
-	}
 
 	//게시판 목록
 	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
@@ -245,5 +238,38 @@ public class DiaryController {
 	      mav.setViewName("diary"); // 뷰를 list.jsp로 설정
 	      return mav; // list.jsp로 List가 전달된다.
 	   }
+	
+	//comment_insert
+	@RequestMapping("/comment_insert")
+	public String insert(@ModelAttribute DiaryDto dto,@RequestParam int diaryno,HttpSession session){
+
+		//세션에 저장된 회원아이디를 댓글작성자에 세팅
+		String whos = (String)session.getAttribute("whos");
+		UserinfoDto userdto;
+		if(whos.equals("mine")) {
+			userdto = (UserinfoDto)session.getAttribute("login");
+			dto.setEmail(userdto.getEmail());
+			// 댓글 입력 메서드 호출
+			Dbiz.comment_insert_proc(dto,diaryno);
+			return "redirect:diary.do";
+		}else {
+			userdto = (UserinfoDto)session.getAttribute("others");
+			dto.setEmail(userdto.getEmail());
+			// 댓글 입력 메서드 호출
+			Dbiz.comment_insert_proc(dto,diaryno);
+			return "redirect:diary.do";
+		}
+		
+	}
+	
+	//comment_delete
+	@RequestMapping("/comment_delete")
+	public String comment_delete(@ModelAttribute DiaryDto dto) {
+		Dbiz.comment_delete(dto);
+		
+		return "redirect:diary.do";
+	}
+	
+	
 
 }
