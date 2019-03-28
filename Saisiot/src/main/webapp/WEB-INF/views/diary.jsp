@@ -50,10 +50,21 @@
 							<div id="mob_top">사이좋은 사람들 사이시옷</div>
 							<div id="tmpdiv">|프로필|다이어리|갤러리|쥬크박스|</div>
 							<div id="folder_list_div">
-								<ul>
-									<li><a>전체보기</a></li>
-									<li><a>20190303강릉</a></li>
-									<li><a>20190311태국</a></li>
+								<ul >
+									<li><a>전체보기</a>
+									<a href='javascript:void(0);'
+									 onclick="insert_Folder();"> 폴더 추가</a></li>
+									<li><a href="#">ㅁㅁㅁㅁㅁ</a></li>
+									<%-- <c:choose>
+                              <c:when test="${empty map.folderList }">
+                                 <li><p>폴더를 생성해주세요.</p></li>
+                              </c:when>
+                              <c:otherwise>
+                                 <c:forEach var="list" items="${map.folderList }">
+                                    <li><a href="#">${list.foldername }</a></li>
+                                 </c:forEach>
+                              </c:otherwise>
+                           </c:choose> --%>
 								</ul>
 							</div>
 						</div>
@@ -78,7 +89,7 @@
 					<!-- right_wrapper4_2: right contentbox start -->
 					<div id="right_wrapper4_2">
 						<!-- search option  -->
-						<div class="diary_search">
+						<div id="diary_search">
 							<form name="form1" method="post" action="${path}/mvc03/diary.do">
 								<select name="searchOption">
 									<!-- 검색조건을 검색처리후 결과화면에 보여주기위해  c:out 출력태그 사용, 삼항연산자 -->
@@ -114,9 +125,10 @@
 										<div class="diary_content">${row.content }</div>
 
 										<!-- comment area -->
-										<c:forEach var="cmt" items="${map.commentList}">
-											<c:if test="${row.groupno eq cmt.groupno }">
-												<div class="diary_reply">
+
+										<div class="diary_reply">
+											<c:forEach var="cmt" items="${map.commentList}">
+												<c:if test="${row.groupno eq cmt.groupno }">
 													<div class="reply">
 														<div class="reply_writer">${cmt.email }</div>
 														<div class="reply_content">${cmt.content }</div>
@@ -126,9 +138,9 @@
 															<input type="button" value="삭제" onclick="location.href='comment_delete?diaryno=${cmt.diaryno}'">
 														</div>
 													</div>
-												</div>
-											</c:if>
-										</c:forEach>
+												</c:if>
+											</c:forEach>
+										</div>
 
 										<!-- 댓글 작성 영역 -->
 										<div>
