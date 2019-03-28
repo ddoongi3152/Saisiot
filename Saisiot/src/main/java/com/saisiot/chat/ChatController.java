@@ -26,19 +26,30 @@ public class ChatController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
 	
-	@Autowired
-	UserinfoBiz biz;
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+/*	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "home";
+	}*/
 	
 	@RequestMapping(value="/chat.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String chat(Model model, HttpSession session) {
 		
 		UserinfoDto dto = (UserinfoDto) session.getAttribute("login");
-		List<UserinfoDto> friendList = biz.selectFriendList(dto.getEmail());
-		session.setAttribute("friendList", friendList);
+		session.setAttribute("login", dto);
+		
 		return "chat";
 	}
 	
-	
-
-
 }
