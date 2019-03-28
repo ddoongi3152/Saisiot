@@ -6,11 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.InvalidTransactionException;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.saisiot.userinfo.dto.UserinfoDto;
 
@@ -188,6 +196,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return list;
 	}
 
+
 	@Override
 	public int comebackuser(UserinfoDto dto) {
 	System.out.println("계정 복귀");
@@ -300,22 +309,25 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		System.out.println("UserDao: selectList_friend"+friendList.get(0));
 		return null;
 	}
+	
+	@Transactional
+	@Override
+	public int friendInsert(String emailFriend, String emailMe) {
+		
+			int res0 = sqlSession.insert("friend."+"insert_before");
+			int res1 = sqlSession.insert("friend."+"insert_friend", emailFriend);
+			int res2 = sqlSession.insert("friend."+"insert_friend_me", emailMe);
+		
+		return res1*res2;
+		
+	}
 
 	@Override
-	public int friendInsert(String email1, String email2) {
+	public int selectRoom(String emailFriend, String emailMe) {
 		
-		String[] emails = {email1, email2};
-		
-		int res = sqlSession.insert(NAMESPACE+"selectList_friend", emails);
+			int res = 0;
 		return res;
 	}
-
-	@Override
-	public int friendUpdate(String email) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub

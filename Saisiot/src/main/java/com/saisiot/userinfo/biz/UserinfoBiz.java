@@ -54,11 +54,15 @@ public interface UserinfoBiz {
 	// 일주일 간 방문자 수
 	public List<Object> visit_weekdata(Map visit_email);
 	
+
+	public int coinupdate(UserinfoDto dto);
+
 	//-------lee's editing---------------------
 	public List<UserinfoDto> selectFriendList(String email);
 	public String selectFriendOne(String email);
-	public int friendInsert(String email1, String email2);
-	public int friendUpdate(String email);
+	public int friendInsert(String emailFriend, String emailMe);
+	public int selectRoom(String emailFriend, String emailMe);
 	public int friendDelete(String email);
+
 	
 }

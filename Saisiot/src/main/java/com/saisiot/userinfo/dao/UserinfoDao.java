@@ -51,8 +51,8 @@ public interface UserinfoDao {
 	
 	public List<UserinfoDto> selectFriendList(String email);
 	public List<UserinfoDto> selectFriendDto(List<String> friendList);
-	public int friendInsert(String email1, String email2);
-	public int friendUpdate(String email);
+	public int friendInsert(String emailFriend, String emailMe);
+	public int selectRoom(String emailFriend, String emailMe);
 	public int friendDelete(String email);
 
 	//유정
