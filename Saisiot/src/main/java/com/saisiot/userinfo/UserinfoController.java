@@ -5,9 +5,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -49,6 +46,7 @@ import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
+import com.saisiot.userinfo.security.SHA256;
 
 import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
@@ -95,7 +93,7 @@ public class UserinfoController {
 
 	}
 	
-	//비상용
+	// 아이디 1개 선택할 경우
 	@RequestMapping(value = "/select.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String select(Model model, String email) {
 
@@ -165,7 +163,7 @@ public class UserinfoController {
 	@RequestMapping(value= "/logingo.do", method = {RequestMethod.POST})
 	public String login(String email, @RequestParam("pw") String password, HttpSession session, HttpServletResponse response) throws IOException {
       //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
-      session.setAttribute("whos", "mine");	
+		session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		response.setContentType("text/html; charset=UTF-8");
@@ -174,13 +172,40 @@ public class UserinfoController {
 		System.out.println("+++++++++++++++++++");
 		System.out.println(email);
 		System.out.println(password);
-		
-		UserinfoDto dto = biz.login(email, password);
-		
+			
 		if(session.getAttribute("login")!=null) {
 			session.removeAttribute("login");
 		}
-		
+			// 관리자
+		if(email.equals("admin")) {
+			try {
+				UserinfoDto dto = biz.login(email,password);
+				session.setAttribute("login", dto);
+				System.out.println("관리자 로그인");
+				returnURL = "redirect:homepage.do";
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("관리자 로그인 실패");
+				returnURL = "redirect:login.do";
+			}
+			
+			// 비밀번호 초기화 대상자 비밀번호 변경 시도
+		}else if(password.equals("123456789")){
+			
+			try {
+				UserinfoDto dto = biz.login(email,password);
+				System.out.println("비밀번호 초기화 대상자 비밀번호 변경 페이지로 이동 시도");
+				System.out.println(dto.getEmail()+ dto.getPassword());
+				session.setAttribute("login", dto);
+				returnURL = "redirect:pass_reset.do";
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("비밀번호 초기화 대상자 비밀번호 변경 페이지로 이동 시도 실패");
+				returnURL = "redirect:login.do";
+			}
+			
+		}else {
+	
 		try {
 			if(dto.getEmail().equals(email) && dto.getPassword().equals(password)) {
 				System.out.println("------------로그인 성공-------------");	
@@ -245,10 +270,6 @@ public class UserinfoController {
 				UserinfoDto dto;
 				if(whos.equals("mine")) {
 					dto = (UserinfoDto)session.getAttribute("login");
-					ProfileDto pdto = (ProfileDto)biz.select_p(dto.getEmail());
-					session.setAttribute("pdto", pdto);
-					
-					
 				}else {
 					dto = (UserinfoDto)session.getAttribute("others");
 				}
@@ -270,9 +291,9 @@ public class UserinfoController {
 		        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
 		        
 		        session.setAttribute("todayCount", todayCount);
-		        session.setAttribute("totalCount",totalCount);
+		        session.setAttribute("todayCount", todayCount);
 		        session.setAttribute("week_visit_date", week_visit_date);
-				
+		        
 				String email  = dto.getEmail();
 				List<UserinfoDto> friendList = biz.selectFriendList(email);
 				

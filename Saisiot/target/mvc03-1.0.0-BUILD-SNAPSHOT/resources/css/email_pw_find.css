@@ -1,0 +1,71 @@
+	#find{
+		border-top: 2px solid red; border-bottom: 2px solid blue; border-left: 2px solid green; border-right: 2px solid yellow;
+	}
+	
+	body {
+	  background: #56B3D5;
+	  /* font-size: 62.5%; */
+	}
+	
+	.container {
+	  padding: 2em;
+	}
+	
+	/* GENERAL BUTTON STYLING */
+	button,
+	button::after {
+	  -webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+	  -o-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+	
+	button {
+	  background: none;
+	  border: 3px solid #fff;
+	  border-radius: 5px;
+	  color: #fff;
+	  display: block;
+	  font-size: 1.0em;
+	  font-weight: bold;
+	  margin: 1em auto;
+	  padding: 1em 1.5em;
+	  position: relative;
+	  text-transform: uppercase;
+	}
+	
+	button::before,
+	button::after {
+	  background: #fff;
+	  content: '';
+	  position: absolute;
+	  z-index: -1;
+	}
+	
+	button:hover {
+	  color: #2ecc71;
+	}
+		
+	
+	.btn::before {
+	  height: 100%;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	}
+	
+	.btn::after {
+	  background: #2ecc71;
+	  height: 100%;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	}
+	
+	.btn:hover:after {
+	  height: 0;
+	  left: 50%;
+	  top: 50%;
+	  width: 0;
+	}
+	

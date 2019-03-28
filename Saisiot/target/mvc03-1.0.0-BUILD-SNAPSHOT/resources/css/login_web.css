@@ -1,0 +1,170 @@
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+	border-radius: 2px;
+
+}
+/*---------------------web-version----------------------*/
+@media ( min-width: 450px ) {
+	body{
+		background-image: url("checkbox.PNG");
+		padding: 14px;
+		display: flex;
+		align-items: flex-start;
+	}
+	#left_wrapper1{
+    flex: 0 0 auto;
+		order : 2;
+		background-color: #56B3D5;
+		border-radius : 10px 15px 15px 10px;
+		border: 0.5px solid #000100;
+		width: 400px;
+		height: 800px;
+	}
+	#left_wrapper2{
+		margin: 8px;
+		border-radius : 10px 15px 15px 10px;
+		border: 1px dashed #ffffff;
+		width: 95%;
+		height: 97%;
+	}
+	#left_wrapper3{
+		margin: 5px;
+		border-radius : 10px 15px 15px 10px;
+		border-right: 0;
+		background-color: #f2f2f2;
+		border: 1px solid black;
+		width: 96%;
+		height: 99%;
+	}
+	#left_wrapper4{
+		margin-top: 3px;
+		display: flex;
+		align-items: center;
+    justify-content: space-around;
+		flex-direction: column;
+		border-radius : 10px 15px 15px 10px;
+		background-color: #ffffff;
+		width: 99%;
+		height: 99%;
+	}
+  #left_wrapper5_1{
+    order: 1;
+    height: 35%;
+  }
+  #left_wrapper5_2{
+    order:2;
+    height: 60%;
+  }
+	#left_wrapper5_1, #left_wrapper5_2{
+		background-color: #EBEBE9;
+		border-radius : 10px;
+		width: 94%;
+		border: 1px solid #7B7B7B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	}
+	#left_wrapper6_1, #left_wrapper6_2{
+		background-color: #ffffff;
+		margin: 8px;
+		border-radius : 10px;
+		width: 96%;
+		height: 95%;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	}
+	#left_wrapper6_1>form, #left_wrapper6_2>form{
+		background-color: #ffffff;
+		margin: 8px;
+		border-radius : 10px;
+		width: 96%;
+		height: 95%;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	}
+  #regist_email_input{
+    display: flex;
+  }
+  #login_apis{
+    display: flex;
+    background-color: #e2cccc;
+  }
+	/*--- left_wrappers end--- */
+
+
+
+	/*---right_wrapper start---*/
+	#right_wrapper1{
+		order : 1;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+		background-color: #56B3D5;
+		border-radius : 15px 10px 10px 15px;
+		border: 0.5px solid #000100;
+		width: 800px;
+		height: 800px;
+	}
+	#right_wrapper2{
+		margin: 8px;
+		border-radius : 15px 10px 10px 15px;
+		border: 1px dashed #ffffff;
+		width: 98%;
+		height: 97%;
+	}
+	#right_wrapper3{
+		margin-top: 5px;
+		border-radius : 10px 15px 15px 10px;
+		background-color: #f2f2f2;
+		border: 1px solid black;
+		width: 99%;
+		height: 99%;
+	}
+	#right_wrapper4{
+		display: flex;
+		flex-direction: column;
+		margin-top: 3px;
+		margin-left: 3px;
+		border-radius : 10px 15px 15px 10px;
+		background-color: #EEEEEE;
+		width: 99%;
+		height: 99%;
+	}
+	#right_wrapper4_2{
+		order:2;
+    margin-left: 3px;
+		overflow-y: auto;
+		background-color: #ffffff;
+		border-radius : 10px;
+		width: 99%;
+		height: 99%;
+		border: 1px solid #7B7B7B;
+		float: left;
+		box-shadow: 2px 2px #C2C2C2;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+
+	/*---right_wrappers end---*/
+
+
+
+/*---------------------web-version end----------------------*/
