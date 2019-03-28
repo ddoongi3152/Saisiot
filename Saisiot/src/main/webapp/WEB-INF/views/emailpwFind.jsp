@@ -14,7 +14,7 @@
 		
 		<div>
 			<div align="center" id="find" class="container">
-				<label>EMAIL찾기</label>
+				<label>비밀번호 찾기</label>
 				<input type="text" id="mail" placeholder="메일을 입력해주세요"/>
 				<button id="button" class="btn" onclick="find();">입력</button>		
 				<span id="yourinformation"></span>

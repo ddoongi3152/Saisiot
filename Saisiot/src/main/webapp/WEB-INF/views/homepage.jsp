@@ -44,7 +44,6 @@
 	}
 	
 	List<String> friendList = (List<String>)session.getAttribute("friendList");
-	//UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
 	
 	if(dto.getAddr() == null){
 		response.sendRedirect("user_info_plus.do");

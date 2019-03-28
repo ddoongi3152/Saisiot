@@ -43,7 +43,7 @@
 					<label>EMAIL</label>
 						<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요">
 					<label>PASSWORD</label>
-						<input type="text" id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
+						<input type="password" id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
 					<!-- <div id="login_apis"> -->
 					
 				
@@ -73,10 +73,10 @@
 					<label>EMAIL</label>
 						<input type="text" id="insertemail" name="email" placeholder="이메일을 입력해주세요" readonly="readonly" onclick="mailcon();"/>					
 					<label>PASSWORD</label>			
-						<input type="text" id="insertpassword" name="password" placeholder="비밀번호를 입력해주세요" onchange="pwchk();">
+						<input type="password" id="insertpassword" name="password" placeholder="비밀번호를 입력해주세요" onchange="pwchk();">
 						<span id="same01"></span>
 					<label>PASSCHECK</label>
-						<input type="text" id="insertpasswordchk" placeholder="비밀번호를 다시 입력해주세요" onchange="pwchk();">
+						<input type="password" id="insertpasswordchk" placeholder="비밀번호를 다시 입력해주세요" onchange="pwchk();">
 						<span id="same02"></span>
 					<label>GENDER</label>		
 						<div>

@@ -12,23 +12,39 @@ public interface UserinfoDao {
 	String NAMESPACE="userinfo.";
 	
 	public List<UserinfoDto> selectList();
+	
+	// 아이디 1개 선택할 경우
 	public UserinfoDto selectOne(String email);
 	public int insert(UserinfoDto dto);
 	public int update(UserinfoDto dto);
-	public int delete(String eamil);
+	// 유저 삭제
+	public int delete(String email);
+	// 로그인
 	public UserinfoDto login(String email, String password);
+	// 소셜로그인
 	public UserinfoDto kakaologin(String email, String password, String name);
+	// 소셜 로그인 회원가입
 	public int kakaoinsert(UserinfoDto dto);
+	// 마지막 로그인 시간 업데이트
 	public int lastloginupdate(UserinfoDto dto);
+	// 이메일 중복 체크
 	public UserinfoDto emailcheck(String email);
+	// 이메일 -> 비밀번호 초기화
 	public UserinfoDto emailpwfind(String email);
+	// 비밀번호 변경
 	public int passupdate(UserinfoDto dto);
+	// 휴면계정으로 전환
 	public int longupdate(UserinfoDto dto);
+	// 휴면계정 대상자 찾기
 	public List<UserinfoDto> longuser();
-
+	// 복귀 계정 비밀번호 변경 및 상태변경
 	public int comebackuser(UserinfoDto dto);
+	// 소셜 복귀계정 상태변경
 	public int snscomback(UserinfoDto dto);
+	// 소셜 로그인 유저 추가정보 입력
 	public int userinfoplus(UserinfoDto dto);
+	// 비밀번호 초기화 유저 비밀번호 변경
+	public int passreset(UserinfoDto dto);
 
 
 	//-----------------lee's editing
