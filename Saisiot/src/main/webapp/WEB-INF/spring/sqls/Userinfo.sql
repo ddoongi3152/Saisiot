@@ -1,95 +1,99 @@
 
 CREATE TABLE USERINFO (
-	email	varchar2(100)		NOT NULL,
-	password	varchar2(100)		NULL,
-	gender	varchar2(1)		NULL,
-	joindate	date		NULL,
-	birthdate	date		NULL,
-	username	varchar2(100)		NULL,
-	visitdate	date		NULL,
-	pwdate	date		NULL,
-	addr	varchar2(500)		NULL,
-	coinno	number		NULL,
-	usercondition	number		NULL
+	email varchar2(100)	PRIMARY KEY NOT NULL,
+	password varchar2(100) NULL,
+	gender varchar2(1) NULL,
+	joindate date NULL,
+	birthdate date NULL,
+	username varchar2(100) NULL,
+	visitdate date NULL,
+	pwdate date NULL,
+	addr varchar2(500) NULL,
+	coinno number NULL,
+	usercondition number(1) NULL
 );
 
+INSERT INTO USERINFO VALUES('admin','1234','M', SYSDATE, '1994-05-02', '최승언', SYSDATE, SYSDATE, '경기도 수원시', 1000000, 0);
+
+DROP TABLE DIARY;
 
 CREATE TABLE DIARY (
-	diaryno	number		NOT NULL,
-	folderno	number		NOT NULL,
-	email	varchar2(100)		NOT NULL,
-	title	varchar2(1000)		NULL,
-	content	varchar2(3000)		NULL,
-	regdate	date		NULL,
-	fileurl	varchar2(3000)		NULL,
-	picurl	varchar2(3000)		NULL,
-	mapname	varchar2(1000)		NULL,
-	maplati	number		NULL,
-	maplong	number		NULL,
-	videourl	varchar2(3000)		NULL,
-	groupno	number		NULL,
-	groupsq	number		NULL
+	diaryno number NOT NULL,
+	folderno number NOT NULL,
+	email varchar2(100) NOT NULL,
+	title varchar2(1000) NULL,
+	content varchar2(3000) NULL,
+	regdate date NULL,
+	fileurl varchar2(3000) NULL,
+	picurl varchar2(3000) NULL,
+	mapname varchar2(1000) NULL,
+	maplati number NULL,
+	maplong number NULL,
+	videourl varchar2(3000)	NULL,
+	groupno number NULL,
+	groupsq number NULL
 );
 
 
 CREATE TABLE MUSIC (
-	musicno	number		NOT NULL,
-	email	varchar2(100)		NOT NULL,
-	singer	varchar2(500)		NULL,
-	musictitle	varchar2(500)		NULL,
-	runtime	varchar2(100)		NULL,
-	musicalbum	varchar2(500)		NULL,
-	background	varchar2(1)		NOT NULL
+	musicno number NOT NULL,
+	email varchar2(100) NOT NULL,
+	singer varchar2(500) NULL,
+	musictitle varchar2(500) NULL,
+	runtime varchar2(100) NULL,
+	musicalbum varchar2(500) NULL,
+	background varchar2(1) NOT NULL
 );
 
 CREATE TABLE VISIT (
-	email	varchar2(100)		NOT NULL,
-	v_email	varchar2(100)		NOT NULL,
-	v_date	date		NOT NULL
+	email varchar2(100) NOT NULL,
+	v_email varchar2(100) NOT NULL,
+	v_date date NOT NULL
 );
 
 
 CREATE TABLE CHAT (
-	chatno	number		NOT NULL,
-	chatrmno	number		NOT NULL,
-	chattext	varchar2(500)		NULL,
-	chatdate	date		NULL
+	chatno number NOT NULL,
+	chatrmno number NOT NULL,
+	chattext varchar2(500) NULL,
+	chatdate date NULL
 );
 
 
 CREATE TABLE FRIENDCREATE (
-	friendcreno	number		NOT NULL,
-	email	varchar2(100)		NOT NULL,
-	relationno	number		NOT NULL
+	friendcreno number NOT NULL,
+	email varchar2(100) NOT NULL,
+	relationno number NOT NULL
 );
 
 
 CREATE TABLE CHATCREATE (
-	chatcreno	number		NOT NULL,
-	chatrmno	number		NOT NULL,
-	email	varchar2(100)		NOT NULL
+	chatcreno number NOT NULL,
+	chatrmno number NOT NULL,
+	email varchar2(100) NOT NULL
 );
 
 
 CREATE TABLE CHATROOM (
-	chatrmno	number		NOT NULL
+	chatrmno number NOT NULL
 );
 
 
 CREATE TABLE DIARYROOT (
-	folderno	number		NOT NULL,
-	email	varchar2(100)		NOT NULL,
-	foldername	varchar2(100)		NULL,
-	foldersq	number		NULL
+	folderno number NOT NULL,
+	email varchar2(100) NOT NULL,
+	foldername varchar2(100) NULL,
+	foldersq number NULL
 );
 
 
 
 CREATE TABLE HOMEINFO (
-	email	varchar2(100)		NOT NULL,
-	p_picurl	varchar2(500)		NOT NULL,
-	p_content	varchar2(500)		NULL,
-	p_title	varchar2(500)		NULL
+
+	email varchar2(100) NOT NULL,
+	p_picurl varchar2(500) NOT NULL,
+	p_content varchar2(500) NULL,
+	p_title varchar2(500) NULL
 );
 
 ALTER TABLE USERINFO ADD CONSTRAINT PK_USERINFO PRIMARY KEY (

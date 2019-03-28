@@ -101,6 +101,11 @@ public class UserinfoBizImpl implements UserinfoBiz {
 		// TODO Auto-generated method stub
 		return dao.longuser();
 	}
+	@Override
+	public int passreset(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.passreset(dto);
+	}
 	
 	//---lee's editing-------------------------------------------------
 	@Override
@@ -118,12 +123,6 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	public int friendInsert(String emailFriend, String emailMe) {
 		// TODO Auto-generated method stub
 		return dao.friendInsert(emailFriend, emailMe);
-	}
-
-	@Override
-	public int selectRoom(String emailFriend, String emailMe) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -187,6 +186,17 @@ public class UserinfoBizImpl implements UserinfoBiz {
 		return dao.userinfoplus(dto);
 	}
 
+	@Override
+	public int update_personal(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.update_personal(dto);
+	}
+
+	@Override
+	public int selectRoom(String emailFriend, String emailMe) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	
 	

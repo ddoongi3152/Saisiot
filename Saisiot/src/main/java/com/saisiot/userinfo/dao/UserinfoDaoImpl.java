@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.InvalidTransactionException;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -156,9 +152,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public UserinfoDto emailpwfind(String email) {
 				
-		/*Map<String, Object> map = new HashMap<String, Object>();
-		map.put("birthday", birthday);
-		map.put("name", name);*/
 		UserinfoDto dto = new UserinfoDto(email);
 	
 		return sqlSession.selectOne(NAMESPACE + "emailpwfind" ,dto);
@@ -230,6 +223,19 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return res;
 	}
+	
+	
+	@Override
+	public int passreset(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "passreset", dto);
+		
+		return res;
+	}
+
+	
 
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
@@ -304,7 +310,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public int friendInsert(String emailFriend, String emailMe) {
 		
-			int res0 = sqlSession.insert("friend."+"insert_before");
 			int res1 = sqlSession.insert("friend."+"insert_friend", emailFriend);
 			int res2 = sqlSession.insert("friend."+"insert_friend_me", emailMe);
 		
@@ -312,12 +317,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 	}
 
-	@Override
-	public int selectRoom(String emailFriend, String emailMe) {
-		
-			int res = 0;
-		return res;
-	}
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
@@ -336,5 +335,19 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 
 	}
+	
+	@Override
+	public int update_personal(UserinfoDto dto) {
+		System.out.println("개인정보 수정");
+		
+		int res = sqlSession.update(NAMESPACE+"updatePersonal",dto);
+		return res;
+	}
 	//seo's editing end---------------------
+
+	@Override
+	public int selectRoom(String emailFriend, String emailMe) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
