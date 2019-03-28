@@ -8,7 +8,7 @@
 				alert("생년월일을 입력해주세요");
 			}else{
 			
-			alert(mail);
+			//alert(mail);
 			
 			$.ajax({
 			

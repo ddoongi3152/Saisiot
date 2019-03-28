@@ -101,6 +101,11 @@ public class UserinfoBizImpl implements UserinfoBiz {
 		// TODO Auto-generated method stub
 		return dao.longuser();
 	}
+	@Override
+	public int passreset(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.passreset(dto);
+	}
 	
 	//---lee's editing-------------------------------------------------
 	@Override
@@ -192,7 +197,6 @@ public class UserinfoBizImpl implements UserinfoBiz {
 		// TODO Auto-generated method stub
 		return dao.update_personal(dto);
 	}
-
 
 	
 	

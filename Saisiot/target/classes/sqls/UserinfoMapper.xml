@@ -63,7 +63,7 @@
    
    <update id="passupdate" parameterType="UserinfoDto">
       UPDATE USERINFO
-      SET PASSWORD = (123456789) WHERE EMAIL=#{email}
+      SET PASSWORD = 123456789 WHERE EMAIL=#{email}
    </update>
    
    <select id="emailcheck" parameterType="String" resultType="UserinfoDto">
@@ -97,6 +97,11 @@
 		UPDATE USERINFO
       	SET GENDER =#{gender}, ADDR =#{addr} WHERE EMAIL=#{email}	
 	</update>
+	
+	<update id="passreset" parameterType="UserinfoDto">
+      UPDATE USERINFO
+      SET PASSWORD=#{password} WHERE EMAIL=#{email}
+   </update>
 
 	<select id="overlap_visit" resultType="String">
 		SELECT * 

@@ -184,6 +184,18 @@
 			alert("비밀번호를 입력해주세요");
 			return false;
 		}
+		if(document.getElementById("insertpassword").value == "123456789"){
+			alert("사용할 수 없는 비밀번호 입니다.");
+			return false;
+		}
+		if(document.getElementById("insertpassword").value == document.getElementById("insertemail").value){
+			alert("이메일과 비밀번호는 같을 수 없습니다.");
+			return false;
+		}
+		if(document.getElementById("insertpassword").value == document.getElementById("insertname").value){
+			alert("이름과 비밀번호는 같을 수 없습니다.");
+			return false;
+		}
 		if(document.getElementById("birthdate").value == null){
 			alert("생년월일을 입력해주세요");
 			return false;

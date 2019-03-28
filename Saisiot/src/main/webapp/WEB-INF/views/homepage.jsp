@@ -7,9 +7,9 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.Locale" %>
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +25,7 @@
 </script>
 <script type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="resources/js/bgm.js?ver=6"></script>
+<script src="resources/js/bgm.js?ver=3"></script>
 <link rel="stylesheet" href="resources/css/homepage_mob.css">
 <link rel="stylesheet" href="resources/css/homepage_web.css">
 <!-- d3 import 하기 -->
@@ -309,5 +309,4 @@ var tooltip = d3.select("#graph").append("div").attr("class", "count").style("di
 	</div>
 
 </body>
-</html>
-    
+</html>    

@@ -161,9 +161,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public UserinfoDto emailpwfind(String email) {
 				
-		/*Map<String, Object> map = new HashMap<String, Object>();
-		map.put("birthday", birthday);
-		map.put("name", name);*/
 		UserinfoDto dto = new UserinfoDto(email);
 	
 		return sqlSession.selectOne(NAMESPACE + "emailpwfind" ,dto);
@@ -235,6 +232,19 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return res;
 	}
+	
+	
+	@Override
+	public int passreset(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "passreset", dto);
+		
+		return res;
+	}
+
+	
 
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
@@ -321,7 +331,6 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
@@ -349,6 +358,4 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 	}
 	//seo's editing end---------------------
-
-	
 }
