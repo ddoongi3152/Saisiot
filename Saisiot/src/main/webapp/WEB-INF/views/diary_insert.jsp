@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,13 +55,17 @@ $(function(){
     
 });
 </script>
-
+<%
+	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+%>
 </head>
 <body>
 	
 	<h1>다이어리 글쓰기 폼</h1>
 	
+	
 	<form:form id="frm" action="diary_insert.do" method="post" enctype="multipart/form-data" modelAttribute="DiaryDto" >
+		<input type="hidden" name="email" value="<%=dto.getEmail() %>"/>
 		<table>
 			<tr>
 				<th>제	목</th>

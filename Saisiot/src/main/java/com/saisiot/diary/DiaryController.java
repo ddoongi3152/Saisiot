@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import com.saisiot.diary.dto.DiaryDto;
+import com.saisiot.diary.dto.DiaryRootDto;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.common.UploadFile;
 import com.saisiot.common.Editor;
@@ -47,14 +48,6 @@ public class DiaryController {
 	@Autowired
 	private FileValidator fileValidator;
 
-	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String diary(Model model) {
-
-		model.addAttribute("list", Dbiz.selectList());
-
-		return "diary";
-	}
-
 	@RequestMapping(value = "/insertForm_diary.do")
 	public String insertForm_Diary() {
 
@@ -63,14 +56,16 @@ public class DiaryController {
 	
 	@RequestMapping(value="/insertForm_folder.do")
 	public String insertForm_Folder() {
-		
+
 		return "folder_insert";
 	}
 	
 	@RequestMapping("/folder_insert.do")
-	public String insert_Folder() {
+	public String insert_Folder(@ModelAttribute DiaryRootDto dto) {
+
+		Dbiz.folder_insert(dto);
 		
-		return "";
+		return "redirect:diary.do";
 	}
 	
 	@RequestMapping("/selectForm_map.do")
@@ -109,17 +104,10 @@ public class DiaryController {
 		
 		if (uploadFile.getFile().isEmpty() == true) {
 
-			int res = Dbiz.insert(dto);
+			Dbiz.insert(dto);
 
-			if (res > 0) {
+			return "diary";
 
-				return "diary";
-
-			} else {
-
-				return "redirect:diary_insert";
-
-			}
 		} else {
 			
 			// ?��?��?���??��
@@ -183,32 +171,18 @@ public class DiaryController {
 			
 			dto.setFileurl(filename);
 
-			int res = Dbiz.insert(dto);
-
-			if (res > 0) {
+			Dbiz.insert(dto);
 
 				return "diary";
 
-			} else {
-
-				return "redirect:diary_insert";
-
-			}
 		}
 		
 		} else {
 			
-			int res = Dbiz.insert(dto);
-
-			if (res > 0) {
+			Dbiz.insert(dto);
 
 				return "diary";
 
-			} else {
-
-				return "redirect:diary_insert";
-
-			}
 		}
 
 	}
@@ -240,35 +214,36 @@ public class DiaryController {
 		return "diary_detail";
 	}
 
-	// 게시�? 목록
-	@RequestMapping("/listall.do")
-	// @RequestParam(defaultValue="") ==> 기본�? ?��?��
-	public ModelAndView list(@RequestParam(defaultValue = "title") String searchOption,
-			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
-			throws Exception {
-		// �? 게시�? ?�� 계산
-		int count = Dbiz.countArticle(searchOption, keyword);
-		// ?��?���? ?��?���? �??�� 처리
-		Paging paging = new Paging(count, curPage);
-		int start = paging.getPageBegin();
-		int end = paging.getPageEnd();
-		List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
-		/* List<PagingDto> answerlist= pagingBiz.Answerlist(pagingDto.getGroupno()); */
-		/* System.out.println("answerlist="+answerlist); */
-		// ?��?��?���? 맵에 ???��
-		Map<String, Object> map = new HashMap<String, Object>();
-		/* map.put("answerlist=", answerlist);//?���?list */
-		map.put("list", list); // list
-		map.put("count", count); // ?��코드?�� �??��
-		map.put("searchOption", searchOption); // �??��?��?��
-		map.put("keyword", keyword); // �??��?��?��?��
-		map.put("paging", paging);
-		// ModelAndView - 모델�? �?
-		ModelAndView mav = new ModelAndView();
+	//게시판 목록
+	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
+	   public ModelAndView diary(@RequestParam(defaultValue = "title") String searchOption,
+	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
+	         throws Exception {
+	      // 총 게시글 수 계산
+	      int count = Dbiz.countArticle(searchOption, keyword);
+	      // 페이지 나누기 관련 처리
+	      Paging paging = new Paging(count, curPage);
+	      int start = paging.getPageBegin();
+	      int end = paging.getPageEnd();
+	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
+	      List<DiaryDto> commentList= Dbiz.commentList();
+	      List<DiaryRootDto> folderList = Dbiz.folderList();
+	      /* System.out.println("commentList="+commentList); */
+	      // 데이터를 맵에 저장
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      map.put("commentList", commentList);//답글list 
+	      map.put("folderList",folderList);//폴더list
+	      map.put("list", list); // list
+	      map.put("count", count); // 레코드의 갯수
+	      map.put("searchOption", searchOption); // 검색옵션
+	      map.put("keyword", keyword); // 검색키워드
+	      map.put("paging", paging);
+	      // ModelAndView - 모델과 뷰
+	      ModelAndView mav = new ModelAndView();
 
-		mav.addObject("map", map); // 맵에 ???��?�� ?��?��?���? mav?�� ???��
-		mav.setViewName("diary_list"); // 뷰�?? list.jsp�? ?��?��
-		return mav; // list.jsp�? List�? ?��?��?��?��.
-	}
+	      mav.addObject("map", map); // 맵에 저장된 데이터를 mav에 저장
+	      mav.setViewName("diary"); // 뷰를 list.jsp로 설정
+	      return mav; // list.jsp로 List가 전달된다.
+	   }
 
 }
