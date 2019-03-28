@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="jukebox">
+   
+	<resultMap type="com.saisiot.jukebox.dto.JukeboxDto" id="jukeMap">
+		<result property="musicno" column="MUSICNO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="singer" column="SINGER"/>
+		<result property="musictitle" column="MUSICTITLE"/>
+		<result property="runtime" column="RUNTIME"/>
+		<result property="musicalbum" column="MUSICALBUM"/>
+		<result property="background" column="BACKGROUND"/>
+	</resultMap>
+
+<!-- jukebox mapper -->
+	<select id="jukeselect" parameterType="String" resultMap="jukeMap">
+		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} ORDER BY MUSICNO
+	</select>
+	<select id="backselect" parameterType="jukeboxDto" resultMap="jukeMap">
+		SELECT MUSICNO, EMAIL, SINGER, MUSICTITLE, RUNTIME, MUSICALBUM, BACKGROUND FROM MUSIC WHERE EMAIL = #{email} AND BACKGROUND = #{background} ORDER BY MUSICNO
+	</select>
+	<insert id="insertSong" parameterType="jukeboxDto">
+		INSERT INTO MUSIC VALUES(JUKESEQ.NEXTVAL, #{email}, #{singer}, #{musictitle}, #{runtime}, #{musicalbum}, #{background})
+	</insert>
+	<update id="updateBack" parameterType="jukeboxDto">
+		UPDATE MUSIC SET BACKGROUND = #{background} WHERE EMAIL = #{email} AND MUSICNO = #{musicno}
+	</update>
+
+</mapper>
