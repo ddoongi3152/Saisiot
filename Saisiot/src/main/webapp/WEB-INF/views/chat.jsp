@@ -1,3 +1,4 @@
+<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,7 +9,9 @@
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
 <script type="text/javascript" src="<c:url value="resources/js/sockjs-0.3.4.js"/>"></script>
 <script type="text/javascript">
-
+<%
+	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+%>
 
 	var sock;
     //웸소켓을 지정한 url로 연결한다.
@@ -21,13 +24,22 @@
     
     function sendMessage() {
         /*소켓으로 보내겠다.  */
-        sock.send($(".input-text").text());
+        sock.send(JSON.stringify({
+        	  id: "<%=dto.getEmail()%>",
+        	  text: $(".input-text").text()
+        }));
         $(".input-text").text("");
     }
     //evt 파라미터는 웹소켓을 보내준 데이터다.(자동으로 들어옴)
     function onMessage(evt) {
         var data = evt.data;
-        $("#chatground").append("<div class='chat_you'><div class='chatbox'>"+data+"</div></div>");
+        var jsonobj = JSON.parse(data);
+        if(jsonobj.id == "<%=dto.getEmail()%>"){
+        	$("#chatground").append("<div class='chat_me'><div class='chatbox'>"+jsonobj.text+"</div></div>");
+        }else {
+        	$("#chatground").append("<div class='chat_you'><div class='chatbox'>"+jsonobj.text+"</div></div>");
+		}
+        
     }
 
     function onClose(evt) {
@@ -41,14 +53,27 @@
 			$("#chat_list_div").hide()
 		}
 	})
+	
+	$(document).on('keypress',function(e) {
+	    if(e.which == 13) {
+	    	sendMessage();
+	    }
+	});
+	
 	$(document).ready(function(){
 		$(".input-submit").click(function() {
-            sendMessage();
+			if($(".input-submit").text!=""){
+				sendMessage();
+			}
         });
 
 	  $("#chat_list_drop").click(function(){
 	    $("#chat_list_div").toggle()
 	  });
+	  
+	  $("#chat_list_div>ul").click(function(){
+		  
+	  })
 	});
 	 
 
@@ -73,15 +98,9 @@
 			<div id="chat_list_div">
 				<ul>
 					<li><img src="resources/img/folder_icon.png"><a>친구목록</a></li>
-					<li><a>마루</a></li>
-					<li><a>홍시</a></li>
-					<li><a>제제</a></li>
-					<li><a>김무년</a></li>
-					<li><a>김유정</a></li>
-					<li><a>이승혜</a></li>
-					<li><a>서지석</a></li>
-					<li><a>장정훈</a></li>
-					<li><a>최승언</a></li>
+					<c:forEach items="${friendList }" var="dtos">
+					<li><a>${dtos.username}</a></li>
+					</c:forEach>
 					<li><a>순서변경</a></li>
 				</ul>
 			</div>

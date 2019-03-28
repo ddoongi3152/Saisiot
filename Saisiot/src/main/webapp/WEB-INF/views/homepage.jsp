@@ -1,4 +1,5 @@
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -87,7 +88,7 @@
 					<hr>
 					<table>
 						<tr>
-							<td><input type="button" value="다이어리 1/2" onclick="location.href='diary.do'"/></td><td>쥬크박스 0/1</td>
+							<td>다이어리1/2</td><td>쥬크박스 0/1</td>
 						</tr>
 						<tr>
 							<td>친구 1</td><td>채팅방 1</td>
@@ -119,12 +120,12 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div>home</div>
-		<div>gallery</div>
-		<div>diary</div>
-		<div>jukebox</div>
-		<div>profile</div>
-		<div>chat</div>
+		<div onclick="location.href='homepage.do'">home</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
+		<div><a href="diary.do">diary</a></div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
+		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
 	

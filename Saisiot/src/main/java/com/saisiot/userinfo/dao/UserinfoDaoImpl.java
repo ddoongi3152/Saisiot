@@ -6,11 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.InvalidTransactionException;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.saisiot.userinfo.dto.UserinfoDto;
 
@@ -190,4 +198,143 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return list;
 	}
+
+
+	@Override
+	public int comebackuser(UserinfoDto dto) {
+	System.out.println("계정 복귀");
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "comebackuser", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int snscomback(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "snscomeback", dto);
+		
+		return res;
+	}
+
+	@Override
+	public int userinfoplus(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "userinfoplus", dto);
+		
+		return res;
+	}
+
+	
+	// 중복 방문 방지를 위해 오늘 방문자 비교
+	public String visit_overlap_check(Map visit_email) {
+		String res = sqlSession.selectOne(NAMESPACE + "overlap_visit", visit_email);
+
+		return res;
+	}
+
+	// 방문시, 방문자수 +1
+	public void add_visit_count(Map visit_email) {
+		int res = 0;
+
+		res = sqlSession.insert(NAMESPACE + "add_visit_count", visit_email);
+	}
+
+	// 오늘의 방문자 수
+	public int visit_today(Map visit_email) {
+
+		int res = sqlSession.selectOne(NAMESPACE + "todaycount", visit_email);
+
+		return res;
+	}
+
+	// 총 방문자 수
+	public int visit_total(Map visit_email) {
+
+		int res = sqlSession.selectOne(NAMESPACE + "totalcount", visit_email);
+
+		return res;
+	}
+
+	// 일주일 간 방문자 수
+	public List<Object> visit_weekdata(Map visit_email) {
+
+		List<Object> res = new ArrayList<Object>();
+
+		for (int i = 1; i < 8; i++) {
+			visit_email.put("DAYN", i);
+			res.add(sqlSession.selectOne(NAMESPACE + "week_visit_data", visit_email));
+		}
+
+		return res;
+
+	}
+
+	
+	//lee's editing------------------------------------------------------------------------
+	@Override
+	public List<UserinfoDto> selectFriendList(String email) {
+		
+		List<UserinfoDto> friendList = sqlSession.selectList("friend."+"selectList_friend", email);
+		
+		System.out.println("UserDao: selectList_friend");
+		return friendList;
+		
+	}
+
+	@Override
+	public List<UserinfoDto> selectFriendDto(List<String> friendList) {
+		
+		for(String email: friendList) {
+			UserinfoDto dtos = sqlSession.selectOne("friend."+"selectList_friend", email);
+		}
+		
+		
+		System.out.println("UserDao: selectList_friend"+friendList.get(0));
+		return null;
+	}
+	
+	@Transactional
+	@Override
+	public int friendInsert(String emailFriend, String emailMe) {
+		
+			int res0 = sqlSession.insert("friend."+"insert_before");
+			int res1 = sqlSession.insert("friend."+"insert_friend", emailFriend);
+			int res2 = sqlSession.insert("friend."+"insert_friend_me", emailMe);
+		
+		return res1*res2;
+		
+	}
+
+	@Override
+	public int selectRoom(String emailFriend, String emailMe) {
+		
+			int res = 0;
+		return res;
+	}
+	@Override
+	public int friendDelete(String email) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	//lees editing end==----------------------------------------------------
+
+	//seo's editing---------------------
+	@Override
+	public int coinupdate(UserinfoDto dto) {
+		System.out.println("coin 갯수 업데이트");
+		
+		int res = sqlSession.update(NAMESPACE+"updateCoin", dto);
+		
+		return res;
+
+	}
+	//seo's editing end---------------------
 }
