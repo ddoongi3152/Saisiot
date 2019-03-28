@@ -22,7 +22,7 @@
 		display: none;
 	}
 	body {
-		background-image: url("checkbox.PNG");
+		background-image: url("../img/checkbox.PNG");
 		padding: 14px;
 		display: flex;
 		align-items: flex-start;
@@ -89,14 +89,22 @@
 		display: flex;
 		flex-direction: column;
 	}
+	.folder_list_img {
+		float: left;
+		width: auto;
+		height: auto;
+		max-width: 25px;
+		max-height: 25px;
+	}
 	#tmpdiv {
 		display: none;
 	}
 	#folder_list_div {
+		display: flex;
 		height: 100%;
 	}
 	#folder_list_div ul {
-		list-style: url('folder_icon.png');
+		list-style: url("../img/folder_icon.png");
 		list-style-position: inside;
 		font-size: 9pt;
 	}
@@ -173,29 +181,9 @@
 	#right_wrapper4_3 {
 		width: 100%;
 	}
-	/*--------webtabs start------*/
-	#web_tabs {
-		margin-top: 35px;
-		margin-left: -18px;
-		order: 3;
-		display: flex;
-		flex-direction: column;
+	#diary_search {
+		float: right;
 	}
-	#web_tabs>div {
-		color: #ffffff;
-		border: 1px solid #605f5f;
-		border-left: 0;
-		border-radius: 0 5px 5px 0;
-		font-size: 9pt;
-		padding: 6px 7px 6px 10px;
-		margin-top: 2px;
-		background-color: #2F8AA9;
-	}
-	#web_tabs>div:nth-child(6) {
-		background-color: #eeeeee;
-		color: #000000;
-	}
-	/*--------webtabs end------*/
 	.diary_paging {
 		text-align: center;
 	}
@@ -232,9 +220,10 @@
 		background-color: #f6f5f5;
 	}
 	.diary_reply {
+		overflow-y: scroll;
 		flex: 0 0 auto;
 		width: 95%;
-		height: 30px;
+		height: 40px;
 	}
 	.diary_reply>div { /*reply*/
 		display: flex;
@@ -321,5 +310,29 @@
 		height: 8px;
 		overflow-y: auto;
 	}
+
+	/*--------webtabs start------*/
+	#web_tabs {
+		margin-top: 35px;
+		margin-left: -18px;
+		order: 3;
+		display: flex;
+		flex-direction: column;
+	}
+	#web_tabs>div {
+		color: #ffffff;
+		border: 1px solid #605f5f;
+		border-left: 0;
+		border-radius: 0 5px 5px 0;
+		font-size: 9pt;
+		padding: 6px 7px 6px 10px;
+		margin-top: 2px;
+		background-color: #2F8AA9;
+	}
+	#web_tabs>div:nth-child(6) {
+		background-color: #eeeeee;
+		color: #000000;
+	}
+	/*--------webtabs end------*/
 }
 /*---------------------web-version end----------------------*/
