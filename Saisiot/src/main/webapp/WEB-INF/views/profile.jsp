@@ -10,27 +10,49 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
-<script src="resources/js/bgm.js?ver=3"></script>
+<script src="resources/js/bgm.js?ver=4"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#add_friend").click(function() {
 			window.open("addfriendpop.do", "친구찾기", "width=500,height=300");
 		});
-		
+		//개인정보 수정 버튼 클릭
 		$("#personal_func").click(function() {
 			$("#update_personal").submit();
+		})
+		//비밀번호 변경 클릭
+		$("#pw_ok").click(function() {
+			var pw = $("#updatepw").val();
+			var name = $("input[name=username]").val();
+			var email = $("input[name=email]").val();
+			if(pwchk(pw, name)){
+				$("#pw_change").show();
+				$("#updatepw").hide();
+				$("#pw_ok").hide();
+				location.href="update_pw.do?email="+email+"&pw="+pw+"&name="+name;
+			}else{
+				alert("비밀번호를 6자리 이상 입력하셔야 합니다.\n회원님의 이름이 지워졌는지 확인해주세요.");
+				return false;
+			}
 		})
 	});
 	
 	function reset(){
 		location.href="profile.do";
 	}
-	
+	//비밀번호 태그 변경 func
 	function update_pw() {
 		$("#pw_change").hide();
 		$("#updatepw").show();
 		$("#pw_ok").show();
-		
+	}
+	//비밀번호 수, name 유효성 검사
+	function pwchk(pw, name) {
+		if(pw.length < 6 || name == null || name == ""){
+			return false;
+		}else{
+			return true;
+		}
 	}
 </script>
 <link rel="stylesheet" href="resources/css/profile_web.css">
@@ -99,7 +121,7 @@
 					<input type="hidden" name="email" value="<%=dto.getEmail()%>">
 					<div><label>도토리</label><label><%=dto.getCoinno() %></label><div>충전</div></div>
 					<div><label>비밀번호</label><div id="pw_change" onclick="update_pw()">변경하기</div>
-						<input type="text" id="updatepw" style="width: 70px; display: none"><div id="pw_ok" style="display: none">확인</div>
+						<input type="password" id="updatepw" style="width: 100px; display: none"><div id="pw_ok" style="display: none">확인</div>
 					</div>
 					<div><label>이름</label><input type="text" name="username" value="<%=dto.getUsername() %>"></div>
 					<div><label>생일</label><input type="date" name="birthdate" value="<%=birth %>"></div>

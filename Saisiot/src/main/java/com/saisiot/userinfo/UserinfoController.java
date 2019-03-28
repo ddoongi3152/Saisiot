@@ -882,7 +882,27 @@ public class UserinfoController {
 			out.flush();
 			return "profile";
 		}
+	}
+	
+	// 비밀번호만 변경 (seo)
+	@RequestMapping("/update_pw.do")
+	public String updatePw(HttpSession session, HttpServletResponse response, String email, String pw, String name) throws IOException {
+		session.getAttribute("login");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		
+		UserinfoDto dto = new UserinfoDto(email,pw,null,null,null,name,null,null,null,0,0);
+		int res = biz.update(dto);
+		
+		if(res > 0) {
+			out.println("<script>alert('비밀번호 변경 성공');</script>");
+			out.flush();
+			return "profile";
+		}else {
+			out.println("<script>alert('비밀번호 변경 실패');</script>");
+			out.flush();
+			return "profile";
+		}
 	}
 } 
 

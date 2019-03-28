@@ -8,7 +8,6 @@
 		var mp3list = [{name: 'Another Day Of Sun'},{name: '딱 죽기 좋은밤이네'},{name: '아버지'},{name: '활주'}];
 		var playlist = new Array();
 		var appendSong = "";
-		
 		$.each(titlelist, function(index, item) {
 			var song = $(item).text();
 			$.each(mp3list, function(index, item) {
@@ -45,7 +44,6 @@
 		var audio = $("#musicplayer");
 		audio.attr({src: "resources/bgm/"+firstsong+".mp3", autoplay: "autoplay", onended: "playBack()"});
 		playSongStyle(firstsong);
-		audio.play();
 	}
 	
 	// 인덱스로 리스트 다음곡, 여러곡 설정
@@ -56,7 +54,7 @@
 			tracks.push(nextSongText);
 		})
 		
-		var idx = $("#songindex").val() - 1;
+		var idx = $("#songindex").val();
 		var song = tracks[idx];
 		var audio = $("#musicplayer");
 		audio.attr({src: "resources/bgm/"+song+".mp3", autoplay: "autoplay", onended: "playBack()"});
@@ -90,8 +88,8 @@
 					firstSong(first);
 				}else{
 					for(var i=0; i < len; i++){
-						cnt++;
 						$("#songindex").val(cnt);
+						cnt++;
 						nextSong();
 					}
 				}
