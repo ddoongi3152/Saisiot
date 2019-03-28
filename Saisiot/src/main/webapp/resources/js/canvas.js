@@ -214,4 +214,8 @@ function save(){
 	document.getElementById('save').setAttribute('href',canvas.toDataURL());	
 }
 
+function selectfolder() {
+	window.open('gallery_popup.do', '폴더선택창', 'width=200, height=200');
+}
+
 	

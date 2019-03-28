@@ -125,7 +125,7 @@
 				<div id="gallery_canvas"><canvas id = "canvas" width="498px" height="300px" style = "border: 1px solid #b6b6b6;border-radius: 5px;"></canvas></div>
 				<div id="gallery_content"><textarea placeholder="content"></textarea></div>
 				<div id="gallery_btn">
-					<div onclick="save()"><a class="save" id="save" href="#" style="color: black; text-decoration: none;" download>save image</a></div><div>to diary</div>
+					<div onclick="save()"><a class="save" id="save" href="#" style="color: black; text-decoration: none;" download>save image</a></div><div onclick="selectfolder();">to diary</div>
 				</div>
 				<div id="showmode" style="display: none;"> mode : <span id="mode"></span></div>
 				<img id="fileImage" style="display: none;">

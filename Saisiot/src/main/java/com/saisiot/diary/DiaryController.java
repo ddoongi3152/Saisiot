@@ -252,5 +252,8 @@ public class DiaryController {
 		return "redirect:diary.do";
 	}
 	
-
+	@RequestMapping("/gallery_popup.do")
+	public String gallery_popup() {
+		return "gallery_popup";
+	}
 }
