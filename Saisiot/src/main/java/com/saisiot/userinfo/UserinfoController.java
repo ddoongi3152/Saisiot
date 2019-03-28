@@ -269,9 +269,9 @@ public class UserinfoController {
 		        
 		        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
 		        
-		        model.addAttribute("todayCount", todayCount);
-		        model.addAttribute("totalCount",totalCount);
-		        model.addAttribute("week_visit_date", week_visit_date);
+		        session.setAttribute("todayCount", todayCount);
+		        session.setAttribute("totalCount",totalCount);
+		        session.setAttribute("week_visit_date", week_visit_date);
 				
 				String email  = dto.getEmail();
 				List<UserinfoDto> friendList = biz.selectFriendList(email);
@@ -886,6 +886,7 @@ public class UserinfoController {
 		//-----------lee's editing end---------------------------------
 		
 		
+		//cheon's editing ----------
 		@RequestMapping(value = "/updateprofile.do", method = { RequestMethod.GET, RequestMethod.POST })
 		public String update_p(HttpSession session, Model model, HttpServletRequest request) throws IOException {
 			
@@ -907,18 +908,30 @@ public class UserinfoController {
 		
 		@RequestMapping(value = "/update_pic.do", method = { RequestMethod.POST })
 		public String update_pic(HttpSession session, Model model, HttpServletRequest request) {
-			ServletContext context = getServletContext();
-			
-			MultipartRequest multi = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
-
-			
-
-			String dd = request.getParameter("p_picurl");
-			System.out.println(dd + "아쓔아쓔");
 			
 			return "redirect:homepage.do";
 		}
 		
-	
+		@RequestMapping("/charge_coin.do")
+		public String charge_coin() {
+			
+			return "coin_charge";
+		}
+		
+		@RequestMapping("/update_coin.do")
+		public String update_coin(HttpSession session, Model model, HttpServletRequest request) {
+			
+			int add_coin = Integer.parseInt(request.getParameter("dotory_amount"));
+			
+			UserinfoDto udto = (UserinfoDto)session.getAttribute("login");
+			System.out.println(udto);
+			int coinno = udto.getCoinno() + add_coin;
+			udto.setCoinno(coinno);
+			int res = biz.coinupdate(udto);
+			System.out.println("res!!" + res);
+			
+			return "redirect:homepage.do";
+		}
+		//cheon's editing end----------
 } 
 

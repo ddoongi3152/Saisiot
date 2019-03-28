@@ -113,6 +113,10 @@
 		AND TO_CHAR(V_DATE) = TO_CHAR(SYSDATE)
 	</select>
 
+	<update id="updateCoin" parameterType="UserinfoDto">
+		UPDATE USERINFO SET COINNO = #{coinno} WHERE EMAIL = #{email}
+	</update>
+	
 	<insert id="totalvisit">
 		INSERT INTO VISIT (EMAIL, V_EMAIL, V_DATE)
 		VALUES (#{email}, #{v_email}, SYSDATE)
@@ -155,5 +159,6 @@
 		SET P_PICURL = #{p_picurl}, P_CONTENT = #{p_content}, P_TITLE = #{p_title}
 		WHERE EMAIL = #{email}
 	</update>
+	
 	
 </mapper>

@@ -55,7 +55,7 @@
 
 	//일주일간 방문자 통계 리스트
 	List<Object> week_visit_date = new ArrayList<Object>();
-	week_visit_date = (ArrayList) request.getAttribute("week_visit_date");
+	week_visit_date = (ArrayList) session.getAttribute("week_visit_date");
 
 	Object one_date_visit = week_visit_date.get(0);
 	Object two_date_visit = week_visit_date.get(1);
