@@ -23,5 +23,8 @@ public interface DiaryDao {
 	public void comment_delete(DiaryDto dto);
 	
 	public void folder_insert(DiaryRootDto dto);
+	public void folder_delete(int folderno);
+	public int folder_update(DiaryRootDto dto);
 	public List<DiaryRootDto> folderList();
+	
 }
