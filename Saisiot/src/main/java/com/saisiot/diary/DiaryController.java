@@ -47,10 +47,24 @@ public class DiaryController {
 
 	@Autowired
 	private FileValidator fileValidator;
+
+	@RequestMapping(value = "/insertForm_diary.do")
+	public ModelAndView insertForm_Diary(ModelAndView mav,HttpSession session) {
+		
+		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
+		String email = (String)userdto.getEmail();
+		List<DiaryRootDto> folderList = Dbiz.folderList(email);
+		
+		mav.addObject("folderList",folderList);
+		mav.setViewName("diary_insert");
+		
+		return mav;
+
+	}
 	
 	@RequestMapping(value="/insertForm_folder.do")
 	public String insertForm_Folder() {
-
+		
 		return "folder_insert";
 	}
 	
@@ -106,16 +120,6 @@ public class DiaryController {
 		return "video";
 	}
 	
-	@RequestMapping(value = "/insertForm_diary.do")
-	public String insertForm_Diary(Model model,HttpSession session) {
-
-		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
-		String email = userdto.getEmail();
-	    List<DiaryRootDto> folderList = Dbiz.folderList(email);
-	    model.addAttribute("folderList", folderList);
-		
-		return "diary_insert";
-	}	
 
 	@RequestMapping(value = "/diary_insert.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
@@ -245,21 +249,14 @@ public class DiaryController {
 		return bytes;
 	}
 
-	@RequestMapping(value = "/diaryDetail.do", method = { RequestMethod.POST, RequestMethod.GET })
-	public String diaryDetail(@RequestParam int diaryno, Model model) {
-
-		model.addAttribute("dto", Dbiz.selectOne(diaryno));
-
-		return "diary_detail";
-	}
 
 	//게시판 목록
 	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
 	   public ModelAndView diary(@RequestParam(defaultValue = "title") String searchOption,
 	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue="0") int folderno,HttpSession session)
 	         throws Exception {
-		
-		  UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
+	         
+	      UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
 		  String email = userdto.getEmail();
 	      // 총 게시글 수 계산
 	      int count = Dbiz.countArticle(searchOption, keyword);
@@ -287,5 +284,38 @@ public class DiaryController {
 	      mav.setViewName("diary"); // 뷰를 list.jsp로 설정
 	      return mav; // list.jsp로 List가 전달된다.
 	   }
+	
+	//comment_insert
+	@RequestMapping("/comment_insert")
+	public String insert(@ModelAttribute DiaryDto dto,@RequestParam int diaryno,HttpSession session){
+
+		//세션에 저장된 회원아이디를 댓글작성자에 세팅
+		String whos = (String)session.getAttribute("whos");
+		UserinfoDto userdto;
+		if(whos.equals("mine")) {
+			userdto = (UserinfoDto)session.getAttribute("login");
+			dto.setEmail(userdto.getEmail());
+			// 댓글 입력 메서드 호출
+			Dbiz.comment_insert_proc(dto,diaryno);
+			return "redirect:diary.do";
+		}else {
+			userdto = (UserinfoDto)session.getAttribute("others");
+			dto.setEmail(userdto.getEmail());
+			// 댓글 입력 메서드 호출
+			Dbiz.comment_insert_proc(dto,diaryno);
+			return "redirect:diary.do";
+		}
+		
+	}
+	
+	//comment_delete
+	@RequestMapping("/comment_delete")
+	public String comment_delete(@ModelAttribute DiaryDto dto) {
+		Dbiz.comment_delete(dto);
+		
+		return "redirect:diary.do";
+	}
+	
+	
 
 }

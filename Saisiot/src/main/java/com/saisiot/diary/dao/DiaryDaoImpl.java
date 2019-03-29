@@ -18,17 +18,6 @@ public class DiaryDaoImpl implements DiaryDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-
-	@Override
-	public DiaryDto selectOne(int diaryno) {
-
-		DiaryDto res = new DiaryDto();
-
-		res = sqlSession.selectOne(NAMESPACE + "diary_detail", diaryno);
-
-		return res;
-	}
-
 	@Override
 	public int insert(DiaryDto dto) {
 
@@ -53,8 +42,6 @@ public class DiaryDaoImpl implements DiaryDao {
 	public int delete(int diaryno) {
 		return 0;
 	}
-	
-	
 	
 	//다이어리 리스트
 	@Override
@@ -103,6 +90,7 @@ public class DiaryDaoImpl implements DiaryDao {
 	public void comment_delete(DiaryDto dto) {
 		sqlSession.delete(NAMESPACE+"comment_delete",dto);
 	}
+
 
 	//폴더 추가
 	@Override

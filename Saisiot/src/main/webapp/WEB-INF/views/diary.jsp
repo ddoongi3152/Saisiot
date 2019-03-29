@@ -15,8 +15,7 @@
 <link rel="stylesheet" href="resources/css/diary_web.css">
 <link rel="stylesheet" href="resources/css/diary_mob.css">
 <link rel="stylesheet" type="text/css" href="resources/css/map.css" />
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery-3.3.1.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.js" />"></script>
 <title>Insert title here</title>
 <script type="text/javascript">
 	//원하는 페이지로 이동시 검색조건, 키워드 값을 유지하기 위해 
@@ -40,6 +39,15 @@
 	function update_Folder(folderno){
 		window.open("updateForm_folder.do?folderno="+folderno, "폴더 수정", "width=300,height=100")
 	}
+</script>
+<!-- 네이버 공유용 주소 연결 용 -->
+<script type="text/javascript" async>
+	var url_default_naver = "http://share.naver.com/web/shareView.nhn?url=";
+	var title_default_naver = "&title=";
+	var url_this_page = location.href;
+	var title_this_page = document.title;
+	var url_combine_naver = url_default_naver + encodeURI(url_this_page)
+			+ title_default_naver + encodeURI(title_this_page);
 </script>
 </head>
 <body>
@@ -103,7 +111,6 @@
 	</div>
 	<!-- left_wrapper1 end(blue box) -->
 
-
 	<div id="right_wrapper1">
 		<div id="right_wrapper2">
 			<div id="right_wrapper3">
@@ -149,12 +156,12 @@
 											<c:when test="${ empty row.picurl }">
 											</c:when>
 											<c:otherwise>
-												<div class="diary_pic" style="width:400px; height: 300px;">
+												<div class="diary_pic" style="width: 400px; height: 300px;">
 													<img style="width: 100%; height: 100%;"
 														src="<spring:url value='/upload/${row.picurl }'/>" />
 												</div>
 											</c:otherwise>
-										</c:choose>										
+										</c:choose>
 										<div class="diary_content">${row.content }</div>
 										<c:choose>
 											<c:when test="${ empty row.maplati}">
@@ -168,8 +175,7 @@
 													<input type="hidden" id="maplati" value="${row.maplati }" />
 													<input type="hidden" id="maplong" value="${row.maplong }" />
 													<div class="map_wrap" style="width: 300px; height: 300px;">
-														<div id="map"
-															style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+														<div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 													</div>
 												</div>
 											</c:otherwise>
@@ -182,7 +188,8 @@
 													<iframe width="514" height="360" src="${row.videourl }"
 														frameborder="0"
 														allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-														allowfullscreen></iframe>
+														allowfullscreen>
+													</iframe>
 												</div>
 											</c:otherwise>
 										</c:choose>
@@ -199,10 +206,52 @@
 											</c:otherwise>
 										</c:choose>
 
+										<!-- sns share -->
+										<div style="width: 100%; text-align: center; margin-bottom: 64px;">
+											<a id="kakao-link-btn" href="javascript:;"> 
+											<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+												title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" />
+											</a>
+											<script type='text/javascript'>
+												//<![CDATA[
+												// // 사용할 앱의 JavaScript 키를 설정해 주세요.
+												Kakao.init('1fe75f64aaf4512f8f75ce29f8ceb483');
+												// // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+												Kakao.Link.createDefaultButton({
+													container : '#kakao-link-btn',
+													objectType : 'feed',
+													content : {
+														title : '${row.title}',
+														description : '${row.title}',
+														imageUrl : '${row.picurl}',
+														link : {
+															mobileWebUrl : '${path}/mvc03/diary.do?',
+															webUrl : '${path}/mvc03/diary.do?'
+														}
+													},
+													buttons : [ {
+														title : '웹으로 보기',
+														link : {
+															mobileWebUrl : url,
+															webUrl : url
+														}
+													} ]
+												});
+												//]]>
+											</script>
+											<!-- 네이버 공유 버튼 -->
+											<a href=""
+												onclick="window.open(url_combine_naver, '', 'scrollbars=no, width=600, height=600'); return false;">
+												<img src="resources/img/snsshare/naver.png" title="네이버로 공유하기" class="sharebtn_custom" style="width: 32px;"/>
+											</a>
+										</div> 
+										<!-- sns share end -->
+
 										<!-- comment area -->
-										<c:forEach var="cmt" items="${map.commentList}">
-											<c:if test="${row.groupno eq cmt.groupno }">
-												<div class="diary_reply">
+										<div class="diary_reply">
+											<c:forEach var="cmt" items="${map.commentList}">
+												<c:if test="${row.groupno eq cmt.groupno }">
+
 													<div class="reply">
 														<div class="reply_writer">${cmt.email }</div>
 														<div class="reply_content">${cmt.content }</div>
@@ -214,30 +263,27 @@
 																onclick="location.href='comment_delete?diaryno=${cmt.diaryno}'">
 														</div>
 													</div>
-												</div>
-											</c:if>
-										</c:forEach>
+												</c:if>
+											</c:forEach>
+										</div>
 
 										<!-- 댓글 작성 영역 -->
-										<div>
-											<div>
-												<form action="${path}/mvc03/comment_insert">
-													<input type="hidden" name="groupno" value="${row.groupno }">
-													<input type="hidden" name="groupsq" value="${row.groupsq }">
-													<input type="hidden" class="diaryno" name="diaryno"
-														value="${row.diaryno }">
-													<div style="width: 100%; text-align: center;">
-														<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
-														<%-- <c:if test="${sessionScope.userId != null}"> --%>
-														<textarea rows="2" cols="70" class="replytext"
-															name="content" placeholder="댓글을 작성해주세요"></textarea>
-														<br>
-														<button type="submit" class="btnComment">댓글 작성</button>
-														<%-- </c:if> --%>
-													</div>
-
-												</form>
-											</div>
+										<div class="diary_comment">
+											<form action="${path}/mvc03/comment_insert">
+												<input type="hidden" name="groupno" value="${row.groupno }">
+												<input type="hidden" name="groupsq" value="${row.groupsq }">
+												<input type="hidden" class="diaryno" name="diaryno"
+													value="${row.diaryno }">
+												<div class="diary_comment_textarea">
+													<a>댓글</a>
+													<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
+													<%-- <c:if test="${sessionScope.userId != null}"> --%>
+													<textarea rows="1" cols="59" class="replytext"
+														name="content" placeholder="댓글을 작성해주세요"></textarea>
+													<button type="submit" class="diary_comment_btn">확인</button>
+													<%-- </c:if> --%>
+												</div>
+											</form>
 										</div>
 										<!-- 댓글 작성 영역 -->
 
@@ -246,41 +292,41 @@
 							</c:otherwise>
 						</c:choose>
 
-							<!-- paging -->
-					<div id="right_wrapper4_2_2">
-						<div id="diary_paging">
-							<!-- 처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력-->
-							<c:if test="${map.paging.curBlock >= 1}">
-								<a href="javascript:list('1')">[처음]</a>
-							</c:if>
-							<!-- 이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 -->
-							<c:if test="${map.paging.curBlock > 1}">
-								<a href="javascript:list('${map.paging.prevPage}')">[이전]</a>
-							</c:if>
-							<!-- **하나의 블럭 시작페이지부터 끝페이지까지 반복문 실행 -->
-							<c:forEach var="num" begin="${map.paging.blockBegin}"
-								end="${map.paging.blockEnd}">
-								<!-- 현재페이지이면 하이퍼링크 제거 -->
-								<c:choose>
-									<c:when test="${num == map.paging.curPage}">
-										<span style="color: red">${num}</span>&nbsp;
-									</c:when>
-									<c:otherwise>
-										<a href="javascript:list('${num}')">${num}</a>&nbsp;
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-							<!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
-							<c:if test="${map.paging.curBlock <= map.paging.totBlock}">
-								<a href="javascript:list('${map.paging.nextPage}')">[다음]</a>
-							</c:if>
-							<!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 -->
-							<c:if test="${map.paging.curPage <= map.paging.totPage}">
-								<a href="javascript:list('${map.paging.totPage}')">[끝]</a>
-							</c:if>
+						<!-- paging -->
+						<div id="right_wrapper4_2_2">
+							<div id="diary_paging">
+								<!-- 처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력-->
+								<c:if test="${map.paging.curBlock >= 1}">
+									<a href="javascript:list('1')">[처음]</a>
+								</c:if>
+								<!-- 이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 -->
+								<c:if test="${map.paging.curBlock > 1}">
+									<a href="javascript:list('${map.paging.prevPage}')">[이전]</a>
+								</c:if>
+								<!-- **하나의 블럭 시작페이지부터 끝페이지까지 반복문 실행 -->
+								<c:forEach var="num" begin="${map.paging.blockBegin}"
+									end="${map.paging.blockEnd}">
+									<!-- 현재페이지이면 하이퍼링크 제거 -->
+									<c:choose>
+										<c:when test="${num == map.paging.curPage}">
+											<span style="color: red">${num}</span>&nbsp;
+                           				</c:when>
+										<c:otherwise>
+											<a href="javascript:list('${num}')">${num}</a>&nbsp;
+	                           			</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
+								<c:if test="${map.paging.curBlock <= map.paging.totBlock}">
+									<a href="javascript:list('${map.paging.nextPage}')">[다음]</a>
+								</c:if>
+								<!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 -->
+								<c:if test="${map.paging.curPage <= map.paging.totPage}">
+									<a href="javascript:list('${map.paging.totPage}')">[끝]</a>
+								</c:if>
+							</div>
 						</div>
-					</div>
-					<!-- right_wrapper4_2_2 end -->
+						<!-- right_wrapper4_2_2 end -->
 					</div>
 				</div>
 				<!-- right_wrapper4_2 end -->

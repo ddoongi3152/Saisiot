@@ -17,11 +17,6 @@ public class DiaryBizImpl implements DiaryBiz {
 	
 
 	@Override
-	public DiaryDto selectOne(int diaryno) {
-		return dao.selectOne(diaryno);
-	}
-
-	@Override
 	public int insert(DiaryDto dto) {
 		return dao.insert(dto);
 	}
@@ -53,24 +48,25 @@ public class DiaryBizImpl implements DiaryBiz {
 	public List<DiaryDto> commentList() {
 		return dao.commentList();
 	}
+	
+	//댓글 순서변경 & 작성
 	@Override
 	public void comment_insert_proc(DiaryDto dto,int diaryno) {
 		//부모 번호
 		int parent_diaryno=diaryno;
 		//글 순서 업뎃
-		int comment_update=dao.comment_update(parent_diaryno);
+		dao.comment_update(parent_diaryno);
 		//글 입력
 		dao.comment_insert(dto);
-
-		/*return ((insertdto + comment_update) > 0) ? 1 : 0;*/
-		
 		
 	}
-
+	
+	//댓글 삭제
 	@Override
 	public void comment_delete(DiaryDto dto) {
 		dao.comment_delete(dto);
 	}
+
 
 	@Override
 	public void folder_insert(DiaryRootDto dto) {

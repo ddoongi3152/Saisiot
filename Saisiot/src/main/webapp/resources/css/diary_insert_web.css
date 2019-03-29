@@ -178,93 +178,28 @@
 		overflow-x: hidden;
 		overflow-y: scroll;
 	}
+	#addbtns{
+		display: flex;
+	}
 	#right_wrapper4_2_2 {
 		width: 100%;
 	}
-	#diary_search {
-		float: right;
-	}
-	.diary_paging {
-		text-align: center;
-	}
-	.diary_div {
-		flex :  0 0 auto;
-		width: 100%;
-		min-height: 466px;
+	#diary_insert{
 		background-color: #f7f7f7;
+		min-height: 466px;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-
 	}
-	.diary_title {
-		width: 100%;
-		text-align: center;
-		background-color: #dddddd;
-	}
-	.diary_meta {
-		width: 98%;
-		text-align: right;
-		font-size: 8pt;
-		border-bottom: 1px solid #dddddd;
-		margin-bottom: 2px;
-	}
-	.diary_pic {
-		flex: 0 0 auto;
-		width: 95%;
-		height: 300px;
-		background-color: #cdcdcd;
-	}
-	.diary_content {
-		flex: 0 0 auto;
-		width: 95%;
-		background-color: #f6f5f5;
-		border-bottom: 1px solid #dddddd;
-		margin-bottom: 2px;
-	}
-	.diary_reply {
-		border-top: 1px solid #dddddd;
-		overflow-y: scroll;
-		flex: 0 0 auto;
-		width: 95%;
-		height: 40px;
-	}
-	.diary_reply>div { /*reply*/
+	#diary_title_wrapper1{
 		display: flex;
+		flex-direction: column;
 	}
-	.reply_writer {
-		background-color: #ffffff;
-		padding: 2px;
-		width: 30%;
-		text-align: center;
-	}
-	.reply_content {
-		padding: 2px;
-		width: 70%;
-	}
-	.diary_comment{
-		border-top: 1px solid #dddddd;
-		padding-top:5px;
-		padding-left:10px;
-		padding-right: 10px;
-		padding-bottom: 10px;
-		display: flex;
-		width: 95%;
-		margin-top: auto;
+	#diary_title_wrapper2{
 		
 	}
-	.diary_comment a{
-		font-size: 15px;
-		padding-right: 5px;
+	.folder_select{
+		 margin-left: auto;
 	}
-	.diary_comment_textarea{
-		display: flex;
-	}
-	.diary_comment_btn{
-		margin-left: 10px;
-	}
-	
-	
 	/*---right_wrappers end---*/
 	#right_sidebar {
 		order: 3;

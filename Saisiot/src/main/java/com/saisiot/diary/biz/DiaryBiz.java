@@ -7,7 +7,6 @@ import com.saisiot.diary.dto.DiaryRootDto;
 
 public interface DiaryBiz {
 
-	public DiaryDto selectOne(int diaryno);
 	public int insert(DiaryDto dto);
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
@@ -21,9 +20,9 @@ public interface DiaryBiz {
 	//댓글 리스트
 	public List<DiaryDto> commentList();
 	
-	//
+	//댓글 업뎃&작성
 	public void comment_insert_proc(DiaryDto dto,int diaryno);
-	
+	//댓글 삭제
 	public void comment_delete(DiaryDto dto);
 	
 	public void folder_insert(DiaryRootDto dto);
