@@ -15,7 +15,8 @@
 <link rel="stylesheet" href="resources/css/diary_web.css">
 <link rel="stylesheet" href="resources/css/diary_mob.css">
 <link rel="stylesheet" type="text/css" href="resources/css/map.css" />
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/jquery-3.3.1.js" />"></script>
 <title>Insert title here</title>
 <script type="text/javascript">
 	//원하는 페이지로 이동시 검색조건, 키워드 값을 유지하기 위해 
@@ -80,8 +81,9 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="list" items="${map.folderList }">
-												<li><a href="">${list.foldername }</a><a href='javascript:void(0);'
-										onclick="delete_Folder(${list.folderno});">폴더 삭제</a></li>
+												<li><a href="">${list.foldername }</a><a
+													href='javascript:void(0);'
+													onclick="delete_Folder(${list.folderno});">폴더 삭제</a></li>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
@@ -119,7 +121,8 @@
 										<c:out value="${map.searchOption == 'title'?'selected':''}"/>>제목</option>
 								</select> <input name="keyword" value="${map.keyword}"> <input
 									type="submit" value="검색"> <input type="button"
-									value="글쓰기" onclick="location.href='insertForm_diary.do?email=<%=dto.getEmail()%>'" />
+									value="글쓰기"
+									onclick="location.href='insertForm_diary.do?email=<%=dto.getEmail()%>'" />
 							</form>
 						</div>
 						<!-- diary list area , groupsq=0 list -->
@@ -163,7 +166,8 @@
 													<input type="hidden" id="maplati" value="${row.maplati }" />
 													<input type="hidden" id="maplong" value="${row.maplong }" />
 													<div class="map_wrap" style="width: 300px; height: 300px;">
-														<div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+														<div id="map"
+															style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 													</div>
 												</div>
 											</c:otherwise>
@@ -176,8 +180,7 @@
 													<iframe width="514" height="360" src="${row.videourl }"
 														frameborder="0"
 														allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-														allowfullscreen>
-													</iframe>
+														allowfullscreen> </iframe>
 												</div>
 											</c:otherwise>
 										</c:choose>
@@ -195,10 +198,12 @@
 										</c:choose>
 
 										<!-- sns share -->
-										<div style="width: 100%; text-align: center; margin-bottom: 64px;">
-											<a id="kakao-link-btn" href="javascript:;"> 
-											<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
-												title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" />
+										<div
+											style="width: 100%; text-align: center; margin-bottom: 64px;">
+											<a id="kakao-link-btn" href="javascript:;"> <img
+												src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+												title="카카오 공유하기" class="sharebtn_custom"
+												style="width: 32px;" />
 											</a>
 											<script type='text/javascript'>
 												//<![CDATA[
@@ -228,11 +233,20 @@
 												//]]>
 											</script>
 											<!-- 네이버 공유 버튼 -->
+											<span>
+												<script type="text/javascript"
+													src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+												<script type="text/javascript">
+													new ShareNaver.makeButton({"type": "c" , "title":""});
+												</script>
+											</span> 
 											<a href=""
 												onclick="window.open(url_combine_naver, '', 'scrollbars=no, width=600, height=600'); return false;">
-												<img src="resources/img/snsshare/naver.png" title="네이버로 공유하기" class="sharebtn_custom" style="width: 32px;"/>
+												<img src="resources/img/snsshare/naver.png"
+												title="네이버로 공유하기" class="sharebtn_custom"
+												style="width: 32px;" />
 											</a>
-										</div> 
+										</div>
 										<!-- sns share end -->
 
 										<!-- comment area -->
