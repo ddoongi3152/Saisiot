@@ -801,7 +801,7 @@ public class UserinfoController {
 	}
 	
 	// 배치 프로그램
-	@Scheduled(cron = "* * 1 * * *")
+	@Scheduled(cron = "* * * 1 * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
@@ -1060,5 +1060,47 @@ public class UserinfoController {
 			return "redirect:homepage.do";
 		}
 	
+		
+	// 개인정보 업데이트(seo)
+	@RequestMapping("/updatePersonal.do")
+	public String updatePersonal(@ModelAttribute UserinfoDto dto, HttpSession session, HttpServletResponse response) throws ParseException, IOException {
+		session.getAttribute("login");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		int res = biz.update_personal(dto);
+		if(res > 0) {
+			session.removeAttribute("login");
+			session.setAttribute("login", dto);
+			out.println("<script>alert('개인정보 수정 성공');</script>");
+			out.flush();
+			return "profile";
+		}else {
+			out.println("<script>alert('개인정보 수정 실패, 재시도 후 관리자에게 문의해주세요.');</script>");
+			out.flush();
+			return "profile";
+		}
+	}
+	
+	// 비밀번호만 변경 (seo)
+	@RequestMapping("/update_pw.do")
+	public String updatePw(HttpSession session, HttpServletResponse response, String email, String pw, String name) throws IOException {
+		session.getAttribute("login");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		UserinfoDto dto = new UserinfoDto(email,pw,null,null,null,name,null,null,null,0,0);
+		int res = biz.update(dto);
+		
+		if(res > 0) {
+			out.println("<script>alert('비밀번호 변경 성공');</script>");
+			out.flush();
+			return "profile";
+		}else {
+			out.println("<script>alert('비밀번호 변경 실패');</script>");
+			out.flush();
+			return "profile";
+		}
+	}
 } 
 

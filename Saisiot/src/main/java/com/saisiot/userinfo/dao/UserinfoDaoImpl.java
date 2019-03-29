@@ -19,6 +19,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.saisiot.userinfo.dto.UserinfoDto;
 
@@ -262,6 +263,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 
 	
 
+
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email) {
@@ -342,13 +344,20 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res1*res2;
 		
 	}
-
+	
 	@Override
 	public int selectRoom(String emailFriend, String emailMe) {
 		
-			int res = 0;
-		return res;
+		HashMap<String, String> emails = new HashMap<String, String>();
+		emails.put("emailFriend", emailFriend);
+		emails.put("emailMe", emailMe);
+		
+		System.out.println("in selectRoom Dao=========="+emails.get("emailFriend") + "/"+ emails.get("emailMe"));
+		int roomno = sqlSession.selectOne("friend."+"select_room", emails);
+	    
+		return roomno;
 	}
+	
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
@@ -367,12 +376,16 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 
 	}
+	
+	@Override
+	public int update_personal(UserinfoDto dto) {
+		System.out.println("개인정보 수정");
+		
+		int res = sqlSession.update(NAMESPACE+"updatePersonal",dto);
+		return res;
+	}
 	//seo's editing end---------------------
 
 	
-
-
-
-	
-	
 }
+
