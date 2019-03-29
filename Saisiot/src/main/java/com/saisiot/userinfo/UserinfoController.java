@@ -45,6 +45,7 @@ import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
+import com.saisiot.userinfo.security.SHA256;
 
 @Controller
 public class UserinfoController {
@@ -89,7 +90,7 @@ public class UserinfoController {
 
 	}
 	
-	//비상용
+	// 아이디 1개 선택할 경우
 	@RequestMapping(value = "/select.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String select(Model model, String email) {
 
@@ -159,7 +160,7 @@ public class UserinfoController {
 	@RequestMapping(value= "/logingo.do", method = {RequestMethod.POST})
 	public String login(String email, @RequestParam("pw") String password, HttpSession session, HttpServletResponse response) throws IOException {
       //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
-      session.setAttribute("whos", "mine");	
+		session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		response.setContentType("text/html; charset=UTF-8");
@@ -168,19 +169,48 @@ public class UserinfoController {
 		System.out.println("+++++++++++++++++++");
 		System.out.println(email);
 		System.out.println(password);
-		
-		UserinfoDto dto = biz.login(email, password);
-		
+			
 		if(session.getAttribute("login")!=null) {
 			session.removeAttribute("login");
 		}
-		
+			// 관리자
+		if(email.equals("admin")) {
+			try {
+				UserinfoDto dto = biz.login(email,password);
+				session.setAttribute("login", dto);
+				System.out.println("관리자 로그인");
+				returnURL = "redirect:homepage.do";
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("관리자 로그인 실패");
+				returnURL = "redirect:login.do";
+			}
+			
+			// 비밀번호 초기화 대상자 비밀번호 변경 시도
+		}else if(password.equals("123456789")){
+			
+			try {
+				UserinfoDto dto = biz.login(email,password);
+				System.out.println("비밀번호 초기화 대상자 비밀번호 변경 페이지로 이동 시도");
+				System.out.println(dto.getEmail()+ dto.getPassword());
+				session.setAttribute("login", dto);
+				returnURL = "redirect:pass_reset.do";
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("비밀번호 초기화 대상자 비밀번호 변경 페이지로 이동 시도 실패");
+				returnURL = "redirect:login.do";
+			}
+			
+		}else {
+	
 		try {
-			if(dto.getEmail().equals(email) && dto.getPassword().equals(password)) {
+			// 일반 유저
+			System.out.println("일반 유저 로그인 시도");
+			UserinfoDto dto = biz.login(email, SHA256.getSHA256(password));
+			
+			if(dto.getEmail().equals(email) && dto.getPassword().equals(SHA256.getSHA256(password))) {
 				System.out.println("------------로그인 성공-------------");	
 				
-				
-					
 				int res = biz.lastloginupdate(dto);
 					
 				System.out.println(res);
@@ -226,6 +256,10 @@ public class UserinfoController {
 			out.println("<script>alert('아이디 또는 비밀번호를 확인해주세요');</script>");
 			out.flush();
 			returnURL = "login";
+			
+			
+		}
+		
 		}
 			return returnURL;
 	}
@@ -235,52 +269,63 @@ public class UserinfoController {
 	public String homepage(Model model, HttpSession session) {
 		
 		//lee's editing. show different friendlist depend on variable:'whos'
-				String whos = (String)session.getAttribute("whos");
-				UserinfoDto dto;
-				if(whos.equals("mine")) {
-					dto = (UserinfoDto)session.getAttribute("login");
-				}else {
-					dto = (UserinfoDto)session.getAttribute("others");
-				}
-				UserinfoDto Udto = (UserinfoDto)session.getAttribute("login");
-				
-				Map<String, Object> visit_email = new HashMap<String, Object>();
-				visit_email.put("email", Udto.getEmail());
-				
-				
-		        //오늘 방문자 수
-		        int todayCount = biz.visit_today(visit_email);
-				
-		        //전체 방문자수
-		        int totalCount = biz.visit_total(visit_email);
-		        
-		        //일주일 방문자 수 통계
-		        List<Object> week_visit_date = biz.visit_weekdata(visit_email);
-		        
-		        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
-		        
-		        model.addAttribute("todayCount", todayCount);
-		        model.addAttribute("totalCount",totalCount);
-		        model.addAttribute("week_visit_date", week_visit_date);
-				
-				String email  = dto.getEmail();
-				List<UserinfoDto> friendList = biz.selectFriendList(email);
-				
-				session.setAttribute("friendList", friendList);
-				
+		
+		try {
+			String whos = (String)session.getAttribute("whos");
+			UserinfoDto dto;
+			if(whos.equals("mine")) {
+				dto = (UserinfoDto)session.getAttribute("login");
+			}else {
+				dto = (UserinfoDto)session.getAttribute("others");
+			}
+			System.out.println("------------------메인 페이지로 이동중.-----------"+dto.getEmail());
+			
+			Map<String, Object> visit_email = new HashMap<String, Object>();
+			visit_email.put("email", dto.getEmail());
+			
+			
+	        //오늘 방문자 수
+	        int todayCount = biz.visit_today(visit_email);
+			
+	        //전체 방문자수
+	        int totalCount = biz.visit_total(visit_email);
+	        
+	        //일주일 방문자 수 통계
+	        List<Object> week_visit_date = biz.visit_weekdata(visit_email);
+	        
+	        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
+	        
+	        model.addAttribute("todayCount", todayCount);
+	        model.addAttribute("totalCount",totalCount);
+	        model.addAttribute("week_visit_date", week_visit_date);
+			
+			List<UserinfoDto> friendList = biz.selectFriendList(dto.getEmail());
+			
+			session.setAttribute("friendList", friendList);
+			System.out.println("------------------메인 페이지로 이동중2.-----------"+dto.getEmail());
+			//return "homepage";
 
-				//------------메인홈피에 배경음악 붙이기
+			//------------메인홈피에 배경음악 붙이기
 
-				email = dto.getEmail();
-				List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
-				jukelist = jukedao.backselect(email, "Y");
-
-				if(jukelist==null) {
-					return "homepage";
-				}else {
-					session.setAttribute("background",jukelist);
-					return "homepage";
-				}
+			List<JukeboxDto> jukelist = new ArrayList<JukeboxDto>();
+			jukelist = jukedao.backselect(dto.getEmail(), "Y");
+			System.out.println(jukelist);
+			session.setAttribute("background",jukelist);
+			/*if(jukelist==null) {
+				return "homepage";
+			}else {
+				
+				return "homepage";
+			}*/
+			System.out.println("------------------메인 페이지로 이동중3.-----------"+dto.getEmail());
+			
+			return "homepage";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "login";
+		}
+		
 	}
 	
 	// 로그아웃
@@ -296,11 +341,23 @@ public class UserinfoController {
 
 	// 회원가입
 	@RequestMapping(value = "/userinsert.do", method = {RequestMethod.POST})
-	public String insertuser(@ModelAttribute UserinfoDto dto, HttpServletResponse response) throws IOException{
-		
+	public String insertuser(HttpServletResponse response, HttpServletRequest request) throws IOException, ParseException{
+
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
+		SimpleDateFormat date = new SimpleDateFormat("yyyyy-mm-dd");
+		
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		String gender = request.getParameter("gender");	
+		Date birthdate = (date.parse(request.getParameter("birthdate")));
+		String username = request.getParameter("username");
+		String addr = request.getParameter("addr");
+		System.out.println(birthdate);
+		
+		UserinfoDto dto = new UserinfoDto(email,SHA256.getSHA256(password),gender,null,birthdate,username,null,null,addr,0,0);
+
 		try {
 			int res = biz.insert(dto);
 			
@@ -438,7 +495,7 @@ public class UserinfoController {
 	public String naverlogin(String email, String password, String name, HttpSession session) {
 		
 	      //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
-	      session.setAttribute("whos", "mine");	
+	    session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		try {
@@ -656,7 +713,6 @@ public class UserinfoController {
 		
 		String returnURL = "";
 		System.out.println(mail);
-			
 		
 		try {
 			
@@ -723,7 +779,11 @@ public class UserinfoController {
 	}
 	
 	// 배치 프로그램
+<<<<<<< HEAD
 	@Scheduled(cron = "* * * 1 * *")
+=======
+	@Scheduled(cron = "* * 1 * * *")
+>>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
@@ -756,9 +816,11 @@ public class UserinfoController {
 	// 계정 복귀
 	@RequestMapping(value = "usercondtionupdate.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String usercondtionupdate(@ModelAttribute UserinfoDto dto, String email, String password) {
+	public String usercondtionupdate(String email, String password) {
 		
 		try {
+			
+			UserinfoDto dto = new UserinfoDto(email,SHA256.getSHA256(password));
 			
 			int res = biz.comebackuser(dto);
 			
@@ -775,7 +837,7 @@ public class UserinfoController {
 		return "condition";
 	}
 	
-	// 소셜 휴면계정 해제
+	// 소셜 휴면 계정 해제
 	@RequestMapping("/snscomback.do")
 	public String snscondition(@ModelAttribute UserinfoDto dto, HttpSession session, String email) {
 		
@@ -800,7 +862,7 @@ public class UserinfoController {
 	}
 	
 	
-	//
+	// 휴면 계정 유저 비밀번호 변경창으로 이동
 	@RequestMapping("/condition.do")
 	public String condition(HttpSession session) {
 		
@@ -809,32 +871,43 @@ public class UserinfoController {
 		return "condition";
 	}
 	
-	// 추가정보 입력창
+	// 소셜 이용자 추가정보 입력창으로 이동
 	@RequestMapping("/user_info_plus.do")
 	public String userinfoplusgo(HttpSession session) {
 				
-		session.getAttribute("login");
+		//session.getAttribute("login");
+		//session.getAttribute("whos");
 		
 		return "user_info_plus";
 	}
 	
-	// 추가정보 업데이트
+	// 소셜 이용자 추가정보 업데이트
 	@RequestMapping(value = "/info_plus.do", method = RequestMethod.POST)
 	public String userinfoplus(@ModelAttribute UserinfoDto dto,HttpSession session,HttpServletResponse response) throws IOException {
 		
 		String returnURL = "";
-		session.getAttribute("login");
+		//session.getAttribute("login");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
+		if(session.getAttribute("login")!=null) {
+			session.removeAttribute("login");
+		}
 		
 		try {
 
 			int res = biz.userinfoplus(dto);
 			
 			if(res>0) {
-				out.println("<script>alert('추가정보 입력 성공');</script>");
-				out.flush();
-				returnURL = "homepage";
+				//out.println("<script>alert('추가정보 입력 성공'); location.href='homepage.do';</script>");
+				//returnURL = "redirect:homepage.do";
+				/*out.println("<script>alert('추가정보 입력 성공');</script>");
+				out.flush();*/
+				System.out.println("------------추가 정보 입력 성공-----------");
+				System.out.println(dto.getEmail());
+				UserinfoDto snsuser = biz.selectOne(dto.getEmail());
+				session.setAttribute("login", snsuser);
+				returnURL = "redirect:homepage.do";
+				
 			}else {
 				out.println("<script>alert('추가정보 입력 실패');</script>");
 				out.flush();
@@ -850,6 +923,31 @@ public class UserinfoController {
 		return returnURL;
 	}
 	
+	// 비밀번호 초기화 유저 비밀번호 변경
+	@ResponseBody
+	@RequestMapping(value = "passreset.do", method = RequestMethod.POST)
+	public String passreset(String email, String password) {
+			
+		UserinfoDto dto = new UserinfoDto(email,SHA256.getSHA256(password));
+		
+		int res = biz.passreset(dto);
+		
+		if(res>0) {
+			System.out.println("비밀번호 초기화 유저 비밀번호 변경 성공");
+		}else {
+			System.out.println("비밀번호 초기화 유저 비밀번호 변경 실패");
+		}
+		
+		return "homepage.do";
+	}
+	
+	// 비밀번호 초기화 대상 유저 비밀번호 변경 페이지로 이동
+	@RequestMapping("/pass_reset.do")
+	public String pass_reset(HttpSession session) {
+		session.getAttribute("login");
+		return "pass_reset";
+	}
+	
 	//--------------lee's editing------------------------------------------------------
 	
 		@RequestMapping(value = "/otherhome.do", method = { RequestMethod.GET, RequestMethod.POST })
@@ -862,5 +960,47 @@ public class UserinfoController {
 			return "redirect:homepage.do";
 		}
 	
+		
+	// 개인정보 업데이트(seo)
+	@RequestMapping("/updatePersonal.do")
+	public String updatePersonal(@ModelAttribute UserinfoDto dto, HttpSession session, HttpServletResponse response) throws ParseException, IOException {
+		session.getAttribute("login");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		int res = biz.update_personal(dto);
+		if(res > 0) {
+			session.removeAttribute("login");
+			session.setAttribute("login", dto);
+			out.println("<script>alert('개인정보 수정 성공');</script>");
+			out.flush();
+			return "profile";
+		}else {
+			out.println("<script>alert('개인정보 수정 실패, 재시도 후 관리자에게 문의해주세요.');</script>");
+			out.flush();
+			return "profile";
+		}
+	}
+	
+	// 비밀번호만 변경 (seo)
+	@RequestMapping("/update_pw.do")
+	public String updatePw(HttpSession session, HttpServletResponse response, String email, String pw, String name) throws IOException {
+		session.getAttribute("login");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		UserinfoDto dto = new UserinfoDto(email,pw,null,null,null,name,null,null,null,0,0);
+		int res = biz.update(dto);
+		
+		if(res > 0) {
+			out.println("<script>alert('비밀번호 변경 성공');</script>");
+			out.flush();
+			return "profile";
+		}else {
+			out.println("<script>alert('비밀번호 변경 실패');</script>");
+			out.flush();
+			return "profile";
+		}
+	}
 } 
 

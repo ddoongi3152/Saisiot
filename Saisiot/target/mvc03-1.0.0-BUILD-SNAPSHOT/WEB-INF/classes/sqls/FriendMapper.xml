@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="friend">
+	
+	<!-- 친구목록 -->
+	<select id="selectList_friend" resultType="com.saisiot.userinfo.dto.UserinfoDto">
+		SELECT * FROM USERINFO WHERE EMAIL IN (SELECT EMAIL FROM FRIENDCREATE
+		WHERE EMAIL != #{email} AND RELATIONNO IN (SELECT RELATIONNO
+		FROM FRIENDCREATE WHERE EMAIL = #{email}))
+	</select>
+	
+	<select id="select_room">
+		SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #{emailFriend} AND
+		RELATIONNO IN(SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #{emailMe})
+	</select>
+	
+	<insert id="insert_before">
+		INSERT INTO RELATIONSHIP
+		(RELATIONNO)
+		VALUES (RELATIONSEQ.NEXTVAL)
+	</insert>
+	<insert id="insert_friend" parameterType="string">
+		INSERT INTO FRIENDCREATE
+		(FRIENDCRENO, EMAIL, RELATIONNO)
+		VALUES (FRIENDSEQ.NEXTVAL, #{emailFriend},RELATIONSEQ.CURRVAL)
+	</insert>
+	
+	<insert id="insert_friend_me">
+		INSERT INTO FRIENDCREATE
+		(FRIENDCRENO, EMAIL, RELATIONNO)
+		VALUES (FRIENDSEQ.NEXTVAL, #{emailMe},RELATIONSEQ.CURRVAL)
+	</insert>
+</mapper>

@@ -344,5 +344,13 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 
 	}
+	
+	@Override
+	public int update_personal(UserinfoDto dto) {
+		System.out.println("개인정보 수정");
+		
+		int res = sqlSession.update(NAMESPACE+"updatePersonal",dto);
+		return res;
+	}
 	//seo's editing end---------------------
 }

@@ -1,6 +1,5 @@
 package com.saisiot.chat;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +11,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,17 +37,40 @@ public class ChatController {
 	UserinfoBiz u_biz;
 	@Autowired
 	ChatBiz c_biz;
+
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+/*	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "home";
+	}*/
+
 	
     
 	@RequestMapping(value="/chat.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String chat(Model model, HttpSession session) {
 		
 		UserinfoDto dto = (UserinfoDto) session.getAttribute("login");
+
 		List<UserinfoDto> friendList = u_biz.selectFriendList(dto.getEmail());
 		session.setAttribute("friendList", friendList);
+
+		session.setAttribute("login", dto);
+		
 		return "chat";
 	}
 	
+
 	@ResponseBody
 	@RequestMapping(value="/chatroomno.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public int chatroomno(Model model, HttpSession session, HttpServletRequest request) {
@@ -85,6 +105,5 @@ public class ChatController {
 		return sjarr;
 	}
 	
-
 
 }
