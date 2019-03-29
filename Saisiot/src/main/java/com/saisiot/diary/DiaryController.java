@@ -49,14 +49,22 @@ public class DiaryController {
 	private FileValidator fileValidator;
 
 	@RequestMapping(value = "/insertForm_diary.do")
-	public String insertForm_Diary() {
+	public ModelAndView insertForm_Diary(ModelAndView mav,HttpSession session) {
+		
+		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
+		String email = (String)userdto.getEmail();
+		List<DiaryRootDto> folderList = Dbiz.folderList(email);
+		
+		mav.addObject("folderList",folderList);
+		mav.setViewName("diary_insert");
+		
+		return mav;
 
-		return "diary_insert";
 	}
 	
 	@RequestMapping(value="/insertForm_folder.do")
 	public String insertForm_Folder() {
-
+		
 		return "folder_insert";
 	}
 	
@@ -64,6 +72,22 @@ public class DiaryController {
 	public String insert_Folder(@ModelAttribute DiaryRootDto dto) {
 
 		Dbiz.folder_insert(dto);
+		
+		return "redirect:diary.do";
+	}
+	
+	@RequestMapping(value="/deleteForm_folder.do")
+	public String deleteForm_Folder(@RequestParam(value="folderno") int folderno,Model model) {
+
+		model.addAttribute("folderno",folderno);
+		
+		return "folder_delete";
+	}
+	
+	@RequestMapping("/folder_delete.do")
+	public String delete_Folder(@RequestParam(value="folderno") int folderno ) {
+		
+		Dbiz.folder_delete(folderno);
 		
 		return "redirect:diary.do";
 	}
@@ -83,8 +107,10 @@ public class DiaryController {
 
 	@RequestMapping(value = "/diary_insert.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String insert_Diary(@ModelAttribute DiaryDto dto, HttpServletRequest request, Model model,
-			UploadFile uploadFile, BindingResult result) throws IOException {
+			UploadFile uploadFile, BindingResult result,HttpSession session) throws IOException {
 		
+		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
+		String email = userdto.getEmail();
 		String picurl = "";
 		
 		String content = dto.getContent();
@@ -106,7 +132,7 @@ public class DiaryController {
 
 			Dbiz.insert(dto);
 
-			return "diary";
+			return "redirect:diary.do";
 
 		} else {
 			
@@ -210,8 +236,11 @@ public class DiaryController {
 	//게시판 목록
 	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
 	   public ModelAndView diary(@RequestParam(defaultValue = "title") String searchOption,
-	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
+	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue="0") int folderno,HttpSession session)
 	         throws Exception {
+	         
+	      UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
+		  String email = userdto.getEmail();
 	      // 총 게시글 수 계산
 	      int count = Dbiz.countArticle(searchOption, keyword);
 	      // 페이지 나누기 관련 처리
@@ -220,7 +249,7 @@ public class DiaryController {
 	      int end = paging.getPageEnd();
 	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
 	      List<DiaryDto> commentList= Dbiz.commentList();
-	      List<DiaryRootDto> folderList = Dbiz.folderList();
+	      List<DiaryRootDto> folderList = Dbiz.folderList(email);
 	      /* System.out.println("commentList="+commentList); */
 	      // 데이터를 맵에 저장
 	      Map<String, Object> map = new HashMap<String, Object>();
