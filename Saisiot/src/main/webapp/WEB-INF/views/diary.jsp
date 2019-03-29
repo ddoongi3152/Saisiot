@@ -86,13 +86,12 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="list" items="${map.folderList }">
-												<li><a href="">${list.foldername }</a>
+												<li>
+													<a href="">${list.foldername }</a>
 													<a href='javascript:void(0);' onclick="delete_Folder(${list.folderno});">
-													삭제
-													</a>
+													삭제</a>
 													<a href='javascript:void(0);' onclick="update_Folder(${list.folderno});">
-													수정
-													</a>
+													수정</a>
 												</li>
 											</c:forEach>
 										</c:otherwise>
@@ -130,7 +129,8 @@
 									<option value="title"
 										<c:out value="${map.searchOption == 'title'?'selected':''}"/>>제목</option>
 								</select> 
-								<input name="keyword" value="${map.keyword}"> <input type="submit" value="검색">
+								<input name="keyword" value="${map.keyword}"> 
+								<input type="submit" value="검색">
 								<input type="button" value="글쓰기" onclick="location.href='insertForm_diary.do'" />
 							</form>
 						</div>
