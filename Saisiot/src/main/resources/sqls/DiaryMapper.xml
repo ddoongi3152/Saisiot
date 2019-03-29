@@ -116,5 +116,14 @@
 	<select id="folderList" resultType="com.saisiot.diary.dto.DiaryRootDto">
 		SELECT * FROM DIARYROOT
 	</select>
+	
+	<delete id="folder_delete">
+		DELETE FROM DIARYROOT WHERE FOLDERNO=#{folderno}
+	</delete>
+	
+	<update id="folder_update">
+		UPDATE DIARYROOT SET FOLDERNAME=#{foldername}
+		WHERE FOLDERNO=#{folderno}
+	</update>
 
 </mapper>

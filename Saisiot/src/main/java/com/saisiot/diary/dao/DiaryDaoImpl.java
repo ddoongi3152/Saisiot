@@ -117,6 +117,16 @@ public class DiaryDaoImpl implements DiaryDao {
 		list = sqlSession.selectList(NAMESPACE + "folderList");
 		return list;
 	}
+
+	@Override
+	public void folder_delete(int folderno) {
+		sqlSession.delete(NAMESPACE+"folder_delete", folderno);
+	}
+
+	@Override
+	public int folder_update(DiaryRootDto dto) {
+		return sqlSession.update(NAMESPACE+"folder_update", dto);
+	}
 	
 	
 

@@ -68,6 +68,14 @@ public class DiaryController {
 		return "redirect:diary.do";
 	}
 	
+	@RequestMapping("/folder_delete.do")
+	public String delete_Folder(@RequestParam(value="folderno", required=false, defaultValue="0") int folderno ) {
+		
+		Dbiz.folder_delete(folderno);
+		
+		return "redirect:diary.do";
+	}
+	
 	@RequestMapping("/selectForm_map.do")
 	public String selectForm_Map() {
 		

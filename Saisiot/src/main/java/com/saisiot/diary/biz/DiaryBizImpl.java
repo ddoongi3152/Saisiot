@@ -81,6 +81,16 @@ public class DiaryBizImpl implements DiaryBiz {
 	public List<DiaryRootDto> folderList() {
 		return dao.folderList();
 	}
+
+	@Override
+	public void folder_delete(int folderno) {
+		dao.folder_delete(folderno);
+	}
+
+	@Override
+	public int folder_update(DiaryRootDto dto) {
+		return dao.folder_update(dto);
+	}
 	
 
 }

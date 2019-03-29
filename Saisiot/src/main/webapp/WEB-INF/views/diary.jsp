@@ -68,7 +68,8 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="list" items="${map.folderList }">
-												<li><a href="#">${list.foldername }</a></li>
+												<li><a href="">${list.foldername }</a></li>
+												<li><a href="folder_delete.do?folderno=${list.folderno }">${list.folderno }번 폴더 삭제</a>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
