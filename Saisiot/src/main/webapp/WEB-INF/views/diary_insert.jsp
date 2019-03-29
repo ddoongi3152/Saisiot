@@ -116,20 +116,21 @@
 						<form:form id="frm" action="diary_insert.do" method="post"
 							enctype="multipart/form-data" modelAttribute="DiaryDto">
 							<input type="hidden" name="email" value="<%=dto.getEmail()%>" />
-							<div>
-								<div>
-									<div>제 목</div>
+							<div id="diary_insert">
+								<div id="diary_title_wrapper1">
+									<div id="ddiary_title_wrapper2">
+										제 목<input type="text" name="title" />
+										<select class="folder_select" name="folderno">
+											<c:forEach var="list" items="${folderList }">
+												<option value="${list.folderno}">${list.foldername }</option>
+											</c:forEach>
+										</select>
+									</div>
 									<div>
-										<input type="text" name="title" /> 
 										<input type="button" name="selectmap_btn" id="selectmap_btn" value="장소 선택" /> 
-										<input type="file" name="file" />
+										<input id="file_btn" type="file" name="file"/>
 										<input type="button" name="selectvideo_btn" id="selectvideo_btn" value="동영상 추가" />
 									</div>
-									<select name="folderno">
-										<c:forEach var="list" items="${folderList }">
-											<option value="${list.folderno}">${list.foldername }</option>
-										</c:forEach>
-									</select>
 								</div>
 								<div>
 									<div>내 용</div>
@@ -141,7 +142,7 @@
 		 							</div>
 								</div>
 								<div id="insertTag">
-									<div>
+									<div >
 										<input type="button" value="작성" id="savebutton" />
 										<input type="button" value="취소" onclick="location.href='diary.do'" />
 									</div>

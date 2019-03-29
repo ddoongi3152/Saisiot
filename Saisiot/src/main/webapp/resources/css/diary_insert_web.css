@@ -178,8 +178,27 @@
 		overflow-x: hidden;
 		overflow-y: scroll;
 	}
+	#addbtns{
+		display: flex;
+	}
 	#right_wrapper4_2_2 {
 		width: 100%;
+	}
+	#diary_insert{
+		background-color: #f7f7f7;
+		min-height: 466px;
+		display: flex;
+		flex-direction: column;
+	}
+	#diary_title_wrapper1{
+		display: flex;
+		flex-direction: column;
+	}
+	#diary_title_wrapper2{
+		
+	}
+	.folder_select{
+		 margin-left: auto;
 	}
 	/*---right_wrappers end---*/
 	#right_sidebar {
