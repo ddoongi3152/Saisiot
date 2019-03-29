@@ -49,14 +49,20 @@ public class DiaryController {
 	private FileValidator fileValidator;
 
 	@RequestMapping(value = "/insertForm_diary.do")
-	public String insertForm_Diary() {
+	public ModelAndView insertForm_Diary(ModelAndView mav) {
+		
+		List<DiaryRootDto> folderList = Dbiz.folderList();
+		
+		mav.addObject("folderList",folderList);
+		mav.setViewName("diary_insert");
+		
+		return mav;
 
-		return "diary_insert";
 	}
 	
 	@RequestMapping(value="/insertForm_folder.do")
 	public String insertForm_Folder() {
-
+		
 		return "folder_insert";
 	}
 	
@@ -106,7 +112,7 @@ public class DiaryController {
 
 			Dbiz.insert(dto);
 
-			return "diary";
+			return "redirect:diary.do";
 
 		} else {
 			
