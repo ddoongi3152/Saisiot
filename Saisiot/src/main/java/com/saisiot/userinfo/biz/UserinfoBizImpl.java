@@ -126,6 +126,11 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	}
 
 	@Override
+	public int selectRoom(String emailFriend, String emailMe) {
+		return dao.selectRoom(emailFriend, emailMe);
+	}
+
+	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -187,16 +192,25 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	}
 
 	@Override
+	public int userstop(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.userstop(dto);
+	}
+
+	@Override
+	public int usercome(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return dao.usercome(dto);
+	}
+
+	
+
 	public int update_personal(UserinfoDto dto) {
 		// TODO Auto-generated method stub
 		return dao.update_personal(dto);
 	}
 
-	@Override
-	public int selectRoom(String emailFriend, String emailMe) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	
 	
