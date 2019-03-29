@@ -42,6 +42,10 @@ public interface UserinfoBiz {
 	public int userinfoplus(UserinfoDto dto);
 	// 비밀번호 초기화 유저 비밀번호 변경
 	public int passreset(UserinfoDto dto);
+	// 유저 이용 정지
+	public int userstop(UserinfoDto dto);
+	// 유저 이용 복귀
+	public int usercome(UserinfoDto dto);
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email);

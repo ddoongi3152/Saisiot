@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chat">
+	
+	<insert id="insert_chat">
+		INSERT INTO CHAT
+		(CHATNO, EMAIL, RELATIONNO, CHATTEXT, CHATDATE)
+		VALUES (CHATSEQ.NEXTVAL,#{email},#{relationno},#{chattext},SYSDATE)
+	</insert>
+	
+	<select id="select_chat" resultType="com.saisiot.chat.dto.ChatDto">
+		(SELECT EMAIL, CHATNO, RELATIONNO, CHATTEXT, CHATDATE FROM CHAT
+		WHERE RELATIONNO = #{relationno})
+	</select>
+</mapper>

@@ -150,6 +150,17 @@ public class UserinfoController {
 		
 	}
 	
+	// 관리자 페이지로 이동
+	@RequestMapping("/admingo.do")
+	public String admingo(Model model, HttpSession session) {
+		
+		model.addAttribute("list", biz.selectList());
+		session.getAttribute("login");
+		session.setAttribute("whos", "mine");
+		
+		return "admin";
+	}
+	
 	// 로그인페이지로 이동
 	@RequestMapping("/login.do")
 	public String loginForm() {
@@ -174,12 +185,12 @@ public class UserinfoController {
 			session.removeAttribute("login");
 		}
 			// 관리자
-		if(email.equals("admin")) {
+		if(email.equals("admin") && password.equals("987654123")) {
 			try {
 				UserinfoDto dto = biz.login(email,password);
 				session.setAttribute("login", dto);
 				System.out.println("관리자 로그인");
-				returnURL = "redirect:homepage.do";
+				returnURL = "redirect:admingo.do";
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("관리자 로그인 실패");
@@ -231,10 +242,8 @@ public class UserinfoController {
 						session.setAttribute("login", dto);
 						returnURL = "condition";
 					}else if(dto.getUsercondition()==3) {
-						System.out.println("탈퇴회원 입니다.");
-						returnURL = "login";
-					}else if(dto.getUsercondition()==4) {
 						System.out.println("이용정지된 회원입니다.");
+						returnURL = "userstopalert.do";
 					}
 						
 					
@@ -428,6 +437,8 @@ public class UserinfoController {
 					}else if(kakao.getUsercondition()==2) {
 						session.setAttribute("login", kakao);
 						returnURL = "2";
+					}else if(kakao.getUsercondition()==3) {
+						returnURL = "3";
 					}
 						
 				}else {
@@ -452,6 +463,8 @@ public class UserinfoController {
 					}else if(kakao.getUsercondition()==2) {
 						session.setAttribute("login", kakao);
 						returnURL = "2";
+					}else if(kakao.getUsercondition()==3) {
+						returnURL = "3";
 					}
 						
 					
@@ -478,6 +491,8 @@ public class UserinfoController {
 					returnURL = "1";
 				}else if(kakao.getUsercondition()==2) {
 					returnURL = "2";
+				}else if(kakao.getUsercondition()==3) {
+					returnURL = "3";
 				}
 					
 			}else {
@@ -530,6 +545,8 @@ public class UserinfoController {
 					}else if(naver.getUsercondition()==2) {
 						session.setAttribute("login", naver);
 						returnURL = "2";
+					}else if(naver.getUsercondition()==3) {
+						returnURL = "3";
 					}
 						
 				}else {
@@ -553,6 +570,8 @@ public class UserinfoController {
 					}else if(naver.getUsercondition()==2) {
 						session.setAttribute("login", naver);
 						returnURL = "2";
+					}else if(naver.getUsercondition()==3) {
+						returnURL = "3";
 					}
 						
 				}else {
@@ -580,6 +599,8 @@ public class UserinfoController {
 				}else if(naver.getUsercondition()==2) {
 					session.setAttribute("login", naver);
 					returnURL = "2";
+				}else if(naver.getUsercondition()==3) {
+					returnURL = "3";
 				}
 					
 			}else {
@@ -636,6 +657,7 @@ public class UserinfoController {
 		return "callback";
 	}
 	
+	/*
 	// 구글 리캡쳐 api
 	@ResponseBody
 	@RequestMapping(value = "VerifyRecaptcha.do", method = RequestMethod.POST)
@@ -653,7 +675,7 @@ public class UserinfoController {
 	            return -1;
 	        }
 	 }
-	
+	*/
 	// 이메일 중복 확인
 	@ResponseBody
 	@RequestMapping(value = "/emailcheck.do", method = RequestMethod.POST)
@@ -779,7 +801,7 @@ public class UserinfoController {
 	}
 	
 	// 배치 프로그램
-	@Scheduled(cron = "* * 1 * * *")
+	@Scheduled(cron = "* * * 1 * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
@@ -943,6 +965,88 @@ public class UserinfoController {
 		session.getAttribute("login");
 		return "pass_reset";
 	}
+	
+	// 유저 강제 이용 정지
+	@RequestMapping("/userstop.do")
+	public String userstop(Model model,@ModelAttribute UserinfoDto dto, String email, HttpServletResponse response) throws IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		try {
+			dto = biz.selectOne(email);
+			
+			int res = biz.userstop(dto);
+			
+			if(res>0) {
+				 System.out.println(dto.getEmail() + "가 이용 정지 되었습니다.");
+				/* out.println("<script>alert('"+dto.getEmail()+"가 이용정지 되었습니다."+ "');</script>");
+				 out.flush();
+				 model.addAttribute("list", biz.selectList());*/
+				 return "redirect:admingo.do";
+			}else {
+				System.out.println("이용정지 실패");
+				/*out.println("<script>alert('"+dto.getEmail()+"가 이용정지 실패."+ "');</script>");
+				 out.flush();
+				 model.addAttribute("list", biz.selectList());*/
+				return "redirect:admingo.do";
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:admingo.do";
+			
+		}
+	
+	}
+	
+	// 강제 이용 정지 유저 복귀
+		@RequestMapping("/usercome.do")
+		public String usercome(Model model,@ModelAttribute UserinfoDto dto, String email,HttpServletResponse response) throws IOException {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			try {
+				
+				dto = biz.selectOne(email);
+				int res = biz.usercome(dto);
+				
+				if(res>0) {
+					 System.out.println(dto.getEmail() + "가 복귀 되었습니다.");
+					 /*out.println("<script>alert('"+dto.getEmail()+"가 복귀 되었습니다."+ "');</script>");
+					 out.flush();
+					 model.addAttribute("list", biz.selectList());*/
+					 return "redirect:admingo.do";
+				}else {
+					System.out.println("복귀 실패");
+					/*out.println("<script>alert('"+dto.getEmail()+"가 복귀 되었습니다."+ "');</script>");
+					 out.flush();
+					 model.addAttribute("list", biz.selectList());*/
+					 return "redirect:admingo.do";
+				}
+						
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "redirect:admingo.do";
+				
+			}
+		
+		}
+		
+		@RequestMapping("/userstopalert.do")
+		public String userstopalert(HttpServletResponse response, HttpSession session) throws IOException {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>alert('이용정지된 회원입니다');</script>");
+			out.flush();
+			
+			return "login";
+		}
 	
 	//--------------lee's editing------------------------------------------------------
 	
