@@ -49,9 +49,11 @@ public class DiaryController {
 	private FileValidator fileValidator;
 
 	@RequestMapping(value = "/insertForm_diary.do")
-	public ModelAndView insertForm_Diary(ModelAndView mav) {
+	public ModelAndView insertForm_Diary(ModelAndView mav,HttpSession session) {
 		
-		List<DiaryRootDto> folderList = Dbiz.folderList();
+		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
+		String email = (String)userdto.getEmail();
+		List<DiaryRootDto> folderList = Dbiz.folderList(email);
 		
 		mav.addObject("folderList",folderList);
 		mav.setViewName("diary_insert");
