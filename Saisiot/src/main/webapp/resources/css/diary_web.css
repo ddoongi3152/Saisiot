@@ -219,8 +219,11 @@
 		flex: 0 0 auto;
 		width: 95%;
 		background-color: #f6f5f5;
+		border-bottom: 1px solid #dddddd;
+		margin-bottom: 2px;
 	}
 	.diary_reply {
+		border-top: 1px solid #dddddd;
 		overflow-y: scroll;
 		flex: 0 0 auto;
 		width: 95%;
@@ -239,6 +242,29 @@
 		padding: 2px;
 		width: 70%;
 	}
+	.diary_comment{
+		border-top: 1px solid #dddddd;
+		padding-top:5px;
+		padding-left:10px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		display: flex;
+		width: 95%;
+		margin-top: auto;
+		
+	}
+	.diary_comment a{
+		font-size: 15px;
+		padding-right: 5px;
+	}
+	.diary_comment_textarea{
+		display: flex;
+	}
+	.diary_comment_btn{
+		margin-left: 10px;
+	}
+	
+	
 	/*---right_wrappers end---*/
 	#right_sidebar {
 		order: 3;

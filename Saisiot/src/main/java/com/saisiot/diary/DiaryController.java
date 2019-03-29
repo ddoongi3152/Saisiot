@@ -173,7 +173,7 @@ public class DiaryController {
 
 			Dbiz.insert(dto);
 
-				return "diary";
+				return "redirect:diary.do";
 
 		}
 		
@@ -181,7 +181,7 @@ public class DiaryController {
 			
 			Dbiz.insert(dto);
 
-				return "diary";
+				return "redirect:diary.do";
 
 		}
 
