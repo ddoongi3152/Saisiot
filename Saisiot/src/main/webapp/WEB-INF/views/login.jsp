@@ -91,7 +91,7 @@
 						<input type="hidden" id="recaptcha_chk">
 						<div><input type="submit" class="btn" id="recaptcha_btn" value="가입"></div>							
 				</form>
-					<div class="g-recaptcha" data-sitekey="6LfiDJcUAAAAADcFYZpJvash2bUuQrFwky-zgQwx" >
+					<div class="g-recaptcha" data-sitekey="6LfiDJcUAAAAADcFYZpJvash2bUuQrFwky-zgQwx" ></div>
 			</div>
 		</div>
 		<!-- left_wrapper5 end -->

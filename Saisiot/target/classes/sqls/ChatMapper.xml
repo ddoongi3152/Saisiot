@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="select_chat" resultType="com.saisiot.chat.dto.ChatDto">
-		(SELECT EMAIL, CHATNO, RELATIONNO, CHATTEXT, CHATDATE FROM CHAT
-		WHERE RELATIONNO = #{relationno})
+		SELECT EMAIL, CHATNO, RELATIONNO, CHATTEXT, CHATDATE FROM CHAT
+		WHERE RELATIONNO = #{relationno} ORDER BY CHATNO
 	</select>
 </mapper>

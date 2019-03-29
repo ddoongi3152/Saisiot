@@ -75,13 +75,13 @@ public class ChatController {
 			JSONObject jobj = new JSONObject();
 			jobj.put("id", dto.getEmail());
 			jobj.put("text", dto.getChattext());
-			jobj.put("chatdate", ""+dto.getChatdate());
+			jobj.put("chatdate", ""+(dto.getChatdate().getMonth())+"월"+(dto.getChatdate().getDate())+"일"+(dto.getChatdate().getHours())+":"+(dto.getChatdate().getMinutes()));
 			jarr.add(jobj);
 		}
 		JSONObject jarrobj = new JSONObject();
 		jarrobj.put("messages", jarr);
 		String sjarr = jarrobj.toJSONString();
-
+		System.out.println(sjarr);
 		return sjarr;
 	}
 	

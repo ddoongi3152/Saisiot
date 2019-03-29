@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ChatDto {
 	
 	private int chatno;
@@ -11,7 +13,7 @@ public class ChatDto {
 	private String email;
 	private String chattext;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd-HH-mm")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date chatdate;
 	
 	public ChatDto() {};

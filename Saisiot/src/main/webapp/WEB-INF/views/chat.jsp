@@ -76,7 +76,7 @@
 					var messages = jobj.messages
 					for(i=0; i < messages.length ; i++){
 		                if(messages[i].id == "<%=dto.getEmail()%>"){
-		                	$("#chatground").append("<div class='chat_me'><div class='chatbox'>"+messages[i].text+"</div></div>");
+		                	$("#chatground").append("<div class='chat_me'>"+messages[i].chatdate+"<div class='chatbox'>"+messages[i].text+"</div></div>");
 		                }else {
 		                	$("#chatground").append("<div class='chat_you'><div class='chatbox'>"+messages[i].text+"</div></div>");
 		        		}
@@ -93,7 +93,7 @@
 			  var email = $(this).attr('id');
 			  var username = $(this).text();
 			  $("#chattitle").text(username);
-			  $("#chatground>div>div").remove();
+			  $("#chatground>div").remove();
 				
 			  $.ajax({
 					type:"POST",

@@ -11,7 +11,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.saisiot.chat.biz.ChatBiz;
-import com.saisiot.chat.biz.ChatBizImpl;
 import com.saisiot.chat.dto.ChatDto;
 
 import org.springframework.beans.factory.annotation.Autowired;

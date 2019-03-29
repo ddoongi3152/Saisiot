@@ -221,6 +221,7 @@
     margin: 4px 0 4px 0;
   }
   .chat_me{
+  	font-size: 7pt;
     display: flex;
     justify-content: flex-end;
     width: 100%;
