@@ -5,6 +5,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +24,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import java.awt.print.PrinterException;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -38,15 +50,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
+import com.saisiot.profile.dto.FileValidator;
 import com.saisiot.profile.dto.ProfileDto;
+import com.saisiot.profile.dto.UploadFile;
 import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
 import com.saisiot.userinfo.recapthca.*;
-import com.saisiot.userinfo.security.SHA256;
 
 import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
@@ -63,6 +75,7 @@ public class UserinfoController {
 	
 	@Autowired
 	private JukeboxDao jukedao;
+	
 	
 	//비상용
 	@RequestMapping(value = "/list.do", method = { RequestMethod.GET, RequestMethod.POST })
@@ -93,7 +106,7 @@ public class UserinfoController {
 
 	}
 	
-	// 아이디 1개 선택할 경우
+	//비상용
 	@RequestMapping(value = "/select.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String select(Model model, String email) {
 
@@ -163,7 +176,7 @@ public class UserinfoController {
 	@RequestMapping(value= "/logingo.do", method = {RequestMethod.POST})
 	public String login(String email, @RequestParam("pw") String password, HttpSession session, HttpServletResponse response) throws IOException {
       //lee: set session Attribute "whos"- which identifies wheather it's myhome or other's home
-		session.setAttribute("whos", "mine");	
+      session.setAttribute("whos", "mine");	
 		String returnURL = "";
 		
 		response.setContentType("text/html; charset=UTF-8");
@@ -172,40 +185,13 @@ public class UserinfoController {
 		System.out.println("+++++++++++++++++++");
 		System.out.println(email);
 		System.out.println(password);
-			
+		
+		UserinfoDto dto = biz.login(email, password);
+		
 		if(session.getAttribute("login")!=null) {
 			session.removeAttribute("login");
 		}
-			// 관리자
-		if(email.equals("admin")) {
-			try {
-				UserinfoDto dto = biz.login(email,password);
-				session.setAttribute("login", dto);
-				System.out.println("관리자 로그인");
-				returnURL = "redirect:homepage.do";
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("관리자 로그인 실패");
-				returnURL = "redirect:login.do";
-			}
-			
-			// 비밀번호 초기화 대상자 비밀번호 변경 시도
-		}else if(password.equals("123456789")){
-			
-			try {
-				UserinfoDto dto = biz.login(email,password);
-				System.out.println("비밀번호 초기화 대상자 비밀번호 변경 페이지로 이동 시도");
-				System.out.println(dto.getEmail()+ dto.getPassword());
-				session.setAttribute("login", dto);
-				returnURL = "redirect:pass_reset.do";
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("비밀번호 초기화 대상자 비밀번호 변경 페이지로 이동 시도 실패");
-				returnURL = "redirect:login.do";
-			}
-			
-		}else {
-	
+		
 		try {
 			if(dto.getEmail().equals(email) && dto.getPassword().equals(password)) {
 				System.out.println("------------로그인 성공-------------");	
@@ -270,6 +256,10 @@ public class UserinfoController {
 				UserinfoDto dto;
 				if(whos.equals("mine")) {
 					dto = (UserinfoDto)session.getAttribute("login");
+					ProfileDto pdto = (ProfileDto)biz.select_p(dto.getEmail());
+					session.setAttribute("pdto", pdto);
+					
+					
 				}else {
 					dto = (UserinfoDto)session.getAttribute("others");
 				}
@@ -291,9 +281,9 @@ public class UserinfoController {
 		        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
 		        
 		        session.setAttribute("todayCount", todayCount);
-		        session.setAttribute("todayCount", todayCount);
+		        session.setAttribute("totalCount",totalCount);
 		        session.setAttribute("week_visit_date", week_visit_date);
-		        
+				
 				String email  = dto.getEmail();
 				List<UserinfoDto> friendList = biz.selectFriendList(email);
 				
@@ -927,12 +917,6 @@ public class UserinfoController {
 			return "redirect:homepage.do";
 		}
 		
-		@RequestMapping(value = "/update_pic.do", method = { RequestMethod.POST })
-		public String update_pic(HttpSession session, Model model, HttpServletRequest request) {
-			
-			return "redirect:homepage.do";
-		}
-		
 		@RequestMapping("/charge_coin.do")
 		public String charge_coin() {
 			
@@ -953,6 +937,114 @@ public class UserinfoController {
 			
 			return "redirect:homepage.do";
 		}
+		
+		@RequestMapping("/fileupload.do")
+		public String action() throws Exception {
+		     
+		    return "uploadForm";
+		}
+		
+		@RequestMapping("/upload.do")
+		public String fileUpload(HttpServletRequest request, Model model,UploadFile uploadFile,BindingResult result) throws IOException {
+			
+			// BindingResult : uploadFile을 잡고 에러가 발생하면 에러를 출력하도록 도와준다 
+			
+			FileValidator fileValidator = new FileValidator();
+			
+			fileValidator.validate(uploadFile, result);
+			if(result.hasErrors()) {
+				return "uploadForm";
+			}
+			
+			
+			// 실제 파일
+			MultipartFile file=uploadFile.getFile();
+			String filename=file.getOriginalFilename();
+			
+			UploadFile fileobj=new UploadFile();
+			fileobj.setFilename(filename);
+			fileobj.setDesc(uploadFile.getDesc());
+			
+			
+			InputStream inputStream=null;
+			OutputStream outputStream=null;
+			
+			try {
+
+				inputStream=file.getInputStream();
+				// 파일이 실제로 업로드, 저장될 path를 지정
+				String path=WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
+				
+				System.out.println("업로드 될 실제 경로 :" + path);
+				
+				/*
+				 * 경로
+				 * 절대경로 : C:\workspace\...\storage , 실제 물리적 폴더
+				 * 상대경로 : ../(상위폴더) ./(현재) /(root)  
+				 * 
+				 * http://localhost:8787/upload/form.do
+				 * <--------------------><----->
+				 *           root          현재   
+				 *           
+				 *           
+				 *           
+				 * */
+				
+				// 폴더만들어라
+				File storage=new File(path);
+				if(!storage.exists()) {
+					storage.mkdirs();
+				}
+				// 파일만들어라
+				File newfile=new File(path+"/"+filename);
+				if(!newfile.exists()) {
+					newfile.createNewFile();
+				}
+				outputStream=new FileOutputStream(newfile);
+				
+				int read=0;
+				byte[] b= new byte[(int)file.getSize()];
+				
+				while((read=inputStream.read(b))!=-1) {
+					outputStream.write(b,0,read);
+				}
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+				inputStream.close();
+				outputStream.close();
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+			model.addAttribute("fileobj",fileobj);
+			
+			return "uploadFile";
+		}
+		
+		@RequestMapping("/download.do")
+		@ResponseBody
+		public byte[] fileDown(HttpServletRequest request,HttpServletResponse response, String filename) throws IOException {
+			
+			String path=WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
+			File file=new File(path+"/"+filename);
+			
+			byte[] bytes=FileCopyUtils.copyToByteArray(file);
+			// 8859_1 : UTF-8이 대응 할 수 없는것도 처리 하기 위해
+			String fn=new String(file.getName().getBytes(),"8859_1");
+			
+			response.setHeader("Content-Disposition", "attachment;filename=\""+fn+"\"");
+			response.setContentLength(bytes.length);
+			response.setContentType("image/jpeg");
+			// servers web.xml(tomcat)
+			// mime-type : 어떤파일을 읽어들일 수 있는지 찾을 수 있다 , 추가도 가능
+			
+					
+			return bytes;
+		}
+		
 		//cheon's editing end----------
 } 
 

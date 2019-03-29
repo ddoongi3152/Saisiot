@@ -191,6 +191,8 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	@Override
 	public int insert_P(UserinfoDto dto) {
 		return dao.insert_P(dto);
+	}
+	
 	@Override
 	public int update_personal(UserinfoDto dto) {
 		// TODO Auto-generated method stub

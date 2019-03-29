@@ -160,10 +160,8 @@
 		WHERE EMAIL = #{email}
 	</update>
 	
-=======
 	<update id="updatePersonal" parameterType="UserinfoDto">
 		UPDATE USERINFO SET GENDER = #{gender}, BIRTHDATE = #{birthdate}, USERNAME = #{username}, ADDR = #{addr} WHERE EMAIL = #{email}
 	</update>
->>>>>>> refs/remotes/origin/master
 	
 </mapper>

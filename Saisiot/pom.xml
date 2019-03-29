@@ -305,13 +305,19 @@
 		<!--*********************lee part end******************************-->
 
 		<!-- cheon part -->
-		<!-- https://mvnrepository.com/artifact/com.servlets/cos -->
-		<dependency>
-			<groupId>com.servlets</groupId>
-			<artifactId>cos</artifactId>
-			<version>09May2002</version>
-		</dependency>
-		
+		<!-- MultipartHttpServletRequset -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>

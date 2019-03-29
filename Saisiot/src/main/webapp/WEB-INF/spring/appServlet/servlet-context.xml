@@ -30,6 +30,8 @@
 	<!-- for websocket chatting : echoHandler -->
 	<beans:bean id="echoHandler" class="com.saisiot.chat.echo.EchoHandler"/>
  
+ 	
+ 	
        <websocket:handlers>
 			<websocket:mapping handler="echoHandler" path="/echo" />
 			<websocket:sockjs />
@@ -40,3 +42,5 @@
 	
 	
 </beans:beans>
+
+

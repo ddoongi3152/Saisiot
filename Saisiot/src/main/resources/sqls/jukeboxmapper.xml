@@ -25,9 +25,5 @@
 	<update id="updateBack" parameterType="jukeboxDto">
 		UPDATE MUSIC SET BACKGROUND = #{background} WHERE EMAIL = #{email} AND MUSICNO = #{musicno}
 	</update>
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> refs/remotes/origin/master
 </mapper>
