@@ -9,7 +9,7 @@
 	
 	<insert id="diary_insert" parameterType="DiaryDto">
 		INSERT INTO DIARY
-		VALUES(DIARY_DIARYNOSEQ.NEXTVAL, 1 , #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
+		VALUES(DIARY_DIARYNOSEQ.NEXTVAL, #{folderno} , #{email}, #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
 		#{picurl, jdbcType=VARCHAR}, #{mapname, jdbcType=VARCHAR}, #{maplati, jdbcType=FLOAT}, #{maplong, jdbcType=FLOAT},
 		#{videourl, jdbcType=VARCHAR} , DIARY_DIARYNOSEQ.NEXTVAL, 0)
 	</insert>
@@ -107,6 +107,23 @@
 		DELETE FROM DIARY WHERE DIARYNO=#{diaryno}
 	</delete>
 
+	<!-- 폴더 추가 -->
+	<insert id="folder_insert">
+		INSERT INTO DIARYROOT
+		VALUES(DIARYROOT_FOLDERNOSEQ.NEXTVAL, #{email}, #{foldername}, 0)
+	</insert>
 
+	<select id="folderList" resultType="com.saisiot.diary.dto.DiaryRootDto">
+		SELECT * FROM DIARYROOT WHERE EMAIL=#{email}
+	</select>
+	
+	<delete id="folder_delete">
+		DELETE FROM DIARYROOT WHERE FOLDERNO=#{folderno}
+	</delete>
+	
+	<update id="folder_update">
+		UPDATE DIARYROOT SET FOLDERNAME=#{foldername}
+		WHERE FOLDERNO=#{folderno}
+	</update>
 
 </mapper>

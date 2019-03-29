@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,7 @@ $(function(){
         }
     });
       
-    //전송버튼 클릭이벤트
+    //작성버튼 클릭이벤트
     $("#savebutton").click(function(){
         //id가 smarteditor인 textarea에 에디터에서 대입
         editor_object.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -54,13 +55,17 @@ $(function(){
     
 });
 </script>
-
+<%
+	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+%>
 </head>
 <body>
 	
 	<h1>다이어리 글쓰기 폼</h1>
 	
+	
 	<form:form id="frm" action="diary_insert.do" method="post" enctype="multipart/form-data" modelAttribute="DiaryDto" >
+		<input type="hidden" name="email" value="<%=dto.getEmail() %>"/>
 		<table>
 			<tr>
 				<th>제	목</th>
@@ -70,6 +75,11 @@ $(function(){
 					<input type="button" name="testbtn" id="testbtn" value="test"/>
 					<input type="file" name="file"/>
 					<input type="button" name="selectvideo_btn" id="selectvideo_btn" value="동영상 추가"/>
+					<select name="folderno">
+						<c:forEach var="list" items="${folderList }">
+							<option value="${list.folderno}">${list.foldername }</option>
+						</c:forEach>
+					</select>
 				</td>
 			</tr>
 			<tr>

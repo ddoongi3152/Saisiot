@@ -63,7 +63,7 @@
    
    <update id="passupdate" parameterType="UserinfoDto">
       UPDATE USERINFO
-      SET PASSWORD = (123456789) WHERE EMAIL=#{email}
+      SET PASSWORD = 123456789 WHERE EMAIL=#{email}
    </update>
    
    <select id="emailcheck" parameterType="String" resultType="UserinfoDto">
@@ -97,6 +97,11 @@
 		UPDATE USERINFO
       	SET GENDER =#{gender}, ADDR =#{addr} WHERE EMAIL=#{email}	
 	</update>
+	
+	<update id="passreset" parameterType="UserinfoDto">
+      UPDATE USERINFO
+      SET PASSWORD=#{password} WHERE EMAIL=#{email}
+   </update>
 
 	<select id="overlap_visit" resultType="String">
 		SELECT * 
@@ -105,6 +110,10 @@
 		AND V_EMAIL = #{v_email}
 		AND TO_CHAR(V_DATE) = TO_CHAR(SYSDATE)
 	</select>
+	
+	<update id="updateCoin" parameterType="UserinfoDto">
+		UPDATE USERINFO SET COINNO = #{coinno} WHERE EMAIL = #{email}
+	</update>
 
 	<insert id="totalvisit">
 		INSERT INTO VISIT (EMAIL, V_EMAIL, V_DATE)
@@ -130,5 +139,9 @@
 		FROM VISIT 	
 		WHERE EMAIL = #{email} 		
 	</select>
+	
+	<update id="updatePersonal" parameterType="UserinfoDto">
+		UPDATE USERINFO SET GENDER = #{gender}, BIRTHDATE = #{birthdate}, USERNAME = #{username}, ADDR = #{addr} WHERE EMAIL = #{email}
+	</update>
 	
 </mapper>

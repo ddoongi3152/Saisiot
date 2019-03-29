@@ -3,10 +3,10 @@ package com.saisiot.diary.biz;
 import java.util.List;
 
 import com.saisiot.diary.dto.DiaryDto;
+import com.saisiot.diary.dto.DiaryRootDto;
 
 public interface DiaryBiz {
 
-	public List<DiaryDto> selectList();
 	public DiaryDto selectOne(int diaryno);
 	public int insert(DiaryDto dto);
 	public int update(DiaryDto dto);
@@ -25,5 +25,10 @@ public interface DiaryBiz {
 	public void comment_insert_proc(DiaryDto dto,int diaryno);
 	
 	public void comment_delete(DiaryDto dto);
+	
+	public void folder_insert(DiaryRootDto dto);
+	public void folder_delete(int folderno);
+	public int folder_update(DiaryRootDto dto);
+	public List<DiaryRootDto> folderList(String email);
 	
 }

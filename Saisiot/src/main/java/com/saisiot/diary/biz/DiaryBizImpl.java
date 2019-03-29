@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.saisiot.diary.dao.DiaryDao;
 import com.saisiot.diary.dto.DiaryDto;
+import com.saisiot.diary.dto.DiaryRootDto;
 
 @Service
 public class DiaryBizImpl implements DiaryBiz {
@@ -14,11 +15,6 @@ public class DiaryBizImpl implements DiaryBiz {
 	@Autowired
 	private DiaryDao dao;
 	
-	@Override
-	public List<DiaryDto> selectList() {
-		
-		return dao.selectList();
-	}
 
 	@Override
 	public DiaryDto selectOne(int diaryno) {
@@ -74,6 +70,26 @@ public class DiaryBizImpl implements DiaryBiz {
 	@Override
 	public void comment_delete(DiaryDto dto) {
 		dao.comment_delete(dto);
+	}
+
+	@Override
+	public void folder_insert(DiaryRootDto dto) {
+		dao.folder_insert(dto);
+	}
+
+	@Override
+	public List<DiaryRootDto> folderList(String email) {
+		return dao.folderList(email);
+	}
+
+	@Override
+	public void folder_delete(int folderno) {
+		dao.folder_delete(folderno);
+	}
+
+	@Override
+	public int folder_update(DiaryRootDto dto) {
+		return dao.folder_update(dto);
 	}
 	
 
