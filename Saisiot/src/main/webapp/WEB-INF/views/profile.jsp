@@ -19,6 +19,49 @@
 <script src="https://d3js.org/d3.v5.js"></script>
 <script type="text/javascript">
 
+$(document).ready(function(){
+	$("#add_friend").click(function() {
+		window.open("addfriendpop.do", "친구찾기", "width=500,height=300");
+	});
+	//개인정보 수정 버튼 클릭
+	$("#personal_func").click(function() {
+		$("#update_personal").submit();
+	})
+	//비밀번호 변경 클릭
+	$("#pw_ok").click(function() {
+		var pw = $("#updatepw").val();
+		var name = $("input[name=username]").val();
+		var email = $("input[name=email]").val();
+		if(pwchk(pw, name)){
+			$("#pw_change").show();
+			$("#updatepw").hide();
+			$("#pw_ok").hide();
+			location.href="update_pw.do?email="+email+"&pw="+pw+"&name="+name;
+		}else{
+			alert("비밀번호를 6자리 이상 입력하셔야 합니다.\n회원님의 이름이 지워졌는지 확인해주세요.");
+			return false;
+		}
+	})
+});
+
+function reset(){
+	location.href="profile.do";
+}
+//비밀번호 태그 변경 func
+function update_pw() {
+	$("#pw_change").hide();
+	$("#updatepw").show();
+	$("#pw_ok").show();
+}
+//비밀번호 수, name 유효성 검사
+function pwchk(pw, name) {
+	if(pw.length < 6 || name == null || name == ""){
+		return false;
+	}else{
+		return true;
+	}
+}
+
 	function update_p(){
 		var email = $("#email").val();
 		var p_picurl = $("#profile_pic").children().attr('src');
@@ -291,9 +334,7 @@ var tooltip = d3.select("#graph").append("div").attr("class", "count").style("di
 	<input type="hidden" value="" id="addcoin" />
 
 </body>
-</body>
 </html>
-=======
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.Date"%>

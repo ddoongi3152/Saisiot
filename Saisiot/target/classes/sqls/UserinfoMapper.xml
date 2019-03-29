@@ -142,7 +142,6 @@
 		WHERE EMAIL = #{email} 		
 	</select>
 	
-<<<<<<< HEAD
 	<!-- cheon's editing -->
 	<insert id="insert_p" parameterType="UserinfoDto">
 		INSERT INTO HOMEINFO (EMAIL, P_PICURL, P_CONTENT, P_TITLE)
