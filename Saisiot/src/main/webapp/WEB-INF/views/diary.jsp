@@ -30,6 +30,10 @@
 	function insert_Folder() {
 		window.open("insertForm_folder.do", "폴더 추가", "width=300,height=100")
 	}
+	
+	function delete_Folder(folderno){
+		window.open("deleteForm_folder.do?folderno="+folderno, "폴더 삭제", "width=300,height=100")
+	}
 </script>
 </head>
 <body>
@@ -68,8 +72,8 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="list" items="${map.folderList }">
-												<li><a href="">${list.foldername }</a></li>
-												<li><a href="folder_delete.do?folderno=${list.folderno }">${list.folderno }번 폴더 삭제</a>
+												<li><a href="">${list.foldername }</a><a href='javascript:void(0);'
+										onclick="delete_Folder(${list.folderno});">폴더 삭제</a></li>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
@@ -108,7 +112,7 @@
 										<c:out value="${map.searchOption == 'title'?'selected':''}"/>>제목</option>
 								</select> <input name="keyword" value="${map.keyword}"> <input
 									type="submit" value="검색"> <input type="button"
-									value="글쓰기" onclick="location.href='insertForm_diary.do'" />
+									value="글쓰기" onclick="location.href='insertForm_diary.do?email=<%=dto.getEmail()%>'" />
 							</form>
 						</div>
 						<!-- diary list area , groupsq=0 list -->

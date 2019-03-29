@@ -9,7 +9,7 @@
 	
 	<insert id="diary_insert" parameterType="DiaryDto">
 		INSERT INTO DIARY
-		VALUES(DIARY_DIARYNOSEQ.NEXTVAL, 1 , #{email}, #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
+		VALUES(DIARY_DIARYNOSEQ.NEXTVAL, #{folderno} , #{email}, #{title}, #{content}, SYSDATE, #{fileurl, jdbcType=VARCHAR},
 		#{picurl, jdbcType=VARCHAR}, #{mapname, jdbcType=VARCHAR}, #{maplati, jdbcType=FLOAT}, #{maplong, jdbcType=FLOAT},
 		#{videourl, jdbcType=VARCHAR} , DIARY_DIARYNOSEQ.NEXTVAL, 0)
 	</insert>
@@ -114,7 +114,7 @@
 	</insert>
 
 	<select id="folderList" resultType="com.saisiot.diary.dto.DiaryRootDto">
-		SELECT * FROM DIARYROOT
+		SELECT * FROM DIARYROOT WHERE EMAIL=#{email}
 	</select>
 	
 	<delete id="folder_delete">

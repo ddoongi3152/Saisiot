@@ -25,6 +25,6 @@ public interface DiaryDao {
 	public void folder_insert(DiaryRootDto dto);
 	public void folder_delete(int folderno);
 	public int folder_update(DiaryRootDto dto);
-	public List<DiaryRootDto> folderList();
+	public List<DiaryRootDto> folderList(String email);
 	
 }

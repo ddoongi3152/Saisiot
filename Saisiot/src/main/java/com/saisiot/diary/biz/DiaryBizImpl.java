@@ -78,8 +78,8 @@ public class DiaryBizImpl implements DiaryBiz {
 	}
 
 	@Override
-	public List<DiaryRootDto> folderList() {
-		return dao.folderList();
+	public List<DiaryRootDto> folderList(String email) {
+		return dao.folderList(email);
 	}
 
 	@Override
