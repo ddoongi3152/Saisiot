@@ -13,6 +13,7 @@
 		<mapper resource="/sqls/DiaryMapper.xml"/>
 		<mapper resource="/sqls/FriendMapper.xml"/>
 		<mapper resource="/sqls/jukeboxmapper.xml"/>
+		<mapper resource="/sqls/ChatMapper.xml"/>
 	</mappers>
 
 </configuration>

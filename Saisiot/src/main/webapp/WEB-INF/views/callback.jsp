@@ -44,7 +44,10 @@
 			}else if(data =="2"){
 				opener.parent.window.location.href="condition.do";
 				self.close();
-			}
+			}else if(data=="3"){
+				alert("이용 정지된 회원입니다.");
+				self.close();
+			}		
 			
 			
 		},

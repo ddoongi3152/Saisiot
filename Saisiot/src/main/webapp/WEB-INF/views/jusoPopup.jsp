@@ -59,7 +59,7 @@ function init(){
 			, "<%=buldMnnm%>", "<%=buldSlno%>", "<%=mtYn%>", "<%=lnbrMnnm%>", "<%=lnbrSlno%>", "<%=emdNo%>");
 		window.close(); --%>
 		
-		var address = "<%=roadAddrPart1%> + <%=roadAddrPart2%> + <%=addrDetail%>";
+		var address = "<%=roadAddrPart1%>  <%=roadAddrPart2%>  <%=addrDetail%>";
 		
 		//alert(address);
 		window.opener.document.getElementById("insertaddress").value = address;

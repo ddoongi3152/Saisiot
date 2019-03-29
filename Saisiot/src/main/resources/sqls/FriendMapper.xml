@@ -9,7 +9,7 @@
 		FROM FRIENDCREATE WHERE EMAIL = #{email}))
 	</select>
 	
-	<select id="select_room">
+	<select id="select_room" parameterType="hashmap" resultType="int">
 		SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #{emailFriend} AND
 		RELATIONNO IN(SELECT RELATIONNO FROM FRIENDCREATE WHERE EMAIL = #{emailMe})
 	</select>

@@ -40,12 +40,12 @@
    
    <insert id="userinsert" parameterType="UserinfoDto">
       INSERT INTO USERINFO (EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION)
-      VALUES(#{email}, #{password}, #{gender}, SYSDATE, #{birthdate}, #{username}, SYSDATE, SYSDATE, #{addr}, 0, 1)
+      VALUES(#{email}, #{password}, #{gender}, SYSDATE, #{birthdate}, #{username}, SYSDATE, SYSDATE, #{addr}, 10, 1)
    </insert>
    
    <insert id="kakaoinsert" parameterType="UserinfoDto">
       INSERT INTO USERINFO (EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION)
-      VALUES(#{email}, #{password}, #{gender, jdbcType=VARCHAR}, SYSDATE, SYSDATE, #{username}, SYSDATE, SYSDATE, #{addr, jdbcType=VARCHAR}, 0, 1)
+      VALUES(#{email}, #{password}, #{gender, jdbcType=VARCHAR}, SYSDATE, SYSDATE, #{username}, SYSDATE, SYSDATE, #{addr, jdbcType=VARCHAR}, 10, 1)
    </insert>
    
    <select id="kakaologin" parameterType="String" resultType="UserinfoDto">
@@ -101,7 +101,17 @@
 	<update id="passreset" parameterType="UserinfoDto">
       UPDATE USERINFO
       SET PASSWORD=#{password} WHERE EMAIL=#{email}
-   </update>
+    </update>
+    
+    <update id="userstop" parameterType="UserinfoDto">
+		UPDATE USERINFO
+      	SET USERCONDITION = (3) WHERE EMAIL=#{email}	
+	</update>
+	
+	 <update id="usercome" parameterType="UserinfoDto">
+		UPDATE USERINFO
+      	SET USERCONDITION = (1) WHERE EMAIL=#{email}	
+	</update>
 
 	<select id="overlap_visit" resultType="String">
 		SELECT * 

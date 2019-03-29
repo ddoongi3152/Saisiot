@@ -220,25 +220,16 @@
             <artifactId>javax.json</artifactId>
             <version>1.1</version>
         </dependency>
- 
-        <!-- 잭슨 -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.5</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
 		    <artifactId>quartz</artifactId>
 		    <version>2.3.0</version>
 		</dependency>
-<!-- 		<dependency>
-		    <groupId>opensymphony</groupId>
-		    <artifactId>quartz</artifactId>
-		    <version>1.6.3</version>
-		    <scope>compile</scope>
-		</dependency> -->
+
+		<!-- <dependency> <groupId>opensymphony</groupId> <artifactId>quartz</artifactId> 
+			<version>1.6.3</version> <scope>compile</scope> </dependency> -->
 		<!-- Quartz 1.6.0 depends on commons collections -->
 		<dependency>
 		    <groupId>commons-collections</groupId>
@@ -295,7 +286,7 @@
             <artifactId>spring-websocket</artifactId>
             <version>4.1.6.RELEASE</version>
         </dependency>
-        
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -315,6 +306,12 @@
 		  <artifactId>json</artifactId>
 		  <version>20180813</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
 		
 		<!--*********************lee part end******************************-->
 	</dependencies>
