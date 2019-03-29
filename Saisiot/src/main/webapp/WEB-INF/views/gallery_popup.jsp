@@ -15,7 +15,7 @@
 	
 	<table>
 		<tr align="center">
-			<td colspan="2"><a style="font-size: 11px">저장할 폴더를 선택해주세요.</a></td>
+			<td colspan="2"><a style="font-size: 12px">저장할 폴더를 선택해주세요.</a></td>
 		</tr>
 		<tr align="center">
 			<td>
@@ -23,7 +23,7 @@
 					<option></option>
 				</select>
 			</td>
-			<td><input type="button" value="선택"></td>
+			<td><input type="button" value="선택" style="font-size: 12px"></td>
 		</tr>
 	</table>
 
