@@ -10,38 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.saisiot.diary.dto.DiaryDto;
+import com.saisiot.diary.dto.DiaryRootDto;
 
 @Repository
 public class DiaryDaoImpl implements DiaryDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-
-	@Override
-	public List<DiaryDto> selectList() {
-
-		List<DiaryDto> list = new ArrayList<DiaryDto>();
-
-		
-		list = sqlSession.selectList(NAMESPACE + "selectList_diary");
-
-		return list;
-	}
-
-	@Override
-	public void updateViewCnt(int diaryno) {
-		sqlSession.update(NAMESPACE + "updateViewCnt", diaryno);
-	}
-
-	@Override
-	public DiaryDto selectOne(int diaryno) {
-
-		DiaryDto res = new DiaryDto();
-
-		res = sqlSession.selectOne(NAMESPACE + "diary_detail", diaryno);
-
-		return res;
-	}
 
 	@Override
 	public int insert(DiaryDto dto) {
@@ -68,7 +43,19 @@ public class DiaryDaoImpl implements DiaryDao {
 		return 0;
 	}
 	
+	//폴더 추가
+	@Override
+	public void folder_insert(DiaryRootDto dto) {
+		sqlSession.insert(NAMESPACE+"folder_insert", dto);
+	}
 	
+	//폴더 리스트 
+	@Override
+	public List<DiaryRootDto> folderList() {
+		List<DiaryRootDto> list = new ArrayList<DiaryRootDto>();
+		list = sqlSession.selectList(NAMESPACE + "folderList");
+		return list;
+	}
 	
 	//다이어리 리스트
 	@Override
@@ -117,5 +104,8 @@ public class DiaryDaoImpl implements DiaryDao {
 	public void comment_delete(DiaryDto dto) {
 		sqlSession.delete(NAMESPACE+"comment_delete",dto);
 	}
+
+	
+	
 
 }
