@@ -31,16 +31,6 @@ public class DiaryBizImpl implements DiaryBiz {
 		return 0;
 	}
 
-	@Override
-	public void folder_insert(DiaryRootDto dto) {
-		dao.folder_insert(dto);
-	}
-	
-	@Override
-	public List<DiaryRootDto> folderList() {
-		return dao.folderList();
-	}
-
 	//검색 조건 리스트
 	@Override
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
@@ -77,6 +67,26 @@ public class DiaryBizImpl implements DiaryBiz {
 		dao.comment_delete(dto);
 	}
 
+
+	@Override
+	public void folder_insert(DiaryRootDto dto) {
+		dao.folder_insert(dto);
+	}
+
+	@Override
+	public List<DiaryRootDto> folderList(String email) {
+		return dao.folderList(email);
+	}
+
+	@Override
+	public void folder_delete(int folderno) {
+		dao.folder_delete(folderno);
+	}
+
+	@Override
+	public int folder_update(DiaryRootDto dto) {
+		return dao.folder_update(dto);
+	}
 	
 
 }

@@ -125,6 +125,11 @@
 										id="testbtn" value="test" /> <input type="file" name="file" />
 										<input type="button" name="selectvideo_btn"
 										id="selectvideo_btn" value="동영상 추가" /></div>
+														<select name="folderno">
+						<c:forEach var="list" items="${folderList }">
+							<option value="${list.folderno}">${list.foldername }</option>
+						</c:forEach>
+					</select>
 								</div>
 								<div>
 									<div>내 용</div>
