@@ -14,6 +14,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%
+	response.setHeader("Pragma", "no-chche");
+	response.setHeader("Cache-control", "no-store");
+	response.setHeader("Expries", "0");
+	/* 데이터가 변경되었을 떄, 이전 내용을 화면에 보여주는 이유 -> 서버의 값이  아닌 캐시에 저장된 내용을 가져오기 때문
+	
+	브라우저가 캐시에 응답결과를 저장하지 않도록 설
+	response.setHeader("Pragma", "no-chche");			// http 1.0
+	response.setHeader("Cache-control", "no-store");	// http 1.1
+	response.setHeader("Expries", "0");					// proxy server	
+	 */ 
+%>
 <meta charset="UTF-8">
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
 <script type="text/javascript">
@@ -44,7 +56,6 @@
 	}
 	
 	List<String> friendList = (List<String>)session.getAttribute("friendList");
-	//UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
 	
 	if(dto.getAddr() == null){
 		response.sendRedirect("user_info_plus.do");
@@ -314,4 +325,3 @@ var tooltip = d3.select("#graph").append("div").attr("class", "count").style("di
 
 </body>
 </html>
-    

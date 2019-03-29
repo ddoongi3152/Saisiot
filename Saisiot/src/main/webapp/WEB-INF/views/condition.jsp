@@ -63,7 +63,7 @@
 		</tr>
 		<tr>
 			<th>변경하실 비밀번호</th>
-			<td><input type="text" id="password"> </td>
+			<td><input type="password" id="password"> </td>
 		</tr>
 		<tr>
 			<td align="center"><input type="button" value="비밀번호 변경" onclick="conditionupdate();"> </td>

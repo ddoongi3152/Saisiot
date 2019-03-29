@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.saisiot.userinfo.security.SHA256;
+
 public class UserinfoDto {
 	
 	private String email;

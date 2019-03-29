@@ -42,7 +42,7 @@
 			alert("주소를 입력해주세요");
 			return false;
 		}
-		if(document.getElementById("addr")value==""){
+		if(document.getElementById("addr").value==""){
 			alert("주소를 입력해주세요");
 			return false;
 		}
@@ -51,6 +51,7 @@
 </script>
 <%
 	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
+	String whos = (String)session.getAttribute("whos");
 %>
 
 <body>

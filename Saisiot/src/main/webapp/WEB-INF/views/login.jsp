@@ -3,6 +3,9 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
+<!DOCTYPE html>
+<html>
+<head>
 <%
 	response.setHeader("Pragma", "no-chche");
 	response.setHeader("Cache-control", "no-store");
@@ -15,9 +18,6 @@
 	response.setHeader("Expries", "0");					// proxy server	
 	 */ 
 %>
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8">
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
@@ -43,7 +43,7 @@
 					<label>EMAIL</label>
 						<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요">
 					<label>PASSWORD</label>
-						<input type="text" id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
+						<input type="password" id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
 					<!-- <div id="login_apis"> -->
 					
 				
@@ -73,10 +73,10 @@
 					<label>EMAIL</label>
 						<input type="text" id="insertemail" name="email" placeholder="이메일을 입력해주세요" readonly="readonly" onclick="mailcon();"/>					
 					<label>PASSWORD</label>			
-						<input type="text" id="insertpassword" name="password" placeholder="비밀번호를 입력해주세요" onchange="pwchk();">
+						<input type="password" id="insertpassword" name="password" placeholder="비밀번호를 입력해주세요" onchange="pwchk();">
 						<span id="same01"></span>
 					<label>PASSCHECK</label>
-						<input type="text" id="insertpasswordchk" placeholder="비밀번호를 다시 입력해주세요" onchange="pwchk();">
+						<input type="password" id="insertpasswordchk" placeholder="비밀번호를 다시 입력해주세요" onchange="pwchk();">
 						<span id="same02"></span>
 					<label>GENDER</label>		
 						<div>
@@ -88,11 +88,9 @@
 						<input type="text" id="insertname" name="username" placeholder="이름을 입력해주세요">
 					<label>ADDRESS</label>	
 						<input type="text" id="insertaddress" name="addr" placeholder="주소를 입력해주세요" readonly="readonly" onclick="goPopup();">
-						<input type="hidden" id="recaptcha_chk">
-						<div><input type="submit" class="btn" id="recaptcha_btn" value="가입"></div>							
+						<div><input type="submit" class="btn" value="가입"></div>						
 				</form>
-					<div class="g-recaptcha" data-sitekey="6LfiDJcUAAAAADcFYZpJvash2bUuQrFwky-zgQwx" >
-			</div>
+					<div class="g-recaptcha" id="g-recaptcha-btn" data-sitekey="6LfiDJcUAAAAADcFYZpJvash2bUuQrFwky-zgQwx"></div>
 		</div>
 		<!-- left_wrapper5 end -->
 	</div>

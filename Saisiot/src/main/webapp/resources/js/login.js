@@ -12,7 +12,7 @@
 	  // 로그인 창을 띄웁니다.
 	 Kakao.Auth.loginForm({
 	    success: function(authObj) {
-	      alert(JSON.stringify(authObj));
+	      //alert(JSON.stringify(authObj));
 	      
 	      Kakao.API.request({
 	
@@ -35,6 +35,8 @@
 							location.href='homepage.do';
 						}else if(data=="2"){
 							location.href='condition.do';
+						}else if(data=="3"){
+							location.href='userstopalert.do';
 						}			
 					},
 					error:function(){
@@ -54,8 +56,8 @@
 	};
 
 
-	$(document).ready(function() {
-	    $("#recaptcha_btn").click(function() {
+	/*$(document).ready(function() {
+	    $("#g-recaptcha-btn").click(function() {
 	        $.ajax({
 	            url: 'VerifyRecaptcha.do',
 	            type: 'post',
@@ -65,12 +67,12 @@
 	            success: function(data) {
 	                switch (data) {
 	                    case 0:
-	                       	//alert("자동 가입 방지 봇 통과");
+	                       	alert("자동 가입 방지 봇 통과");
 	                        $('#recaptcha_chk').val('1');
 	                        break;
 	
 	                    case 1:
-	                        //alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+	                        alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
 	                        break;
 	
 	                    default:
@@ -80,10 +82,9 @@
 	            }
 	        });
 	    });
-	});
+	});*/
+	
 
-	
-	
 
 	$(window).resize(function(){
 		if ($(window).width() > 460) {
@@ -114,8 +115,13 @@
 	
 		
 	function pwchk(){
+		
+			if(document.getElementById('insertpassword').value == "123456789"){
+				document.getElementById('same01').innerHTML='사용 할 수 없는 비밀번호 입니다.';
+				document.getElementById("same01").style.color="red";
 			
-			if(document.getElementById('insertpassword').value.length >= 6 && document.getElementById('insertpasswordchk').value.length <= 12){
+			}
+			else if(document.getElementById('insertpassword').value.length >= 6 && document.getElementById('insertpasswordchk').value.length <= 12){
 				document.getElementById('same01').innerHTML='사용가능한 비밀번호 입니다.';
 				document.getElementById("same01").style.color="blue";
 	    		
@@ -124,6 +130,7 @@
 	    		document.getElementById('same01').innerHTML='비밀번호는 6글자 이상 12글자 이하로 설정해주세요';
 	    		document.getElementById("same01").style.color="red";
 	    	}
+			
 	    	
 	    	if(document.getElementById('insertpassword')!='' && document.getElementById('insertpasswordchk').value!=''){
 	    		if(document.getElementById('insertpassword').value==document.getElementById('insertpasswordchk').value){
@@ -184,6 +191,22 @@
 			alert("비밀번호를 입력해주세요");
 			return false;
 		}
+		if(document.getElementById("insertpassword").value.length < 6 && document.getElementById("insertpassword").value.length > 12 ){
+			alert("비밀번호는 6글자 이상 12글자 이하로 설정해주세요");
+			return false;
+		}
+		if(document.getElementById("insertpassword").value == "123456789"){
+			alert("사용할 수 없는 비밀번호 입니다.");
+			return false;
+		}
+		if(document.getElementById("insertpassword").value == document.getElementById("insertemail").value){
+			alert("이메일과 비밀번호는 같을 수 없습니다.");
+			return false;
+		}
+		if(document.getElementById("insertpassword").value == document.getElementById("insertname").value){
+			alert("이름과 비밀번호는 같을 수 없습니다.");
+			return false;
+		}
 		if(document.getElementById("birthdate").value == null){
 			alert("생년월일을 입력해주세요");
 			return false;
@@ -209,12 +232,12 @@
 			return false;
 		}
 		
-		if(document.getElementById("recaptcha_chk").value == null){
+		if(document.getElementById("g-recaptcha-response").value == null){
 			alert("자동입력방지를 확인해주세요");
 			return false;
 		}
 		
-		if(document.getElementById("recaptcha_chk").value == ""){
+		if(document.getElementById("g-recaptcha-response").value == ""){
 			alert("자동입력방지를 확인해주세요");
 			return false;
 

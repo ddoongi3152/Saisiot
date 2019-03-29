@@ -17,5 +17,13 @@ public interface DiaryBiz {
 
 	// 게시글 레코드 갯수
 	public int countArticle(String searchOption, String keyword);
-
+	
+	//댓글 리스트
+	public List<DiaryDto> commentList();
+	
+	//
+	public void comment_insert_proc(DiaryDto dto,int diaryno);
+	
+	public void comment_delete(DiaryDto dto);
+	
 }
