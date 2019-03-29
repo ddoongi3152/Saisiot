@@ -353,4 +353,10 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 	}
 	//seo's editing end---------------------
+
+	@Override
+	public int passreset(UserinfoDto dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

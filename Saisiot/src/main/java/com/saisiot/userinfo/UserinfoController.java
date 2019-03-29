@@ -779,11 +779,7 @@ public class UserinfoController {
 	}
 	
 	// 배치 프로그램
-<<<<<<< HEAD
 	@Scheduled(cron = "* * * 1 * *")
-=======
-	@Scheduled(cron = "* * 1 * * *")
->>>>>>> branch 'master' of https://github.com/ddoongi3152/Saisiot.git
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
