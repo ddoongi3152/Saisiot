@@ -15,25 +15,25 @@
 <html>
 <head>
 <%
-	response.setHeader("Pragma", "no-chche");
-	response.setHeader("Cache-control", "no-store");
-	response.setHeader("Expries", "0");
-	/* 데이터가 변경되었을 떄, 이전 내용을 화면에 보여주는 이유 -> 서버의 값이  아닌 캐시에 저장된 내용을 가져오기 때문
-	
-	브라우저가 캐시에 응답결과를 저장하지 않도록 설
-	response.setHeader("Pragma", "no-chche");			// http 1.0
-	response.setHeader("Cache-control", "no-store");	// http 1.1
-	response.setHeader("Expries", "0");					// proxy server	
-	 */ 
+   response.setHeader("Pragma", "no-chche");
+   response.setHeader("Cache-control", "no-store");
+   response.setHeader("Expries", "0");
+   /* 데이터가 변경되었을 떄, 이전 내용을 화면에 보여주는 이유 -> 서버의 값이  아닌 캐시에 저장된 내용을 가져오기 때문
+   
+   브라우저가 캐시에 응답결과를 저장하지 않도록 설
+   response.setHeader("Pragma", "no-chche");         // http 1.0
+   response.setHeader("Cache-control", "no-store");   // http 1.1
+   response.setHeader("Expries", "0");               // proxy server   
+    */ 
 %>
 <meta charset="UTF-8">
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		$("#friend_select > select").change(function() {
-			location.href = "otherhome.do?email="+this.value
-		});
-	});
+   $(document).ready(function(){
+      $("#friend_select > select").change(function() {
+         location.href = "otherhome.do?email="+this.value
+      });
+   });
 
 </script>
 <script type="text/javascript"></script>
@@ -47,181 +47,181 @@
 </head>
 <body>
 <%
-	String whos = (String)session.getAttribute("whos");
-	UserinfoDto dto;
-	if(whos.equals("mine")){
-		dto = (UserinfoDto)session.getAttribute("login");
-	}else{
-		dto = (UserinfoDto)session.getAttribute("others");
-	}
-	
-	List<String> friendList = (List<String>)session.getAttribute("friendList");
-	
-	if(dto.getAddr() == null){
-		response.sendRedirect("user_info_plus.do");
-	}
+   String whos = (String)session.getAttribute("whos");
+   UserinfoDto dto;
+   if(whos.equals("mine")){
+      dto = (UserinfoDto)session.getAttribute("login");
+   }else{
+      dto = (UserinfoDto)session.getAttribute("others");
+   }
+   
+   List<String> friendList = (List<String>)session.getAttribute("friendList");
+   
+   if(dto.getAddr() == null){
+      response.sendRedirect("user_info_plus.do");
+   }
 
 
-	//방문자수와 통계 그래프를 위한 코드 - 유정
+   //방문자수와 통계 그래프를 위한 코드 - 유정
 
-	//일주일간 방문자 통계 리스트
-	List<Object> week_visit_date = new ArrayList<Object>();
-	week_visit_date = (ArrayList) request.getAttribute("week_visit_date");
+   //일주일간 방문자 통계 리스트
+   List<Object> week_visit_date = new ArrayList<Object>();
+   week_visit_date = (ArrayList) request.getAttribute("week_visit_date");
 
-	Object one_date_visit = week_visit_date.get(0);
-	Object two_date_visit = week_visit_date.get(1);
-	Object three_date_visit = week_visit_date.get(2);
+   Object one_date_visit = week_visit_date.get(0);
+   Object two_date_visit = week_visit_date.get(1);
+   Object three_date_visit = week_visit_date.get(2);
 
-	//오늘 기준으로 3일전까지 날짜 설정
-	SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
-	Date today = new Date();
-	String today_date = formatter.format(today);
-	Date setDate = formatter.parse(today_date);
-	Calendar cal = new GregorianCalendar(Locale.KOREA);
-	cal.setTime(setDate);
+   //오늘 기준으로 3일전까지 날짜 설정
+   SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+   Date today = new Date();
+   String today_date = formatter.format(today);
+   Date setDate = formatter.parse(today_date);
+   Calendar cal = new GregorianCalendar(Locale.KOREA);
+   cal.setTime(setDate);
 
-	String one_date = "";
-	String two_date = "";
-	String three_date = "";
+   String one_date = "";
+   String two_date = "";
+   String three_date = "";
 
-	for (int i = 1; i < 4; i++) {
-		cal.add(Calendar.DATE, -1);
-		String ago_date = formatter.format(cal.getTime());
-		if (i == 1) {
-			one_date = ago_date;
-		} else if (i == 2) {
-			two_date = ago_date;
-		} else if (i == 3) {
-			three_date = ago_date;
-		}
-	}
+   for (int i = 1; i < 4; i++) {
+      cal.add(Calendar.DATE, -1);
+      String ago_date = formatter.format(cal.getTime());
+      if (i == 1) {
+         one_date = ago_date;
+      } else if (i == 2) {
+         two_date = ago_date;
+      } else if (i == 3) {
+         three_date = ago_date;
+      }
+   }
 
 %>
 
-	<div id="left_wrapper1">
-	<div id="left_wrapper2">
-	<div id="left_wrapper3">
-	<div id="left_wrapper4">
-		<div id="left_wrapper5_1">${todayCount} today | total  ${totalCount}</div>
-		<div id="left_wrapper5_2">
-		<div id="left_wrapper6">
-			<div id="mob_top">사이좋은 사람들 사이시옷&nbsp; <%=dto.getUsername() %></div>
-			<div id="tmpdiv">탭목록</div>
-			<div id="profile_pic"><img alt="profile_img" src="checkbox.PNG"></div>
-			<hr id="profile_hr1">
-			<div id="profile_content">
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			</div>
-			<div id="profile_edit"><a>▶Edit</a> <a>▶History</a></div>
-			<hr id="profile_hr2">
-			<div id="owner_name"><%=dto.getUsername()%><input type="button" value="로그아웃" onclick="location.href='logout.do'"></div>
-			<div id="friend_select">
-				<select>
-					<option value=<%=dto.getEmail() %>><%=dto.getUsername()%></option>
-					<c:forEach items="${friendList}" var="dtos">
-					<option value=${dtos.email }>${dtos.username }</option>
-					</c:forEach>
-				</select>
-			</div>
-		</div>
-		</div>
-		<!-- left_wrapper5 end -->
-	</div>
-	<!-- left_wrapper4 end(white box) -->
-	</div>
-	<!-- left_wrapper3 end(gray box) -->
-	</div>
-	<!-- left_wrapper2 end(dashed box) -->
-	</div>
-	<!-- left_wrapper1 end(blue box) -->
+   <div id="left_wrapper1">
+   <div id="left_wrapper2">
+   <div id="left_wrapper3">
+   <div id="left_wrapper4">
+      <div id="left_wrapper5_1">${todayCount} today | total  ${totalCount}</div>
+      <div id="left_wrapper5_2">
+      <div id="left_wrapper6">
+         <div id="mob_top">사이좋은 사람들 사이시옷&nbsp; <%=dto.getUsername() %></div>
+         <div id="tmpdiv">탭목록</div>
+         <div id="profile_pic"><img alt="profile_img" src="checkbox.PNG"></div>
+         <hr id="profile_hr1">
+         <div id="profile_content">
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         인생.....★ 사이좋은 사람들 사이시옷
+         </div>
+         <div id="profile_edit"><a>▶Edit</a> <a>▶History</a></div>
+         <hr id="profile_hr2">
+         <div id="owner_name"><%=dto.getUsername()%><input type="button" value="로그아웃" onclick="location.href='logout.do'"></div>
+         <div id="friend_select">
+            <select>
+               <option value=<%=dto.getEmail() %>><%=dto.getUsername()%></option>
+               <c:forEach items="${friendList}" var="dtos">
+               <option value=${dtos.email }>${dtos.username }</option>
+               </c:forEach>
+            </select>
+         </div>
+      </div>
+      </div>
+      <!-- left_wrapper5 end -->
+   </div>
+   <!-- left_wrapper4 end(white box) -->
+   </div>
+   <!-- left_wrapper3 end(gray box) -->
+   </div>
+   <!-- left_wrapper2 end(dashed box) -->
+   </div>
+   <!-- left_wrapper1 end(blue box) -->
 
 
-	<div id="right_wrapper1">
-	<div id="right_wrapper2">
-	<div id="right_wrapper3">
-	<div id="right_wrapper4">
-		<div id="right_wrapper4_1">사이좋은 사람들 사이시옷</div>
+   <div id="right_wrapper1">
+   <div id="right_wrapper2">
+   <div id="right_wrapper3">
+   <div id="right_wrapper4">
+      <div id="right_wrapper4_1">사이좋은 사람들 사이시옷</div>
 
-		<!-- right_wrapper4_2: right contentbox start -->
-		<div id="right_wrapper4_2">
-			<div id="right_wrapper4_2_1">
-				<div id="right_wrapper4_2_1l">
-					<div class="title">Updated News</div>
-					<hr>
-					<div id="listbox">
-						<ul>
-							<li>sample text</li>
-							<li>sample text</li>
-							<li>sample text</li>
-							<li>sample text</li>
-							<li>sample text</li>
-							<li>sample text</li>
-							<li>sample text</li>
-						</ul>
-					</div>
-				</div>
-				<div id="right_wrapper4_2_1r">
-					<div class="title">Content</div>
-					<hr>
-					<table>
-						<tr>
-							<td>다이어리 1/2</td><td>쥬크박스 0/1</td>
-						</tr>
-						<tr>
-							<td>친구 1</td><td>채팅방 1</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div id="right_wrapper4_2_2">
-				<div class="title">Photo</div>
-				<hr>
-				<div id="photo_zone">
-					<div class="photos"><img alt="profile_img" src="resource/home/img/checkbox.PNG"/><p>!!!</p></div>
-					<div class="photos"><img alt="profile_img" src=""/><p>!!!</p></div>
-					<div class="photos"><img alt="profile_img" src="resource/home/img/checkbox.PNG"/></div>
-					<div class="photos"><img alt="profile_img" src="resource/home/img/checkbox.PNG"/></div>
-				</div>
-			</div>
-		</div>
-		<!-- right_wrapper4_2 end -->
-	</div>
-	<!-- right_wrapper4 end(white box) -->
-	</div>
-	<!-- right_wrapper3 end(gray box) -->
-	</div>
-	<!-- right_wrapper2 end(dashed box) -->
-	</div>
-	<!-- right_wrapper1 end(blue box) -->
+      <!-- right_wrapper4_2: right contentbox start -->
+      <div id="right_wrapper4_2">
+         <div id="right_wrapper4_2_1">
+            <div id="right_wrapper4_2_1l">
+               <div class="title">Updated News</div>
+               <hr>
+               <div id="listbox">
+                  <ul>
+                     <li>sample text</li>
+                     <li>sample text</li>
+                     <li>sample text</li>
+                     <li>sample text</li>
+                     <li>sample text</li>
+                     <li>sample text</li>
+                     <li>sample text</li>
+                  </ul>
+               </div>
+            </div>
+            <div id="right_wrapper4_2_1r">
+               <div class="title">Content</div>
+               <hr>
+               <table>
+                  <tr>
+                     <td>다이어리 1/2</td><td>쥬크박스 0/1</td>
+                  </tr>
+                  <tr>
+                     <td>친구 1</td><td>채팅방 1</td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+         <div id="right_wrapper4_2_2">
+            <div class="title">Photo</div>
+            <hr>
+            <div id="photo_zone">
+               <div class="photos"><img alt="profile_img" src="resource/home/img/checkbox.PNG"/><p>!!!</p></div>
+               <div class="photos"><img alt="profile_img" src=""/><p>!!!</p></div>
+               <div class="photos"><img alt="profile_img" src="resource/home/img/checkbox.PNG"/></div>
+               <div class="photos"><img alt="profile_img" src="resource/home/img/checkbox.PNG"/></div>
+            </div>
+         </div>
+      </div>
+      <!-- right_wrapper4_2 end -->
+   </div>
+   <!-- right_wrapper4 end(white box) -->
+   </div>
+   <!-- right_wrapper3 end(gray box) -->
+   </div>
+   <!-- right_wrapper2 end(dashed box) -->
+   </div>
+   <!-- right_wrapper1 end(blue box) -->
 
 
-	<!-- -webtabs start(desktop only) -->
-	<div id="web_tabs">
-		<div onclick="location.href='home.do'">home</div>
-		<div onclick="location.href='gallery.do'">gallery</div>
-		<div><a href="diary.do">diary</a></div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">
-		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
-		<div onclick="location.href='chat.do'">chat</div>
-	</div>
-	<!--webtabs end(desktop only)-->
-	
-	
-	<div id="right_sidebar">
-		<div id="to_home">메인홈으로</div>
-		<div id="graph" style="height: 150px; padding-top: 15px">
-			<svg width="170" height="60"></svg>
-		</div>	
-		<!-- 방문자 그래프에 대한 연산을 수행하는 script -->
-		<script type="text/javascript">
+   <!-- -webtabs start(desktop only) -->
+   <div id="web_tabs">
+      <div onclick="location.href='home.do'">home</div>
+      <div onclick="location.href='gallery.do'">gallery</div>
+      <div><a href="diary.do">diary</a></div>
+      <div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
+      <div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
+      <div onclick="location.href='chat.do'">chat</div>
+   </div>
+   <!--webtabs end(desktop only)-->
+   
+   
+   <div id="right_sidebar">
+      <div id="to_home">메인홈으로</div>
+      <div id="graph" style="height: 150px; padding-top: 15px">
+         <svg width="170" height="60"></svg>
+      </div>   
+      <!-- 방문자 그래프에 대한 연산을 수행하는 script -->
+      <script type="text/javascript">
 
 //막대 그래프에 들어갈 데이터들 
 var dataset = [{x:'<%=three_date%>', y:<%=three_date_visit%> }, {x:'<%=two_date%>', y:<%=two_date_visit%> }, {x:'<%=one_date%>', y:<%=one_date_visit%> }, {x:'<%=today_date%>', y:${todayCount}}];
@@ -270,7 +270,7 @@ barG.selectAll("rect")
         .attr("width", xScale.bandwidth())
         .attr("x", function(d, i) {return xScale(d.x)})
         .attr("y", function(d, i) {return yScale(d.y)})
-		.attr("fill",   function(d) { return scale(d.x); })
+      .attr("fill",   function(d) { return scale(d.x); })
         .on("mouseover", function() { tooltip.style("display", null); })
         .on("mouseout",  function() { tooltip.style("display", "none"); })
         .on("mousemove", function(d) {
@@ -292,36 +292,35 @@ var tooltip = d3.select("#graph").append("div").attr("class", "count").style("di
     
 </script>
 
-		<div id="audio">
-			<audio id="musicplayer" autoplay="autoplay" controls controlsList="nodownload">
-				<source src="" type="audio/mpeg" >
-				Your browser does not support the audio tag.
-			</audio>
-		</div>
-		<div id="audio_list">
-			<table>
-				<c:choose>
-					<c:when test="${empty background }">
-						<tr>
-							<td align="center">- 선택된 배경음악이 없습니다 -</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach items="${background }" var="back">
-							<tr>
-								<td class="musictitle"><a>${back.musictitle}</a></td>
-							</tr>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</table>
-		</div>
-		<div id="tracks" style="display: none;">
-			<input type="hidden" id="firstSong" value="">
-			<input type="hidden" id="songindex" value="">
-			<input type="hidden" id="repeat" value="">
-		</div>
-	</div>
+      <div id="audio">
+         <audio id="musicplayer" autoplay="autoplay" controls controlsList="nodownload">
+            <source src="" type="audio/mpeg" >
+            Your browser does not support the audio tag.
+         </audio>
+      </div>
+      <div id="audio_list">
+         <table>
+            <c:choose>
+               <c:when test="${empty background }">
+                  <tr>
+                     <td align="center">- 선택된 배경음악이 없습니다 -</td>
+                  </tr>
+               </c:when>
+               <c:otherwise>
+                  <c:forEach items="${background }" var="back">
+                     <tr>
+                        <td class="musictitle"><a>${back.musictitle}</a></td>
+                     </tr>
+                  </c:forEach>
+               </c:otherwise>
+            </c:choose>
+         </table>
+      </div>
+      <div id="tracks" style="display: none;">
+         <input type="hidden" id="firstSong" value="">
+         <input type="hidden" id="songindex" value="">
+         <input type="hidden" id="repeat" value="">
+      </div>
+   </div>
 
 </body>
-</html>

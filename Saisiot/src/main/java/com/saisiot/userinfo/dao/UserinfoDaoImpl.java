@@ -239,7 +239,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return res;
 	}
-
+	
 	// 유저 이용정지
 	@Override
 	public int userstop(UserinfoDto dto) {
@@ -260,7 +260,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		
 		return res;
 	}
-	
+
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email) {
 		String res = sqlSession.selectOne(NAMESPACE + "overlap_visit", visit_email);
@@ -333,13 +333,14 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	@Override
 	public int friendInsert(String emailFriend, String emailMe) {
 		
+			//int res0 = sqlSession.insert("friend."+"insert_before");
 			int res1 = sqlSession.insert("friend."+"insert_friend", emailFriend);
 			int res2 = sqlSession.insert("friend."+"insert_friend_me", emailMe);
 		
 		return res1*res2;
 		
 	}
-
+	
 	@Override
 	public int selectRoom(String emailFriend, String emailMe) {
 		
@@ -352,7 +353,7 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	    
 		return roomno;
 	}
-
+	
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
