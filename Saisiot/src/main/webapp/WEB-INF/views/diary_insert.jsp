@@ -119,29 +119,32 @@
 							<div>
 								<div>
 									<div>제 목</div>
-									<div><input type="text" name="title" /> <input
-										type="button" name="selectmap_btn" id="selectmap_btn"
-										value="장소 선택" /> <input type="button" name="testbtn"
-										id="testbtn" value="test" /> <input type="file" name="file" />
-										<input type="button" name="selectvideo_btn"
-										id="selectvideo_btn" value="동영상 추가" /></div>
-														<select name="folderno">
-						<c:forEach var="list" items="${folderList }">
-							<option value="${list.folderno}">${list.foldername }</option>
-						</c:forEach>
-					</select>
+									<div>
+										<input type="text" name="title" /> 
+										<input type="button" name="selectmap_btn" id="selectmap_btn" value="장소 선택" /> 
+										<input type="file" name="file" />
+										<input type="button" name="selectvideo_btn" id="selectvideo_btn" value="동영상 추가" />
+									</div>
+									<select name="folderno">
+										<c:forEach var="list" items="${folderList }">
+											<option value="${list.folderno}">${list.foldername }</option>
+										</c:forEach>
+									</select>
 								</div>
 								<div>
 									<div>내 용</div>
-									<div><textarea rows="10" cols="100" name="content"
-											id="smarteditor"
-											style="width: 100%; height: 250px; min-width: 350px;">
-		 							</textarea></div>
+									<div>
+										<textarea rows="10" cols="100" name="content"
+												id="smarteditor"
+												style="width: 100%; height: 250px; min-width: 350px;">
+			 							</textarea>
+		 							</div>
 								</div>
 								<div id="insertTag">
-									<div colspan="2"><input type="button" value="작성"
-										id="savebutton" /> <input type="button" value="취소"
-										onclick="location.href='diary.do'" /></div>
+									<div>
+										<input type="button" value="작성" id="savebutton" />
+										<input type="button" value="취소" onclick="location.href='diary.do'" />
+									</div>
 								</div>
 							</div>
 						</form:form>
