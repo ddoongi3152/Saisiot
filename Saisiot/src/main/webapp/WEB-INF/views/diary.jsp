@@ -31,8 +31,14 @@
 		window.open("insertForm_folder.do", "폴더 추가", "width=300,height=100")
 	}
 	
+	//폴더 삭제 팝업 
 	function delete_Folder(folderno){
 		window.open("deleteForm_folder.do?folderno="+folderno, "폴더 삭제", "width=300,height=100")
+	}
+	
+	//폴더 수정 팝업
+	function update_Folder(folderno){
+		window.open("updateForm_folder.do?folderno="+folderno, "폴더 수정", "width=300,height=100")
 	}
 </script>
 </head>
@@ -72,8 +78,14 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="list" items="${map.folderList }">
-												<li><a href="">${list.foldername }</a><a href='javascript:void(0);'
-										onclick="delete_Folder(${list.folderno});">폴더 삭제</a></li>
+												<li><a href="">${list.foldername }</a>
+													<a href='javascript:void(0);' onclick="delete_Folder(${list.folderno});">
+													삭제
+													</a>
+													<a href='javascript:void(0);' onclick="update_Folder(${list.folderno});">
+													수정
+													</a>
+												</li>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
@@ -110,9 +122,9 @@
 										<c:out value="${map.searchOption == 'content'?'selected':''}"/>>내용</option>
 									<option value="title"
 										<c:out value="${map.searchOption == 'title'?'selected':''}"/>>제목</option>
-								</select> <input name="keyword" value="${map.keyword}"> <input
-									type="submit" value="검색"> <input type="button"
-									value="글쓰기" onclick="location.href='insertForm_diary.do?email=<%=dto.getEmail()%>'" />
+								</select> 
+								<input name="keyword" value="${map.keyword}"> <input type="submit" value="검색">
+								<input type="button" value="글쓰기" onclick="location.href='insertForm_diary.do'" />
 							</form>
 						</div>
 						<!-- diary list area , groupsq=0 list -->

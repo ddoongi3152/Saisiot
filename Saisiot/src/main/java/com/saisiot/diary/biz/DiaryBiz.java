@@ -28,7 +28,7 @@ public interface DiaryBiz {
 	
 	public void folder_insert(DiaryRootDto dto);
 	public void folder_delete(int folderno);
-	public int folder_update(DiaryRootDto dto);
+	public void folder_update(int folderno,String foldername);
 	public List<DiaryRootDto> folderList(String email);
 	
 }

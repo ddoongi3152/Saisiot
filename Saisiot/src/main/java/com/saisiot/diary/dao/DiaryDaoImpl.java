@@ -124,8 +124,11 @@ public class DiaryDaoImpl implements DiaryDao {
 	}
 
 	@Override
-	public int folder_update(DiaryRootDto dto) {
-		return sqlSession.update(NAMESPACE+"folder_update", dto);
+	public void folder_update(int folderno,String foldername) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("folderno", folderno);
+		map.put("foldername", foldername);
+		sqlSession.update(NAMESPACE+"folder_update", map);
 	}
 	
 	

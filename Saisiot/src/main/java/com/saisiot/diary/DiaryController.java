@@ -78,6 +78,22 @@ public class DiaryController {
 		return "redirect:diary.do";
 	}
 	
+	@RequestMapping(value="/updateForm_folder.do")
+	public String updateForm_Folder(@RequestParam(value="folderno") int folderno,Model model) {
+
+		model.addAttribute("folderno",folderno);
+		
+		return "folder_update";
+	}
+	
+	@RequestMapping("/folder_update.do")
+	public String update_Folder(@RequestParam(value="folderno") int folderno,@RequestParam(value="foldername") String foldername) {
+		
+		Dbiz.folder_update(folderno,foldername);
+		
+		return "redirect:diary.do";
+	}
+	
 	@RequestMapping("/selectForm_map.do")
 	public String selectForm_Map() {
 		
@@ -107,6 +123,7 @@ public class DiaryController {
 		
 		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
 		String email = userdto.getEmail();
+		
 		String picurl = "";
 		
 		String content = dto.getContent();

@@ -88,8 +88,8 @@ public class DiaryBizImpl implements DiaryBiz {
 	}
 
 	@Override
-	public int folder_update(DiaryRootDto dto) {
-		return dao.folder_update(dto);
+	public void folder_update(int folderno,String foldername) {
+		dao.folder_update(folderno,foldername);
 	}
 	
 
