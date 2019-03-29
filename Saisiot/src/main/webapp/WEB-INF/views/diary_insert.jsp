@@ -113,8 +113,7 @@
 					<div id="right_wrapper4_1">사이좋은 사람들 사이시옷</div>
 					<!-- right_wrapper4_2: right contentbox start -->
 					<div id="right_wrapper4_2">
-						<form:form id="frm" action="diary_insert.do" method="post"
-							enctype="multipart/form-data" modelAttribute="DiaryDto">
+						<form:form id="frm" action="diary_insert.do" method="post" enctype="multipart/form-data" modelAttribute="DiaryDto">
 							<input type="hidden" name="email" value="<%=dto.getEmail()%>" />
 							<div id="diary_insert">
 								<div id="diary_title_wrapper1">

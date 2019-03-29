@@ -121,7 +121,7 @@
 		DELETE FROM DIARYROOT WHERE FOLDERNO=#{folderno}
 	</delete>
 	
-	<update id="folder_update">
+	<update id="folder_update" parameterType="map">
 		UPDATE DIARYROOT SET FOLDERNAME=#{foldername}
 		WHERE FOLDERNO=#{folderno}
 	</update>
