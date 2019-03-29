@@ -122,8 +122,7 @@ public class UserinfoBizImpl implements UserinfoBiz {
 
 	@Override
 	public int selectRoom(String emailFriend, String emailMe) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.selectRoom(emailFriend, emailMe);
 	}
 
 	@Override

@@ -327,7 +327,8 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		emails.put("emailFriend", emailFriend);
 		emails.put("emailMe", emailMe);
 		
-		int roomno = sqlSession.selectOne("friend."+"insert_before");
+		System.out.println("in selectRoom Dao=========="+emails.get("emailFriend") + "/"+ emails.get("emailMe"));
+		int roomno = sqlSession.selectOne("friend."+"select_room", emails);
 	    
 		return roomno;
 	}

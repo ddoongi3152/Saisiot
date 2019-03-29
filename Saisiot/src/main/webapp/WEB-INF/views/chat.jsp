@@ -1,4 +1,5 @@
 <%@page import="com.saisiot.userinfo.dto.UserinfoDto"%>
+<%@page import="com.saisiot.chat.dto.ChatDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,7 +13,7 @@
 <%
 	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
 %>
-
+	var chatroomno=0;
 	var sock;
     //웸소켓을 지정한 url로 연결한다.
     sock = new SockJS("<c:url value="/echo"/>");
@@ -26,19 +27,24 @@
         /*소켓으로 보내겠다.  */
         sock.send(JSON.stringify({
         	  id: "<%=dto.getEmail()%>",
-        	  text: $(".input-text").text()
-        }));
+        	  text: $(".input-text").text(),
+        	  roomno : chatroomno.toString()
+        })
+        );
         $(".input-text").text("");
     }
     //evt 파라미터는 웹소켓을 보내준 데이터다.(자동으로 들어옴)
     function onMessage(evt) {
         var data = evt.data;
         var jsonobj = JSON.parse(data);
-        if(jsonobj.id == "<%=dto.getEmail()%>"){
-        	$("#chatground").append("<div class='chat_me'><div class='chatbox'>"+jsonobj.text+"</div></div>");
-        }else {
-        	$("#chatground").append("<div class='chat_you'><div class='chatbox'>"+jsonobj.text+"</div></div>");
-		}
+        	if(jsonobj.roomno == chatroomno){
+                if(jsonobj.id == "<%=dto.getEmail()%>"){
+                	$("#chatground").append("<div class='chat_me'><div class='chatbox'>"+jsonobj.text+"</div></div>");
+                }else {
+                	$("#chatground").append("<div class='chat_you'><div class='chatbox'>"+jsonobj.text+"</div></div>");
+        		}
+        	}
+
         
     }
 
@@ -60,28 +66,51 @@
 	    }
 	});
 	
+	function selectchats(chatroomno){
+		$.ajax({
+			type:"POST",
+			url:"chatroominit.do",
+			data:"chatroomno="+chatroomno,
+			success:function(data){
+					var jobj = JSON.parse(data);
+					var messages = jobj.messages
+					for(i=0; i < messages.length ; i++){
+		                if(messages[i].id == "<%=dto.getEmail()%>"){
+		                	$("#chatground").append("<div class='chat_me'><div class='chatbox'>"+messages[i].text+"</div></div>");
+		                }else {
+		                	$("#chatground").append("<div class='chat_you'><div class='chatbox'>"+messages[i].text+"</div></div>");
+		        		}
+					}
+			},
+			error:function(){
+				chatroomno = 0;
+				alert("chatroominit ajax실패");
+			}
+		})
+	}
 	$(document).ready(function(){
-		  $(".usernames").click(function(){
-			  var email = $(this).text();
-			  alert($(this).val());
-	/* 	    	 $.ajax({	
-						type:"POST",
-						url:"findfriend.do",
-						data:"email="+searchEmail,
-						success:function(data){
-							$("#search_res>div").remove();
-							$("#search_res").append('<div>'+data+'</div>');	
-							searchEmail = $("#search_email").val();
-						},
-						error:function(){
-							searchEmail = 0;
-							alert("ajax실패");
-						}
-		
-					}) */
+		$(".usernames").click(function(){
+			  var email = $(this).attr('id');
+			  var username = $(this).text();
+			  $("#chattitle").text(username);
+			  $("#chatground>div>div").remove();
+				
+			  $.ajax({
+					type:"POST",
+					url:"chatroomno.do",
+					data:"email="+email,
+					success:function(data){
+						chatroomno = data;
+					},
+					error:function(){
+						chatroomno = 0;
+						alert("ajax실패");
+					}
+				})
+				
+				selectchats(chatroomno);
+				
 		  })
-	});
-	$(document).ready(function(){
 		$(".input-submit").click(function() {
 			if($(".input-submit").text!=""){
 				sendMessage();
@@ -146,11 +175,8 @@
 
 		<!-- right_wrapper4_2: right contentbox start -->
 			<div id="right_wrapper4_2">
-				<div id="chattitle">천유정</div>
+				<div id="chattitle">전체채팅</div>
 				<div id="chatground">
-					<div class="chat_me"><div class="chatbox">너 어디로 나갈 예정?</div></div>
-					<div class="chat_you"><div class="chatbox">집으로 갈 예정..</div></div>
-
 				</div>
 				<div class="inputwrapper">
 					<div class="input-text" contentEditable="true"></div>
@@ -171,12 +197,12 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div>home</div>
-		<div>gallery</div>
-		<div>diary</div>
-		<div>jukebox</div>
-		<div>profile</div>
-		<div>chat</div>
+		<div onclick="location.href='homepage.do'">home</div>
+		<div onclick="location.href='gallery.do'">gallery</div>
+		<div><a href="diary.do">diary</a></div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
+		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
 
