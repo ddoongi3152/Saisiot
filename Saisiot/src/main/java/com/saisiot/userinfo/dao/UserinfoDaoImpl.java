@@ -8,7 +8,8 @@ import java.util.Map;
 
 import javax.transaction.InvalidTransactionException;
 
-
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,6 +19,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.saisiot.userinfo.dto.UserinfoDto;
 
@@ -238,8 +240,26 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 	}
 
+	// 유저 이용정지
+	@Override
+	public int userstop(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "userstop", dto);
+		
+		return res;
+	}
 	
-
+	@Override
+	public int usercome(UserinfoDto dto) {
+		
+		int res = 0;
+		
+		res = sqlSession.update(NAMESPACE + "usercome", dto);
+		
+		return res;
+	}
 	
 	// 중복 방문 방지를 위해 오늘 방문자 비교
 	public String visit_overlap_check(Map visit_email) {
@@ -321,6 +341,19 @@ public class UserinfoDaoImpl implements UserinfoDao {
 	}
 
 	@Override
+	public int selectRoom(String emailFriend, String emailMe) {
+		
+		HashMap<String, String> emails = new HashMap<String, String>();
+		emails.put("emailFriend", emailFriend);
+		emails.put("emailMe", emailMe);
+		
+		System.out.println("in selectRoom Dao=========="+emails.get("emailFriend") + "/"+ emails.get("emailMe"));
+		int roomno = sqlSession.selectOne("friend."+"select_room", emails);
+	    
+		return roomno;
+	}
+
+	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -347,10 +380,4 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 	}
 	//seo's editing end---------------------
-
-	@Override
-	public int selectRoom(String emailFriend, String emailMe) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

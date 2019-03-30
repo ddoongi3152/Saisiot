@@ -43,20 +43,6 @@ public class DiaryDaoImpl implements DiaryDao {
 		return 0;
 	}
 	
-	//폴더 추가
-	@Override
-	public void folder_insert(DiaryRootDto dto) {
-		sqlSession.insert(NAMESPACE+"folder_insert", dto);
-	}
-	
-	//폴더 리스트 
-	@Override
-	public List<DiaryRootDto> folderList(String email) {
-		List<DiaryRootDto> list = new ArrayList<DiaryRootDto>();
-		list = sqlSession.selectList(NAMESPACE + "folderList", email);
-		return list;
-	}
-	
 	//다이어리 리스트
 	@Override
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
@@ -105,6 +91,33 @@ public class DiaryDaoImpl implements DiaryDao {
 		sqlSession.delete(NAMESPACE+"comment_delete",dto);
 	}
 
+
+	//폴더 추가
+	@Override
+	public void folder_insert(DiaryRootDto dto) {
+		sqlSession.insert(NAMESPACE+"folder_insert", dto);
+	}
+
+	//폴더 리스트 
+	@Override
+	public List<DiaryRootDto> folderList(String email) {
+		List<DiaryRootDto> list = new ArrayList<DiaryRootDto>();
+		list = sqlSession.selectList(NAMESPACE + "folderList",email);
+		return list;
+	}
+
+	@Override
+	public void folder_delete(int folderno) {
+		sqlSession.delete(NAMESPACE+"folder_delete", folderno);
+	}
+
+	@Override
+	public void folder_update(int folderno,String foldername) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("folderno", folderno);
+		map.put("foldername", foldername);
+		sqlSession.update(NAMESPACE+"folder_update", map);
+	}
 	
 	
 
