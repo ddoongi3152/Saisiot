@@ -51,9 +51,9 @@ public class DiaryDaoImpl implements DiaryDao {
 	
 	//폴더 리스트 
 	@Override
-	public List<DiaryRootDto> folderList() {
+	public List<DiaryRootDto> folderList(String email) {
 		List<DiaryRootDto> list = new ArrayList<DiaryRootDto>();
-		list = sqlSession.selectList(NAMESPACE + "folderList");
+		list = sqlSession.selectList(NAMESPACE + "folderList", email);
 		return list;
 	}
 	

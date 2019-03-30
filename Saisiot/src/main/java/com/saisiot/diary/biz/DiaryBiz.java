@@ -13,7 +13,7 @@ public interface DiaryBiz {
 	//폴더 추가
 	public void folder_insert(DiaryRootDto dto);
 	//폴더 리스트
-	public List<DiaryRootDto> folderList();
+	public List<DiaryRootDto> folderList(String email);
 
 	// 게시글 전체 목록 ==> 검색옵션, 키워드 매개변수 추가
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);

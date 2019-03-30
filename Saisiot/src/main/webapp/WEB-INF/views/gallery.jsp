@@ -14,7 +14,7 @@
 		if ($(window).width() > 769) {
 			$("#canvas").attr({width:"498px", height: "300px"});
 			$("#right_wrapper4_2").append($("#gallery"))
-			$.getScript( 'resources/js/canvas.js?ver=4' );
+			$.getScript( 'resources/js/canvas.js?ver=5' );
 		  
 		}else {
 			$("#canvas").attr({width:"290px", height: "250px"});
@@ -26,7 +26,7 @@
 		if ($(window).width() > 769) {
 			$("#canvas").attr({width:"498px", height: "300px"});
 			$("#right_wrapper4_2").append($("#gallery"))
-			$.getScript( 'resources/js/canvas.js?ver=4' );
+			$.getScript( 'resources/js/canvas.js?ver=5' );
 			
 		}else {
 			$("#canvas").attr({width:"290px", height: "250px"});
@@ -43,7 +43,6 @@
 			e.preventDefault();
 			$("#img").click();
 	  	})
-	  	
 	});
 	
 	// 창 사이즈 변경이 완료되면 리로드
@@ -118,18 +117,21 @@
 		<!-- right_wrapper4_2: right contentbox start -->
 		<div id="right_wrapper4_2">
 			<div id="gallery">
-			<form action="Canvas.do" method="post">
+			<form action="canvas_save.do" id="canvas_save" method="post">
+				<input type="hidden" id="email" name="email" value="<%=dto.getEmail()%>">
 			 	<input type="hidden" name="command" value="insert_canvas">
  				<input type="hidden" id="path" name="path" value="">
-				<div id="gallery_title"><input placeholder="title" type="text"/></div>
+				<div id="gallery_title"><input placeholder="title" name="title" type="text"/></div>
 				<div id="gallery_canvas"><canvas id = "canvas" width="498px" height="300px" style = "border: 1px solid #b6b6b6;border-radius: 5px;"></canvas></div>
-				<div id="gallery_content"><textarea placeholder="content"></textarea></div>
+				<div id="gallery_content"><textarea placeholder="content" name="content"></textarea></div>
 				<div id="gallery_btn">
 					<div onclick="save()"><a class="save" id="save" href="#" style="color: black; text-decoration: none;" download>save image</a></div><div onclick="selectfolder();">to diary</div>
 				</div>
 				<div id="showmode" style="display: none;"> mode : <span id="mode"></span></div>
 				<img id="fileImage" style="display: none;">
-				<img id="myImage" style="display: none">
+				<img id="myImage" name="gallery_image" style="display: none">
+				<input type="hidden" id="picurl" name="picurl" />
+				<input type="hidden" id="savefolder" name="folderno" value="">
 			</form>
 			</div>
 		</div>
@@ -145,12 +147,12 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div>home</div>
+		<div onclick="location.href='homepage.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
-		<div>diary</div>
+		<div><a href="diary.do?email=<%=dto.getEmail()%>">diary</a></div>
 		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
-		<div>profile</div>
-		<div>chat</div>
+		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
+		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
 	

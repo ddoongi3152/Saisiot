@@ -217,5 +217,25 @@ function save(){
 	myImage.src = canvas.toDataURL();//canvas를 이미지파일로 옮김 
 		
 	document.getElementById('save').setAttribute('href',canvas.toDataURL());	
-}	
+}
+
+//todiary 버튼 - 팝업창 열기
+function selectfolder() {
+	var email = $("#email").val();
+	var myImage = document.getElementById('myImage');
+	myImage.src = canvas.toDataURL();
+	var src = $("#myImage").attr("src");
+	alert(src);
+	$("#picurl").val(src);
+	alert($("#picurl").val());
+	window.open('gallery_popup.do?email='+email, '폴더선택창', 'width=200, height=100');
+}
+
+//팝업창의 폴더 넘버를 가져와서 submit
+function addValue(folderno) {
+	$("#savefolder").val(folderno);
+
+	$("#canvas_save").submit();
+}
+
 	

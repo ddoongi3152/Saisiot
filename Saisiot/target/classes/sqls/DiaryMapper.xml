@@ -114,7 +114,7 @@
 	</insert>
 
 	<select id="folderList" resultType="com.saisiot.diary.dto.DiaryRootDto">
-		SELECT * FROM DIARYROOT
+		SELECT * FROM DIARYROOT WHERE EMAIL = #{email}
 	</select>
 
 </mapper>

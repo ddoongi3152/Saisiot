@@ -210,7 +210,7 @@ public class DiaryController {
 	//게시판 목록
 	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
 	   public ModelAndView diary(@RequestParam(defaultValue = "title") String searchOption,
-	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
+	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage, String email)
 	         throws Exception {
 	      // 총 게시글 수 계산
 	      int count = Dbiz.countArticle(searchOption, keyword);
@@ -220,7 +220,7 @@ public class DiaryController {
 	      int end = paging.getPageEnd();
 	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
 	      List<DiaryDto> commentList= Dbiz.commentList();
-	      List<DiaryRootDto> folderList = Dbiz.folderList();
+	      List<DiaryRootDto> folderList = Dbiz.folderList(email);
 	      /* System.out.println("commentList="+commentList); */
 	      // 데이터를 맵에 저장
 	      Map<String, Object> map = new HashMap<String, Object>();
@@ -270,8 +270,31 @@ public class DiaryController {
 		return "redirect:diary.do";
 	}
 	
+	// gallery popup open
 	@RequestMapping("/gallery_popup.do")
-	public String gallery_popup() {
+	public String gallery_popup(Model model, String email) {
+		List<DiaryRootDto> folderList = Dbiz.folderList(email);
+		model.addAttribute("folderList", folderList);
+		
 		return "gallery_popup";
+	}
+	
+	// gallery insert
+	@RequestMapping("/canvas_save.do")
+	public String gallery_insert(@ModelAttribute DiaryDto dto,String imgUrlHidden, HttpServletRequest request) {
+		System.out.println(dto.getEmail());
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		System.out.println(dto.getPicurl());
+		
+		int res = Dbiz.insert(dto);
+		
+		if(res > 0) {
+			System.out.println("갤러리 이미지 다이어리 저장 성공");
+			return "diary";
+		}else {
+			System.out.println("갤러리 이미지 다이어리 저장 실패");
+			return "gallery";
+		}
 	}
 }

@@ -329,7 +329,7 @@
 		<div onclick="location.href='home.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
 		<div onclick="location.href='diary.do'">diary</div>
-		<%-- <div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'"> --%>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">
 		<div
 			style="display:<%=(!session.getAttribute("whos").equals("mine")) ? "none" : ""%>">
 			<a href="profile.do">profile</a>

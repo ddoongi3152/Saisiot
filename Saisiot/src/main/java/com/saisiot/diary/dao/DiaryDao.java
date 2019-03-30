@@ -14,7 +14,7 @@ public interface DiaryDao {
 	public int delete(int diaryno);
 	
 	public void folder_insert(DiaryRootDto dto);
-	public List<DiaryRootDto> folderList();
+	public List<DiaryRootDto> folderList(String email);
 	
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
 	public int countArticle(String searchOption, String keyword);
