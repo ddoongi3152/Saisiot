@@ -316,6 +316,31 @@ public class DiaryController {
 		return "redirect:diary.do";
 	}
 	
+	// gallery popup open
+	@RequestMapping("/gallery_popup.do")
+	public String gallery_popup(Model model, String email) {
+		List<DiaryRootDto> folderList = Dbiz.folderList(email);
+		model.addAttribute("folderList", folderList);
+		
+		return "gallery_popup";
+	}
 	
-
+	// gallery insert
+	@RequestMapping("/canvas_save.do")
+	public String gallery_insert(@ModelAttribute DiaryDto dto,String imgUrlHidden, HttpServletRequest request) {
+		System.out.println(dto.getEmail());
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		System.out.println(dto.getPicurl());
+		
+		int res = Dbiz.insert(dto);
+		
+		if(res > 0) {
+			System.out.println("갤러리 이미지 다이어리 저장 성공");
+			return "diary";
+		}else {
+			System.out.println("갤러리 이미지 다이어리 저장 실패");
+			return "gallery";
+		}
+	}
 }

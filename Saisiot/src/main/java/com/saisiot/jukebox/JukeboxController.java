@@ -1,11 +1,14 @@
 package com.saisiot.jukebox;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +62,18 @@ public class JukeboxController {
 	}
 	
 	@RequestMapping("/buysong.do")
-	public String buySong(String email, String songOne) {
-		UserinfoDto userdto = biz.selectOne(email);
+	public String buySong(String email, String songOne, HttpSession session, HttpServletResponse response) throws IOException {
+		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
 		int coin = userdto.getCoinno();
+		/*
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();*/
+		
 		if((coin-5) < 0 || coin <= 0) {
-			System.out.println("프로필-구매로 보내기");
-			return "";
+			System.out.println("프로필-구매로 보내기");/*
+			out.println("<script>alert('잔여 코인이 부족합니다.\n프로필로 이동합니다. 코인 충전 후 재구매해주세요.');</script>");
+			out.flush();*/
+			return "profile";
 		}else {
 			userdto = new UserinfoDto(email, null, null, null, null, null, null, null, null, (coin-5), 0);
 			int coinres = biz.coinupdate(userdto);
