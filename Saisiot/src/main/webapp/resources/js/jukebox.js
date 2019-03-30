@@ -44,19 +44,7 @@
 		if(confirmWindow){
 			var songOne = $(e).children('input').val();
 			var email = $("#email").val();
-			$.ajax({
-				type : "post",
-				url : "buysong.do",
-				data : "email=" + email + "&songOne=" + songOne,
-				async : false,
-				success : function() {
-					console.log("구매 성공");
-					$("#searchForm").submit();
-				},
-				error : function() {
-					console.log("구매 실패");
-				}
-			})
+			location.href = "buysong.do?email="+email+"&songOne="+songOne;
 		}else{
 			return false;
 		}

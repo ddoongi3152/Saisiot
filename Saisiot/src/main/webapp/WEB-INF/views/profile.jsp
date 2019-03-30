@@ -151,9 +151,9 @@
 	<div id="web_tabs">
 		<div onclick="location.href='homepage.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
-		<div><a href="diary.do">diary</a></div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
-		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
+		<div onclick="location.href='diary.do'">diary</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">jukebox</div>
+		<div onclick="location.href='profile.do'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">profile</div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->

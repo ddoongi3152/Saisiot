@@ -95,7 +95,8 @@
 			three_date = ago_date;
 		}
 	}
-
+	
+	// juke count
 %>
 
 	<div id="left_wrapper1">
@@ -173,7 +174,7 @@
 					<hr>
 					<table>
 						<tr>
-							<td>다이어리 1/2</td><td>쥬크박스 0/1</td>
+							<td>다이어리 1/2</td><td onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">쥬크박스  ${jukenum }</td>
 						</tr>
 						<tr>
 							<td>친구 1</td><td>채팅방 1</td>
@@ -205,11 +206,11 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div onclick="location.href='home.do'">home</div>
+		<div onclick="location.href='homepage.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
-		<div><a href="diary.do">diary</a></div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">
-		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"><a href="profile.do">profile</a></div>
+		<div onclick="location.href='diary.do'">diary</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">jukebox</div>
+		<div onclick="location.href='profile.do'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">profile</div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->

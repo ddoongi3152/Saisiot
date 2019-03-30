@@ -225,10 +225,8 @@ function selectfolder() {
 	var myImage = document.getElementById('myImage');
 	myImage.src = canvas.toDataURL();
 	var src = $("#myImage").attr("src");
-	alert(src);
 	$("#picurl").val(src);
-	alert($("#picurl").val());
-	window.open('gallery_popup.do?email='+email, '폴더선택창', 'width=200, height=100');
+	window.open('gallery_popup.do?email='+email, '폴더선택창', 'width=400, height=150');
 }
 
 //팝업창의 폴더 넘버를 가져와서 submit

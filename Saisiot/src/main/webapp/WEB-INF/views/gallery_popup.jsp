@@ -15,7 +15,12 @@
 	$(document).ready(function() {
 		$("#choosefolder").click(function() {
 			var folderno = $("#selectfolder option:selected").val();
-			opener.addValue(folderno);
+			if(folderno==null||folderno==-1){
+				alert("다이어리에 생성된 폴더가 있어야 합니다.\n폴더를 생성해주세요.");
+				opener.godiary();
+			}else{
+				opener.addValue(folderno);
+			}
 			window.close();
 		})
 	})
@@ -27,16 +32,18 @@
 		UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
 %>
 	
-	<table>
+	<table style="text-align: center;margin-left: auto; margin-right: auto; vertical-align: middle;">
+		<tr style="height: 20px;">
+		</tr>
 		<tr align="center">
 			<td colspan="2"><a style="font-size: 12px">저장할 폴더를 선택해주세요.</a></td>
 		</tr>
 		<tr align="center">
 			<td>
-				<select id="selectfolder" style="width:100px; font-size: 12px">
+				<select id="selectfolder" style="width:150px; font-size: 12px">
 					<c:choose>
 						<c:when test="${empty folderList }">
-							<option>생성된 폴더가 없습니다.</option>
+							<option value="-1">생성된 폴더가 없습니다.</option>
 						</c:when>
 						<c:otherwise>
 							 <c:forEach var="list" items="${folderList }">
