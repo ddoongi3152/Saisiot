@@ -11,6 +11,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta property="og:url" content="${path}/diary.do" />
+<meta property="og:site_name" content="Dreamload" />
+<meta property="og:title" content="사이시옷" />
+<meta property="og:description" content="사이시옷" />
+<meta property="og:image" content="../img/99E7B933599BF9DD16.jpg" />
 <script type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/diary_web.css">
 <link rel="stylesheet" href="resources/css/diary_mob.css">
