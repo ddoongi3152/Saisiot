@@ -43,6 +43,23 @@ public class DiaryDaoImpl implements DiaryDao {
 		return 0;
 	}
 	
+<<<<<<< HEAD
+=======
+	//폴더 추가
+	@Override
+	public void folder_insert(DiaryRootDto dto) {
+		sqlSession.insert(NAMESPACE+"folder_insert", dto);
+	}
+	
+	//폴더 리스트 
+	@Override
+	public List<DiaryRootDto> folderList(String email) {
+		List<DiaryRootDto> list = new ArrayList<DiaryRootDto>();
+		list = sqlSession.selectList(NAMESPACE + "folderList", email);
+		return list;
+	}
+	
+>>>>>>> refs/remotes/origin/seo
 	//다이어리 리스트
 	@Override
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {

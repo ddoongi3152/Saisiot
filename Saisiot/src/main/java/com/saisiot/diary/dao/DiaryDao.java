@@ -13,6 +13,12 @@ public interface DiaryDao {
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
 	
+<<<<<<< HEAD
+=======
+	public void folder_insert(DiaryRootDto dto);
+	public List<DiaryRootDto> folderList(String email);
+	
+>>>>>>> refs/remotes/origin/seo
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
 	public int countArticle(String searchOption, String keyword);
 	public List<DiaryDto> commentList();
