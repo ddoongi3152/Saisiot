@@ -338,7 +338,7 @@
 		<!-- right_wrapper3 end(gray box) -->
 	</div>
 	<!-- right_wrapper2 end(dashed box) -->
-	</div>
+	
 	<!-- right_wrapper1 end(blue box) -->
 
 	<!-- -webtabs start(desktop only) -->
