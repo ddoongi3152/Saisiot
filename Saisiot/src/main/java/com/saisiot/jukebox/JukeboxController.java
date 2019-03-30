@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.saisiot.common.ManiaDB;
 import com.saisiot.jukebox.dao.JukeboxDao;
@@ -62,21 +63,24 @@ public class JukeboxController {
 	}
 	
 	@RequestMapping("/buysong.do")
-	public String buySong(String email, String songOne, HttpSession session, HttpServletResponse response) throws IOException {
+	public ModelAndView buySong(String email, String songOne, HttpSession session, HttpServletResponse response) throws IOException {
+
 		UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
 		int coin = userdto.getCoinno();
-		/*
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();*/
 		
 		if((coin-5) < 0 || coin <= 0) {
-			System.out.println("프로필-구매로 보내기");/*
-			out.println("<script>alert('잔여 코인이 부족합니다.\n프로필로 이동합니다. 코인 충전 후 재구매해주세요.');</script>");
-			out.flush();*/
-			return "profile";
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			System.out.println("프로필-구매로 보내기");
+			out.println("<script>alert('잔여 도토리가 부족합니다. 도토리를 충전해주세요.');</script>");
+			out.flush();
+			String url = "forward:profile.do";
+			return new ModelAndView(url);
 		}else {
 			userdto = new UserinfoDto(email, null, null, null, null, null, null, null, null, (coin-5), 0);
 			int coinres = biz.coinupdate(userdto);
+			String url = "redirect:jukebox.do?email="+email;
 			if(coinres > 0) {
 				String[] songArr = songOne.split("#");
 				JukeboxDto dto = new JukeboxDto(0,email, songArr[0], songArr[1], songArr[2], songArr[3],"N");
@@ -84,14 +88,14 @@ public class JukeboxController {
 				int res = 0;
 				res = jukedao.insert(dto);
 				if(res > 0) {
-					return "redirect:jukebox.do?email="+email;
+					return new ModelAndView(url);
 				}else {
 					System.out.println("구매 실패");
-					return "redirect:jukebox.do?email="+email;
+					return new ModelAndView(url);
 				}
 			}else {
 				System.out.println("구매 실패");
-				return "redirect:jukebox.do?email="+email;
+				return new ModelAndView(url);
 			}
 		}
 		

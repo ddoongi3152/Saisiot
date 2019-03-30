@@ -43,13 +43,16 @@
 		var confirmWindow = confirm("코인 5개로 선택하신 노래를 구매합니다. \n구매하시겠습니까?");
 		if(confirmWindow){
 			var songOne = $(e).children('input').val();
-			var email = $("#email").val();
-			location.href = "buysong.do?email="+email+"&songOne="+songOne;
+			$("#songOne").val(songOne);
+			searchForm();
+			
 		}else{
 			return false;
 		}
 	}
-	
+	function searchForm() {
+		$("#searchForm").submit();
+	}
 	// 노래 검색, 노래 리스트 폼 보이기, 숨기기
 	function musiclistForm() {
 		if($("#musiclistForm").css("display")=="none"){
