@@ -12,12 +12,12 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript"></script>
-<script src="resources/js/bgm.js"></script>
 <link rel="stylesheet" href="resources/css/diary_web.css">
 <link rel="stylesheet" href="resources/css/diary_mob.css">
 <link rel="stylesheet" type="text/css" href="resources/css/map.css" />
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.js" />"></script>
 <title>Insert title here</title>
+<script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 	//원하는 페이지로 이동시 검색조건, 키워드 값을 유지하기 위해 
 	function list(page) {
@@ -343,14 +343,11 @@
 
 	<!-- -webtabs start(desktop only) -->
 	<div id="web_tabs">
-		<div onclick="location.href='home.do'">home</div>
+		<div onclick="location.href='homepage.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
 		<div onclick="location.href='diary.do'">diary</div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">
-		<div
-			style="display:<%=(!session.getAttribute("whos").equals("mine")) ? "none" : ""%>">
-			<a href="profile.do">profile</a>
-		</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">jukebox</div>
+		<div onclick="location.href='profile.do'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">profile</div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->

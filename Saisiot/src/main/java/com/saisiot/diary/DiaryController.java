@@ -253,11 +253,7 @@ public class DiaryController {
 	//게시판 목록
 	@RequestMapping(value = "/diary.do", method = { RequestMethod.GET, RequestMethod.POST })
 	   public ModelAndView diary(@RequestParam(defaultValue = "title") String searchOption,
-<<<<<<< HEAD
 	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue="0") int folderno,HttpSession session)
-=======
-	         @RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage, String email)
->>>>>>> refs/remotes/origin/seo
 	         throws Exception {
 	         
 	      UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");

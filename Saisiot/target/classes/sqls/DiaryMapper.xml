@@ -114,11 +114,7 @@
 	</insert>
 
 	<select id="folderList" resultType="com.saisiot.diary.dto.DiaryRootDto">
-<<<<<<< HEAD
-		SELECT * FROM DIARYROOT WHERE EMAIL=#{email}
-=======
 		SELECT * FROM DIARYROOT WHERE EMAIL = #{email}
->>>>>>> refs/remotes/origin/seo
 	</select>
 	
 	<delete id="folder_delete">

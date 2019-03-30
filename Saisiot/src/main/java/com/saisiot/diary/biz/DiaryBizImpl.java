@@ -31,19 +31,6 @@ public class DiaryBizImpl implements DiaryBiz {
 		return 0;
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
-	public void folder_insert(DiaryRootDto dto) {
-		dao.folder_insert(dto);
-	}
-	
-	@Override
-	public List<DiaryRootDto> folderList(String email) {
-		return dao.folderList(email);
-	}
-
->>>>>>> refs/remotes/origin/seo
 	//검색 조건 리스트
 	@Override
 	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
