@@ -801,7 +801,7 @@ public class UserinfoController {
 	}
 	
 	// 배치 프로그램
-	@Scheduled(cron = "* * * 1 * *")
+	//@Scheduled(cron = "0 0 12 * * *")
 	public void longuser() {
 		System.out.println("배치프로그램 작동");
 		try {
