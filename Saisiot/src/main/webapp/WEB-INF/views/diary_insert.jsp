@@ -50,17 +50,15 @@
 
 		//장소선택 버튼 클릭이벤트
 		$("#selectmap_btn").click(function() {
-			window.open('selectForm_map.do', "장소 선택", "width=600, height=400")
+			window.open('selectForm_map.do', "장소 선택", "width=590, height=540")
 		});
 
 		//동영상추가 버튼 클릭이벤트
-		$("#selectvideo_btn").click(
-				function() {
-					window.open('selectForm_video.do', "동영상 추가",
-							"width=300,height=100")
-				});
+		$("#selectvideo_btn").click(function() {
+			window.open('selectForm_video.do', "동영상 추가","width=390,height=120")
+		});
 
-	});
+	});	
 </script>
 <%
 	UserinfoDto dto = (UserinfoDto) session.getAttribute("login");
@@ -118,7 +116,7 @@
 							<div id="diary_insert">
 								<div id="diary_title_wrapper1">
 									<div id="ddiary_title_wrapper2">
-										제 목<input type="text" name="title" />
+										<b>T i t l e : </b></b><input type="text" name="title" style="align:center;" />
 										<select class="folder_select" name="folderno">
 											<c:forEach var="list" items="${folderList }">
 												<option value="${list.folderno}">${list.foldername }</option>
@@ -132,7 +130,7 @@
 									</div>
 								</div>
 								<div>
-									<div>내 용</div>
+									<div><b>C o n t e n t</b></div>
 									<div>
 										<textarea rows="10" cols="100" name="content"
 												id="smarteditor"
@@ -248,7 +246,7 @@
 			$("mapdel").remove();
 
 			// 선택한 지도 값을 이용하여 태그 생성 (map,maplati,maplong)
-			var insTag_map = "<tr id='selectmap'> <th>지	도</th><td><div id='map' style='width:350px;height:350px;'></div></td></tr>";
+			var insTag_map = "<tr id='selectmap'> <td><div id='map' style='width:350px;height:350px;'></div></td></tr>";
 			$("#insertTag").before(insTag_map);
 
 			var maplati = "<input type='hidden' id='maplati' name='maplati' value='"+y+"'/>";
@@ -260,7 +258,7 @@
 			var mapname = "<input type='hidden' id='mapname' name='mapname' value='"+selectaddr+"'/>";
 			$("#insertTag").before(mapname);
 
-			var mapdel = "<input type='button' id='mapdel' value='지도삭제' />";
+			var mapdel = "<input type='button' id='mapdel' value='지도 삭제' onclick="+"deleteMap();"+" />";
 			$("#map").after(mapdel);
 
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -301,11 +299,28 @@
 			$("#selectvideo").remove();
 			$("#videourl").remove();
 
-			var insTag_video = "<tr id='selectvideo'> <th>동 영 상</th><td><iframe width='640' height='480' value='" + videourl + "'src='"+ videourl +"' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></td></tr>";
+			var insTag_video = "<tr id='selectvideo'> <td><iframe width='450px;' height='200px;' value='" + videourl + "'src='"+ videourl +"' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></td></tr>";
 			$("#insertTag").before(insTag_video);
 
 			var videourl_res = "<input type='hidden' id='videourl' name='videourl' value='"+videourl+"'/>";
 			$("#insertTag").before(videourl_res);
+			
+			var videodel = "<input type='button' id='videodel' value='동영상 삭제' style='width:85px; text-align:center; letter-spacing:-1px;' onclick="+"deleteVideo();"+" />";
+			$("#selectvideo").after(videodel);
+		}
+		
+		function deleteMap(){
+			$("#maplati").remove();
+			$("#maplong").remove();
+			$("#mapname").remove();
+			$("#selectmap").remove();
+			$("#mapdel").remove();
+		}
+		
+		function deleteVideo(){
+			$("#selectvideo").remove();
+			$("#videourl").remove();
+			$("#videodel").remove();
 		}
 	</script>
 </body>

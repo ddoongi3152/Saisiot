@@ -19,7 +19,8 @@
 </script>
 </head>
 <body>
-
+	<h5>가져올 동영상의 주소를 입력해주세요!! 
+	<br/>ex : https://www.youtube.com/watch?v=scsXMDrFbms</h5>
 	<input type="text" id="selectvideo" name="selectvideo"/>
 	<input type="button" value="추가하기" onclick="callbackVideoUrl();"/>
 
