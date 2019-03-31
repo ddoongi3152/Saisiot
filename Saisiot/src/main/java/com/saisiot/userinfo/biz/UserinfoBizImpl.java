@@ -129,7 +129,6 @@ public class UserinfoBizImpl implements UserinfoBiz {
 	public int selectRoom(String emailFriend, String emailMe) {
 		return dao.selectRoom(emailFriend, emailMe);
 	}
-
 	@Override
 	public int friendDelete(String email) {
 		// TODO Auto-generated method stub

@@ -13,8 +13,8 @@ public interface DiaryDao {
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
 	
-	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
-	public int countArticle(String searchOption, String keyword);
+	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword,int folderno);
+	public int countArticle(String searchOption, String keyword,int folderno);
 	public List<DiaryDto> commentList();
 	public int comment_update(int diaryno);
 	public void comment_insert(DiaryDto dto);

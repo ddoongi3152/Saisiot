@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="<c:url value="resources/js/jquery-3.3.1.js"/>"></script>
 <script type="text/javascript" src="<c:url value="resources/js/sockjs-0.3.4.js"/>"></script>
+<script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 <%
 	UserinfoDto dto = (UserinfoDto)session.getAttribute("login");
@@ -199,33 +200,44 @@
 	<div id="web_tabs">
 		<div onclick="location.href='homepage.do'">home</div>
 		<div onclick="location.href='gallery.do'">gallery</div>
-		<div><a href="diary.do">diary</a></div>
-		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'">jukebox</div>
-		<div style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>" onclick="location.href='profile.do'">profile</div>
+		<div onclick="location.href='diary.do'">diary</div>
+		<div onclick="location.href='jukebox.do?email=<%=dto.getEmail()%>'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">jukebox</div>
+		<div onclick="location.href='profile.do'" style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">profile</div>
 		<div onclick="location.href='chat.do'">chat</div>
 	</div>
 	<!--webtabs end(desktop only)-->
-
 
 	<div id="right_sidebar">
 		<div id="to_home">메인홈으로</div>
 		<div id="graph">그래프표시영역</div>
 		<div id="audio">
-			<audio controls controlsList="nodownload" loop>
-			  <source src="test.mp3" type="audio/mpeg">
-			  Your browser does not support the audio tag.
+			<audio id="musicplayer" autoplay="autoplay" controls controlsList="nodownload">
+				<source src="" type="audio/mpeg" >
+				Your browser does not support the audio tag.
 			</audio>
 		</div>
 		<div id="audio_list">
 			<table>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
-				<tr><td>오디오리스트</td></tr>
+				<c:choose>
+					<c:when test="${empty background }">
+						<tr>
+							<td align="center">- 선택된 배경음악이 없습니다 -</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${background }" var="back">
+							<tr>
+								<td class="musictitle"><a onclick="musiclistForm();">${back.musictitle}</a></td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</table>
+		</div>
+		<div id="tracks" style="display: none;">
+			<input type="hidden" id="firstSong" value="">
+			<input type="hidden" id="songindex" value="">
+			<input type="hidden" id="repeat" value="">
 		</div>
 	</div>
 

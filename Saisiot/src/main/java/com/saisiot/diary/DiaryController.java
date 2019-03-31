@@ -259,12 +259,12 @@ public class DiaryController {
 	      UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
 		  String email = userdto.getEmail();
 	      // 총 게시글 수 계산
-	      int count = Dbiz.countArticle(searchOption, keyword);
+	      int count = Dbiz.countArticle(searchOption, keyword,folderno);
 	      // 페이지 나누기 관련 처리
 	      Paging paging = new Paging(count, curPage);
 	      int start = paging.getPageBegin();
 	      int end = paging.getPageEnd();
-	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
+	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword,folderno);
 	      List<DiaryDto> commentList= Dbiz.commentList();
 	      List<DiaryRootDto> folderList = Dbiz.folderList(email);
 	      /* System.out.println("commentList="+commentList); */
@@ -276,6 +276,7 @@ public class DiaryController {
 	      map.put("count", count); // 레코드의 갯수
 	      map.put("searchOption", searchOption); // 검색옵션
 	      map.put("keyword", keyword); // 검색키워드
+	      map.put("folderno",folderno);//선택된 폴더번호
 	      map.put("paging", paging);
 	      // ModelAndView - 모델과 뷰
 	      ModelAndView mav = new ModelAndView();
@@ -316,6 +317,31 @@ public class DiaryController {
 		return "redirect:diary.do";
 	}
 	
+	// gallery popup open
+	@RequestMapping("/gallery_popup.do")
+	public String gallery_popup(Model model, String email) {
+		List<DiaryRootDto> folderList = Dbiz.folderList(email);
+		model.addAttribute("folderList", folderList);
+		
+		return "gallery_popup";
+	}
 	
-
+	// gallery insert
+	@RequestMapping("/canvas_save.do")
+	public String gallery_insert(@ModelAttribute DiaryDto dto,String imgUrlHidden, HttpServletRequest request) {
+		System.out.println(dto.getEmail());
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		System.out.println(dto.getPicurl());
+		
+		int res = Dbiz.insert(dto);
+		
+		if(res > 0) {
+			System.out.println("갤러리 이미지 다이어리 저장 성공");
+			return "diary";
+		}else {
+			System.out.println("갤러리 이미지 다이어리 저장 실패");
+			return "gallery";
+		}
+	}
 }

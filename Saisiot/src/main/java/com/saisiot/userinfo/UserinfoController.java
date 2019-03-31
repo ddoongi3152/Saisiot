@@ -320,12 +320,12 @@ public class UserinfoController {
 			jukelist = jukedao.backselect(dto.getEmail(), "Y");
 			System.out.println(jukelist);
 			session.setAttribute("background",jukelist);
-			/*if(jukelist==null) {
-				return "homepage";
-			}else {
-				
-				return "homepage";
-			}*/
+			// + content 쥬크박스 갯수
+			List<JukeboxDto> jukelist2 = new ArrayList<JukeboxDto>();
+			jukelist2 = jukedao.jukeselect(dto.getEmail());
+			int jukenum = jukelist2.size();
+			model.addAttribute("jukenum", jukenum);
+			
 			System.out.println("------------------메인 페이지로 이동중3.-----------"+dto.getEmail());
 			
 			return "homepage";
