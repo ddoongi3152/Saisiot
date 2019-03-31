@@ -57,14 +57,14 @@
 	}
 </script>
 <!-- 네이버 공유용 주소 연결 용 -->
-<script type="text/javascript" async>
+<!-- <script type="text/javascript" async>
 	var url_default_naver = "http://share.naver.com/web/shareView.nhn?url=";
 	var title_default_naver = "&title=";
 	var url_this_page = location.href;
 	var title_this_page = document.title;
 	var url_combine_naver = url_default_naver + encodeURI(url_this_page)
 			+ title_default_naver + encodeURI(title_this_page);
-</script>
+</script> -->
 </head>
 <body>
 	<%
@@ -98,8 +98,10 @@
 									<c:when test="${empty map.folderList }">
 										<ul>
 											<li>
-												<a href='javascript:void(0);' onclick="listall('1');">전체보기</a>
-												<a href='javascript:void(0);' onclick="insert_Folder();"> 폴더 추가</a>
+												<a href='javascript:void(0);' onclick="listall('1');"
+												 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">전체보기</a>
+												<a href='javascript:void(0);' onclick="insert_Folder();"
+												 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"> 폴더 추가</a>
 											</li>
 											<li>폴더를 생성해주세요.</li>
 										</ul>
@@ -107,17 +109,21 @@
 									<c:otherwise>
 										<ul>
 											<li>
-												<a href='javascript:void(0);' onclick="list('1','0');">전체보기</a>
-												<a href='javascript:void(0);' onclick="insert_Folder();"> 폴더 추가</a>
+												<a href='javascript:void(0);' onclick="list('1','1');">전체보기</a>
+												<a href='javascript:void(0);' onclick="insert_Folder();" 
+												 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"> 폴더 추가</a>
 											</li>
 											<c:forEach var="list" items="${map.folderList }">
 												<li>
 													<!-- 다이어리 폴더 선택 -->
 													<a href='javascript:void(0);' onclick="select_Folder(${list.folderno});">${list.foldername }</a> 
 													<!-- 다이어리 폴더 삭제 -->
-													<a href='javascript:void(0);' onclick="delete_Folder(${list.folderno});"> 삭제</a> 
+													
+													<a href='javascript:void(0);' onclick="delete_Folder(${list.folderno});" 
+													 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"> 삭제</a> 
 													<!-- 다이어리 폴더 수정 -->
-													<a href='javascript:void(0);' onclick="update_Folder(${list.folderno});"> 수정</a>
+													<a href='javascript:void(0);' onclick="update_Folder(${list.folderno});"
+													 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"> 수정</a>
 												</li>
 											</c:forEach>
 										</ul>
@@ -158,7 +164,8 @@
 								</select> 
 								<input name="keyword" value="${map.keyword}"> 
 								<input type="submit" value="검색">
-								<input type="button" value="글쓰기" onclick="location.href='insertForm_diary.do'" />
+								<input type="button" value="글쓰기" onclick="location.href='insertForm_diary.do'"  
+								 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>"/>
 							</form>
 						</div>
 						<!-- diary list area , groupsq=0 list -->
@@ -234,7 +241,7 @@
 										</c:choose>
 
 										<!-- sns share -->
-										<div style="width: 100%; text-align: center; margin-bottom: 64px;">
+										<!-- <div style="width: 100%; text-align: center; margin-bottom: 64px;">
 											<a id="kakao-link-btn" href="javascript:;"> 
 											<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
 												title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" />
@@ -266,13 +273,13 @@
 													} ]
 												});
 												//]]>
-											</script>
+											</script> -->
 											<!-- 네이버 공유 버튼 -->
-											<a href=""
+											<!-- <a href=""
 												onclick="window.open(url_combine_naver, '', 'scrollbars=no, width=600, height=600'); return false;">
 												<img src="resources/img/snsshare/naver.png" title="네이버로 공유하기" class="sharebtn_custom" style="width: 32px;"/>
 											</a>
-										</div> 
+										</div>  -->
 										<!-- sns share end -->
 
 										<!-- comment area -->
@@ -288,7 +295,8 @@
 															<fmt:formatDate value="${row.regdate}"
 																pattern="yyyy-MM-dd HH:mm" />
 															<input type="button" value="삭제"
-																onclick="location.href='comment_delete?diaryno=${cmt.diaryno}'">
+																onclick="location.href='comment_delete?diaryno=${cmt.diaryno}'"
+																 style="display:<%=(!session.getAttribute("whos").equals("mine"))?"none":""%>">
 														</div>
 													</div>
 												</c:if>
@@ -305,11 +313,12 @@
 												<div class="diary_comment_textarea">
 													<a>댓글</a>
 													<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
-													<%-- <c:if test="${sessionScope.userId != null}"> --%>
-													<textarea rows="1" cols="59" class="replytext"
-														name="content" placeholder="댓글을 작성해주세요"></textarea>
-													<button type="submit" class="diary_comment_btn">확인</button>
+													<%-- <c:if test="${session.getAttribute('whos') ne 'mine'}"> --%>
+														<textarea rows="1" cols="59" class="replytext"
+															name="content" placeholder="댓글을 작성해주세요"></textarea>
+														<button type="submit" class="diary_comment_btn">확인</button>
 													<%-- </c:if> --%>
+												
 												</div>
 											</form>
 										</div>
