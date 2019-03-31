@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="resources/js/bgm.js?ver=3"></script>
-<script src="resources/js/jukebox.js?ver=4"></script>
+<script src="resources/js/bgm.js?ver=5"></script>
+<script src="resources/js/jukebox.js?ver=5"></script>
 <script type="text/javascript">
 
 	$(window).resize(function(){
@@ -38,7 +38,6 @@
 		
 		$('#updateBackForm').submit();
 	}
-
 
 </script>
 <link rel="stylesheet" href="resources/css/jukebox_web.css?ver=1">
@@ -119,7 +118,7 @@
 
 		<!-- right_wrapper4_2: right contentbox start -->
 		<div id="right_wrapper4_2">
-			<form id="searchForm" action="jukebox.do" method="post">
+			<form id="searchForm" action="buysong.do" method="post">
 			<input type="hidden" name="email" id="email" value="<%=dto.getEmail()%>">
 				<div id="search_div"><input type="text" id="search" placeholder="노래명을 검색해주세요."/><div onclick="searchMusic();">검색</div></div>
 				<table id="music_table">
@@ -134,6 +133,7 @@
 					</thead>
 					<tbody></tbody>
 				</table>
+				<input type="hidden" id="songOne" name="songOne" style="display: none;">
 				<input type="submit" style="display: none;">
 			</form>
 			<form id="musiclistForm" action="" method="post" style="display: none;">
