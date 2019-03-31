@@ -10,12 +10,12 @@ public interface DiaryBiz {
 	public int insert(DiaryDto dto);
 	public int update(DiaryDto dto);
 	public int delete(int diaryno);
-
+	
 	// 게시글 전체 목록 ==> 검색옵션, 키워드 매개변수 추가
-	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword);
+	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword,int folderno);
 
 	// 게시글 레코드 갯수
-	public int countArticle(String searchOption, String keyword);
+	public int countArticle(String searchOption, String keyword,int folderno);
 	
 	//댓글 리스트
 	public List<DiaryDto> commentList();

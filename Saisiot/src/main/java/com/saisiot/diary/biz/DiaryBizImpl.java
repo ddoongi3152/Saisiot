@@ -33,15 +33,15 @@ public class DiaryBizImpl implements DiaryBiz {
 
 	//검색 조건 리스트
 	@Override
-	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
+	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword,int folderno) {
 		// TODO Auto-generated method stub
-		return dao.diarylist(start, end, searchOption, keyword);
+		return dao.diarylist(start, end, searchOption, keyword,folderno);
 	}
 	
 	// 게시글 레코드 갯수
 	@Override
-	public int countArticle(String searchOption, String keyword) {
-		return dao.countArticle(searchOption, keyword);
+	public int countArticle(String searchOption, String keyword,int folderno) {
+		return dao.countArticle(searchOption, keyword,folderno);
 	}
 	// 댓글 리스트
 	@Override

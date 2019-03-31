@@ -23,6 +23,7 @@
 			// 한곡만 있는 경우 설정
 			if(playlist.length == 1){
 				var first = playlist[0];
+				playSongStyle(first);
 				$("#musicplayer").attr({src: "resources/bgm/"+first+".mp3", autoplay: "autoplay", loop: "loop"});
 			}else{
 				// 첫 곡 셋팅 후 첫 곡 잘라내고 리스트 a태그에 뿌림

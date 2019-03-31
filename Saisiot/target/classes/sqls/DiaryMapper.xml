@@ -30,7 +30,7 @@
 		GROUPNO, GROUPSQ, ROWNUM
 		FROM DIARY
 		<include refid="search"></include>
-		AND GROUPSQ=0
+		AND GROUPSQ=0 AND FOLDERNO=#{folderno}
 		ORDER BY GROUPNO DESC, GROUPSQ
 		<include refid="pagingFooter"></include>
 	</select>
@@ -42,7 +42,7 @@
 		DIARY
 		<!-- WHERE절을 include 태그로 삽입 -->
 		<include refid="search"></include>
-		AND GROUPSQ=0
+		AND GROUPSQ=0 AND FOLDERNO=#{folderno}
 	</select>
 
 	<!-- 댓글 리스트 -->
@@ -96,7 +96,7 @@
 	<!-- 댓글 입력 -->
 	<insert id="comment_insert" >
 		INSERT INTO DIARY
-		VALUES(DIARY_DIARYNOSEQ.NEXTVAL,'1',#{email},'comment',#{content},SYSDATE,
+		VALUES(DIARY_DIARYNOSEQ.NEXTVAL,#{folderno},#{email},'comment',#{content},SYSDATE,
 		'test fileurl','testpicurl','mapname','1.1','2.2','testvideourl',
 		(SELECT GROUPNO FROM DIARY WHERE DIARYNO =#{diaryno}),
 		(SELECT GROUPSQ FROM DIARY WHERE DIARYNO =#{diaryno})+1
@@ -114,7 +114,7 @@
 	</insert>
 
 	<select id="folderList" resultType="com.saisiot.diary.dto.DiaryRootDto">
-		SELECT * FROM DIARYROOT WHERE EMAIL=#{email}
+		SELECT * FROM DIARYROOT WHERE EMAIL = #{email} ORDER BY FOLDERNO DESC
 	</select>
 	
 	<delete id="folder_delete">
