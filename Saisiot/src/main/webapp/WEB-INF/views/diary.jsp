@@ -11,12 +11,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta property="og:url" content="${path}/diary.do" />
-<meta property="og:site_name" content="Dreamload" />
-<meta property="og:title" content="사이시옷" />
-<meta property="og:description" content="사이시옷" />
-<meta property="og:image" content="../img/99E7B933599BF9DD16.jpg" />
-<script type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/diary_web.css">
 <link rel="stylesheet" href="resources/css/diary_mob.css">
 <link rel="stylesheet" type="text/css" href="resources/css/map.css" />
@@ -25,12 +19,18 @@
 <script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 	//원하는 페이지로 이동시 검색조건, 키워드 값을 유지하기 위해 
-	function list(page) {
+	function list(page,folderno) {
+		alert(folderno);
 		location.href = "${path}/mvc03/diary.do?curPage=" + page
 				+ "&searchOption-${map.searchOption}"
-				+ "&keyword=${map.keyword}";
+				+ "&keyword=${map.keyword}"
+				+ "&folderno=" + folderno;
 	}
-
+	//폴더 선택 
+	function select_Folder(folderno) {
+		location.href = "diary.do?folderno="+folderno;
+	}
+	
 	//폴더 추가 팝업 띄우기
 	function insert_Folder() {
 		window.open("insertForm_folder.do", "폴더 추가", "width=300,height=100")
@@ -73,6 +73,7 @@
 			response.sendRedirect("user_info_plus.do");
 		}
 	%>
+	
 	<div id="left_wrapper1">
 		<div id="left_wrapper2">
 			<div id="left_wrapper3">
@@ -83,28 +84,34 @@
 							<div id="mob_top">사이좋은 사람들 사이시옷</div>
 							<div id="tmpdiv">|프로필|다이어리|갤러리|쥬크박스|</div>
 							<div id="folder_list_div">
-								<ul>
-									<li><a>전체보기</a><a href='javascript:void(0);'
-										onclick="insert_Folder();"> 폴더 추가</a></li>
-									<c:choose>
-										<c:when test="${empty map.folderList }">
+								<c:choose>
+									<c:when test="${empty map.folderList }">
+										<ul>
+											<li><a>전체보기</a><a href='javascript:void(0);'
+												onclick="insert_Folder();"> 폴더 추가</a></li>
 											<li><p>폴더를 생성해주세요.</p></li>
-										</c:when>
-										<c:otherwise>
+										</ul>
+									</c:when>
+									<c:otherwise>
+										<ul>
+											<li><a>전체보기</a><a href='javascript:void(0);'
+												onclick="insert_Folder();"> 폴더 추가</a></li>
 											<c:forEach var="list" items="${map.folderList }">
 												<li>
-													<a href="">${list.foldername }</a>
-													<a href='javascript:void(0);' onclick="delete_Folder(${list.folderno});">
-													삭제</a>
-													<a href='javascript:void(0);' onclick="update_Folder(${list.folderno});">
-													수정</a>
+													<!-- 다이어리 폴더 선택 -->
+													<a href='javascript:void(0);' onclick="select_Folder(${list.folderno});">${list.foldername }</a> 
+													<!-- 다이어리 폴더 삭제 -->
+													<a href='javascript:void(0);' onclick="delete_Folder(${list.folderno});"> 삭제</a> 
+													<!-- 다이어리 폴더 수정 -->
+													<a href='javascript:void(0);' onclick="update_Folder(${list.folderno});"> 수정</a>
 												</li>
 											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-								</ul>
+										</ul>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
+						<!-- left_wrapper6 end -->
 					</div>
 					<!-- left_wrapper5 end -->
 				</div>
@@ -218,10 +225,11 @@
 											<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
 												title="카카오 공유하기" class="sharebtn_custom" style="width: 32px;" />
 											</a>
+											<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 											<script type='text/javascript'>
 												//<![CDATA[
 												// // 사용할 앱의 JavaScript 키를 설정해 주세요.
-												Kakao.init('1fe75f64aaf4512f8f75ce29f8ceb483');
+												Kakao.init('7c4a53c1e889f9bc6418c73ed76377f8');
 												// // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
 												Kakao.Link.createDefaultButton({
 													container : '#kakao-link-btn',
@@ -231,15 +239,15 @@
 														description : '${row.title}',
 														imageUrl : '${row.picurl}',
 														link : {
-															mobileWebUrl : '${path}/mvc03/diary.do?',
-															webUrl : '${path}/mvc03/diary.do?'
+															mobileWebUrl : 'http://${path}/mvc03/diary.do',
+															webUrl : 'http://${path}/mvc03/diary.do'
 														}
 													},
 													buttons : [ {
 														title : '웹으로 보기',
 														link : {
-															mobileWebUrl : url,
-															webUrl : url
+															mobileWebUrl : 'http://${path}/mvc03/diary.do?',
+															webUrl : 'http://${path}/mvc03/diary.do'
 														}
 													} ]
 												});
@@ -278,8 +286,8 @@
 											<form action="${path}/mvc03/comment_insert">
 												<input type="hidden" name="groupno" value="${row.groupno }">
 												<input type="hidden" name="groupsq" value="${row.groupsq }">
-												<input type="hidden" class="diaryno" name="diaryno"
-													value="${row.diaryno }">
+												<input type="hidden" name="folderno" value="${row.folderno }">
+												<input type="hidden" class="diaryno" name="diaryno" value="${row.diaryno }">
 												<div class="diary_comment_textarea">
 													<a>댓글</a>
 													<!-- 로그인 한 회원에게만 댓글 작성폼이 보이게 처리 -->
@@ -303,11 +311,11 @@
 							<div id="diary_paging">
 								<!-- 처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력-->
 								<c:if test="${map.paging.curBlock >= 1}">
-									<a href="javascript:list('1')">[처음]</a>
+									<a href="javascript:list('1','${row.folderno }')">[처음]</a>
 								</c:if>
 								<!-- 이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 -->
 								<c:if test="${map.paging.curBlock > 1}">
-									<a href="javascript:list('${map.paging.prevPage}')">[이전]</a>
+									<a href="javascript:list('${map.paging.prevPage}','${row.folderno }')">[이전]</a>
 								</c:if>
 								<!-- **하나의 블럭 시작페이지부터 끝페이지까지 반복문 실행 -->
 								<c:forEach var="num" begin="${map.paging.blockBegin}"
@@ -318,17 +326,17 @@
 											<span style="color: red">${num}</span>&nbsp;
                            				</c:when>
 										<c:otherwise>
-											<a href="javascript:list('${num}')">${num}</a>&nbsp;
+											<a href="javascript:list('${num}','${row.folderno }')">${num}</a>&nbsp;
 	                           			</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
 								<c:if test="${map.paging.curBlock <= map.paging.totBlock}">
-									<a href="javascript:list('${map.paging.nextPage}')">[다음]</a>
+									<a href="javascript:list('${map.paging.nextPage}','${row.folderno }')">[다음]</a>
 								</c:if>
 								<!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 -->
 								<c:if test="${map.paging.curPage <= map.paging.totPage}">
-									<a href="javascript:list('${map.paging.totPage}')">[끝]</a>
+									<a href="javascript:list('${map.paging.totPage}','${row.folderno }')">[끝]</a>
 								</c:if>
 							</div>
 						</div>
@@ -392,7 +400,7 @@
 	</div>
 
 	<script
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1fe75f64aaf4512f8f75ce29f8ceb483&libraries=services"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c4a53c1e889f9bc6418c73ed76377f8&libraries=services"></script>
 	<script>
 		// 마커를 담을 배열입니다
 		var markers = [];

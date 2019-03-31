@@ -259,12 +259,12 @@ public class DiaryController {
 	      UserinfoDto userdto = (UserinfoDto)session.getAttribute("login");
 		  String email = userdto.getEmail();
 	      // 총 게시글 수 계산
-	      int count = Dbiz.countArticle(searchOption, keyword);
+	      int count = Dbiz.countArticle(searchOption, keyword,folderno);
 	      // 페이지 나누기 관련 처리
 	      Paging paging = new Paging(count, curPage);
 	      int start = paging.getPageBegin();
 	      int end = paging.getPageEnd();
-	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword);
+	      List<DiaryDto> list = Dbiz.diarylist(start, end, searchOption, keyword,folderno);
 	      List<DiaryDto> commentList= Dbiz.commentList();
 	      List<DiaryRootDto> folderList = Dbiz.folderList(email);
 	      /* System.out.println("commentList="+commentList); */

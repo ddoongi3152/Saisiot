@@ -45,7 +45,7 @@ public class DiaryDaoImpl implements DiaryDao {
 	
 	//다이어리 리스트
 	@Override
-	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword) {
+	public List<DiaryDto> diarylist(int start, int end, String searchOption, String keyword,int folderno) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 검색 옵션, 키워드를 맵에저장
 		map.put("searchOption", searchOption);
@@ -53,16 +53,18 @@ public class DiaryDaoImpl implements DiaryDao {
 		// BETWEEN #{start},#{end}에 입력될 값
 		map.put("start", start);
 		map.put("end", end);
+		map.put("folderno", folderno);
 		return sqlSession.selectList(NAMESPACE + "diarylist", map);
 	}
 	//게시글 카운트
 	@Override
-	public int countArticle(String searchOption, String keyword) {
+	public int countArticle(String searchOption, String keyword,int folderno) {
 		// 검색옵션, 키워드 맵에 저장
 		int res = 0;
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
+		map.put("folderno", folderno);
 		res = sqlSession.selectOne(NAMESPACE + "countArticle", map);
 		return res;
 	}
