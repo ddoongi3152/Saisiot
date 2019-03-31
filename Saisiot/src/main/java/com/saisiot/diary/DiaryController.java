@@ -141,7 +141,9 @@ public class DiaryController {
 
 		int c = img_src.indexOf(34);
 
-		picurl = "upload\\"+img_src.substring(7, c);
+		String img_path = WebUtils.getRealPath(request.getSession().getServletContext(), "/resources/api/se/upload");
+
+		picurl = img_path+img_src.substring(7, c);
 		
 		dto.setPicurl(picurl);
 		

@@ -185,7 +185,7 @@
 											<c:otherwise>
 												<div class="diary_pic" style="width: 400px; height: 300px;">
 													<img style="width: 100%; height: 100%;"
-														src="<spring:url value='/upload/${row.picurl }'/>" />
+														src="<c:url value="/resources/api/se/${row.picurl }" />" />
 												</div>
 											</c:otherwise>
 										</c:choose>
