@@ -5,6 +5,7 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Locale" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>    
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -60,7 +61,23 @@
 	    }, 500);
 	}
 	
-	
+	function readURL(input) {
+		alert(input);
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $('#image_section').attr('src', e.target.result);
+	        }
+	 
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	 
+
+	 function change_pic(this_1){
+		readURL(this_1);
+	 }
+	 
 </script>
 </head>
 <body>
@@ -100,7 +117,6 @@ for (int i = 1; i < 4; i++) {
 }
 %>	
 
-	<a href="fileupload.do">사진로드</a>
 	<div id="left_wrapper1">
 	<div id="left_wrapper2">
 	<div id="left_wrapper3">
@@ -111,14 +127,15 @@ for (int i = 1; i < 4; i++) {
 			<div id="mob_top"><input type="text" id="p_title_mob" value="${pdto.p_title }"/></div>
 			<div id="tmpdiv">|프로필|다이어리|갤러리|쥬크박스|</div>
 			<div id="profile_title">프로필 수정</div>
-			<div id="profile_pic"><img alt="profile_img" src=${pdto.p_picurl }></div>
-			
-			
-			<form action="update_pic.do" method="post" enctype="multipart/form-data">
-			<div id="profile_pic_edit"><input type="file" name="p_picurl">이미지 선택</div>
-			<div id="profile_pic_edit"><input type="submit">이미지 저장</div>
-			</form>
-			
+			<div id="profile_pic"><img id="image_section" alt="profile_img" src=${pdto.p_picurl }></div>
+
+
+		<form:form method="post" enctype="multipart/form-data" modelAttribute="uploadFile" action="upload.do">
+			<input type="file" name="file" id="profile_pic" onchange="change_pic(this);" />
+			<input type="submit" value="전송">
+		</form:form>
+
+
 			<hr id="profile_hr1">
 			<textarea id="profile_content">${pdto.p_content }</textarea>
 			<div id="profile_edit" onclick="update_p()">수정완료</div>

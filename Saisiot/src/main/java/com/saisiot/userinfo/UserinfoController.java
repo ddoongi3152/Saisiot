@@ -945,21 +945,22 @@ public class UserinfoController {
 		}
 		
 		@RequestMapping("/upload.do")
-		public String fileUpload(HttpServletRequest request, Model model,UploadFile uploadFile,BindingResult result) throws IOException {
-			
-			// BindingResult : uploadFile을 잡고 에러가 발생하면 에러를 출력하도록 도와준다 
+		public String fileUpload(HttpSession session, HttpServletRequest request, Model model,UploadFile uploadFile,BindingResult result) throws IOException {
 			
 			FileValidator fileValidator = new FileValidator();
 			
 			fileValidator.validate(uploadFile, result);
 			if(result.hasErrors()) {
-				return "uploadForm";
+				return "redirect:homepage.do";
 			}
 			
-			
+			UserinfoDto udto = (UserinfoDto)session.getAttribute("login");
 			// 실제 파일
 			MultipartFile file=uploadFile.getFile();
-			String filename=file.getOriginalFilename();
+			String originName=file.getOriginalFilename();
+			String fileExt = originName.substring(originName.lastIndexOf(".")+1);
+			System.out.println("확장자!!!" + fileExt);
+			String filename=udto.getEmail()+"."+fileExt;
 			
 			UploadFile fileobj=new UploadFile();
 			fileobj.setFilename(filename);
@@ -973,28 +974,17 @@ public class UserinfoController {
 
 				inputStream=file.getInputStream();
 				// 파일이 실제로 업로드, 저장될 path를 지정
-				String path=WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
+				String path=WebUtils.getRealPath(request.getSession().getServletContext(), "resources/img/p_pic");
 				
 				System.out.println("업로드 될 실제 경로 :" + path);
 				
-				/*
-				 * 경로
-				 * 절대경로 : C:\workspace\...\storage , 실제 물리적 폴더
-				 * 상대경로 : ../(상위폴더) ./(현재) /(root)  
-				 * 
-				 * http://localhost:8787/upload/form.do
-				 * <--------------------><----->
-				 *           root          현재   
-				 *           
-				 *           
-				 *           
-				 * */
 				
 				// 폴더만들어라
-				File storage=new File(path);
+				File storage = new File(path);
 				if(!storage.exists()) {
 					storage.mkdirs();
 				}
+				
 				// 파일만들어라
 				File newfile=new File(path+"/"+filename);
 				if(!newfile.exists()) {
@@ -1021,28 +1011,15 @@ public class UserinfoController {
 			}
 			model.addAttribute("fileobj",fileobj);
 			
-			return "uploadFile";
-		}
-		
-		@RequestMapping("/download.do")
-		@ResponseBody
-		public byte[] fileDown(HttpServletRequest request,HttpServletResponse response, String filename) throws IOException {
+			String p_picurl = "resources/img/p_pic/"+filename;
+			ProfileDto Pdto = biz.select_p(udto.getEmail());
+			Pdto.setP_picurl(p_picurl);
 			
-			String path=WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
-			File file=new File(path+"/"+filename);
+			biz.update_p(Pdto);
 			
-			byte[] bytes=FileCopyUtils.copyToByteArray(file);
-			// 8859_1 : UTF-8이 대응 할 수 없는것도 처리 하기 위해
-			String fn=new String(file.getName().getBytes(),"8859_1");
+			session.getAttribute("pdto");
 			
-			response.setHeader("Content-Disposition", "attachment;filename=\""+fn+"\"");
-			response.setContentLength(bytes.length);
-			response.setContentType("image/jpeg");
-			// servers web.xml(tomcat)
-			// mime-type : 어떤파일을 읽어들일 수 있는지 찾을 수 있다 , 추가도 가능
-			
-					
-			return bytes;
+			return "redirect:homepage.do";
 		}
 		
 		//cheon's editing end----------
