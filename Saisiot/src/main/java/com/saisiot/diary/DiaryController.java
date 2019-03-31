@@ -276,6 +276,7 @@ public class DiaryController {
 	      map.put("count", count); // 레코드의 갯수
 	      map.put("searchOption", searchOption); // 검색옵션
 	      map.put("keyword", keyword); // 검색키워드
+	      map.put("folderno",folderno);//선택된 폴더번호
 	      map.put("paging", paging);
 	      // ModelAndView - 모델과 뷰
 	      ModelAndView mav = new ModelAndView();

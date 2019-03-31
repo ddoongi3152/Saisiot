@@ -19,8 +19,18 @@
 <script src="resources/js/bgm.js"></script>
 <script type="text/javascript">
 	//원하는 페이지로 이동시 검색조건, 키워드 값을 유지하기 위해 
+	function listall(page) {
+		alert(folderno);
+		alert(page);
+		location.href = "${path}/mvc03/diary.do?curPage=" + page
+				+ "&searchOption-${map.searchOption}"
+				+ "&keyword=${map.keyword}";
+				
+	}
+	//원하는 페이지로 이동시 검색조건, 키워드 값을 유지하기 위해 
 	function list(page,folderno) {
 		alert(folderno);
+		alert(page);
 		location.href = "${path}/mvc03/diary.do?curPage=" + page
 				+ "&searchOption-${map.searchOption}"
 				+ "&keyword=${map.keyword}"
@@ -87,15 +97,19 @@
 								<c:choose>
 									<c:when test="${empty map.folderList }">
 										<ul>
-											<li><a>전체보기</a><a href='javascript:void(0);'
-												onclick="insert_Folder();"> 폴더 추가</a></li>
-											<li><p>폴더를 생성해주세요.</p></li>
+											<li>
+												<a href='javascript:void(0);' onclick="listall('1');">전체보기</a>
+												<a href='javascript:void(0);' onclick="insert_Folder();"> 폴더 추가</a>
+											</li>
+											<li>폴더를 생성해주세요.</li>
 										</ul>
 									</c:when>
 									<c:otherwise>
 										<ul>
-											<li><a>전체보기</a><a href='javascript:void(0);'
-												onclick="insert_Folder();"> 폴더 추가</a></li>
+											<li>
+												<a href='javascript:void(0);' onclick="list('1','0');">전체보기</a>
+												<a href='javascript:void(0);' onclick="insert_Folder();"> 폴더 추가</a>
+											</li>
 											<c:forEach var="list" items="${map.folderList }">
 												<li>
 													<!-- 다이어리 폴더 선택 -->
@@ -311,11 +325,11 @@
 							<div id="diary_paging">
 								<!-- 처음페이지로 이동 : 현재 페이지가 1보다 크면  [처음]하이퍼링크를 화면에 출력-->
 								<c:if test="${map.paging.curBlock >= 1}">
-									<a href="javascript:list('1','${row.folderno }')">[처음]</a>
+									<a href="javascript:list('1','${map.folderno }')">[처음]</a>
 								</c:if>
 								<!-- 이전페이지 블록으로 이동 : 현재 페이지 블럭이 1보다 크면 [이전]하이퍼링크를 화면에 출력 -->
 								<c:if test="${map.paging.curBlock > 1}">
-									<a href="javascript:list('${map.paging.prevPage}','${row.folderno }')">[이전]</a>
+									<a href="javascript:list('${map.paging.prevPage}','${map.folderno }')">[이전]</a>
 								</c:if>
 								<!-- **하나의 블럭 시작페이지부터 끝페이지까지 반복문 실행 -->
 								<c:forEach var="num" begin="${map.paging.blockBegin}"
@@ -326,17 +340,17 @@
 											<span style="color: red">${num}</span>&nbsp;
                            				</c:when>
 										<c:otherwise>
-											<a href="javascript:list('${num}','${row.folderno }')">${num}</a>&nbsp;
+											<a href="javascript:list('${num}','${map.folderno }')">${num}</a>&nbsp;
 	                           			</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
 								<c:if test="${map.paging.curBlock <= map.paging.totBlock}">
-									<a href="javascript:list('${map.paging.nextPage}','${row.folderno }')">[다음]</a>
+									<a href="javascript:list('${map.paging.nextPage}','${map.folderno }')">[다음]</a>
 								</c:if>
 								<!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 -->
 								<c:if test="${map.paging.curPage <= map.paging.totPage}">
-									<a href="javascript:list('${map.paging.totPage}','${row.folderno }')">[끝]</a>
+									<a href="javascript:list('${map.paging.totPage}','${map.folderno }')">[끝]</a>
 								</c:if>
 							</div>
 						</div>
