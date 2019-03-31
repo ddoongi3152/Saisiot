@@ -134,7 +134,6 @@ public class DiaryController {
 		
 		int a = content.indexOf("upload");
 		
-		// ?��미�? ?��?��?�� ?��로드 ?��?��?���?
 		if(a != -1) {
 		
 		String img_src = content.substring(a);
@@ -153,10 +152,8 @@ public class DiaryController {
 
 		} else {
 			
-			// ?��?��?���??��
 			fileValidator.validate(uploadFile, result);
 
-			// ?��류정보�? 존재?�� uploadForm?���? 간다.
 			if (result.hasErrors()) {
 				return "uploadForm";
 			}
@@ -174,20 +171,12 @@ public class DiaryController {
 			try {
 				inputStream = file.getInputStream();
 				String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/upload");
-				System.out.println("?��로드 ?�� ?��?�� 경로 : " + path);
 
-				/*
-				 * 경로 ?��??경로 : C:\workspace\....\storage ?��??경로 : ../(?��?�� ?��?��) ./(?��?�� ?��?��)
-				 * /(root->localhost:8787/ : ?��?��?�� 붙는?��.)
-				 */
-
-				// storage�? 존재?���? ?��?���? 만든?��.
 				File storage = new File(path);
 				if (!storage.exists()) {
 					storage.mkdirs();
 				}
 
-				// newfile?�� 존재?���? ?��?���? newfile?�� 만든?��.
 				File newfile = new File(path + "/" + filename);
 				if (!newfile.exists()) {
 					newfile.createNewFile();
@@ -237,14 +226,13 @@ public class DiaryController {
 		String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/upload");
 		File file = new File(path+"/"+filename);
 		
-		byte[] bytes = FileCopyUtils.copyToByteArray(file); // �??��?�� file값을 copyToByteArray�? ?��?��?��?�� 배열�? 모든 data를�??��?��
+		byte[] bytes = FileCopyUtils.copyToByteArray(file); 
 		String fn = new String(file.getName().getBytes(),"8859_1");
 		
 		response.setHeader("Content-Disposition", "attachment;filename=\""+fn+"\"");
 		response.setContentLength(bytes.length);
 		response.setContentType("image/jpeg");
-		// servers - tomcat - web.xml?��?�� mime-mapping?�� 보면 jpg,doc,ppt ?��?�� ?��?��받을?��?��?�� ?��?��?�� ???��?�� ?��?��줄수?��?��. 
-		// 기본?��?�� �? ?��?�� ?���? ?��?��?���? ?��?���? ?���? 추�? �??��?��?��.
+
 		
 		return bytes;
 	}
