@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.saisiot.profile.dto.ProfileDto;
 import com.saisiot.userinfo.dao.UserinfoDao;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
@@ -209,7 +210,25 @@ public class UserinfoBizImpl implements UserinfoBiz {
 		return dao.update_personal(dto);
 	}
 
+	// cheon's editing------------
+	@Override
+	public int insert_P(UserinfoDto dto) {
+		return dao.insert_P(dto);
+	}
 
+	@Override
+	public int update_p(ProfileDto Pdto) {
+		return dao.update_p(Pdto);
+	}
+
+	@Override
+	public ProfileDto select_p(String email) {
+		return dao.select_p(email);
+	}
+
+	// cheon's editing end---------
+		
+		
 
 	
 	

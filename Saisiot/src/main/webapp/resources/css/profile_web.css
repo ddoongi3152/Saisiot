@@ -23,7 +23,7 @@
 		display: none;
 	}
 	body{
-		background-image: url("checkbox.PNG");
+		background-image: url("../img/checkbox.PNG");
 		padding: 14px;
 		display: flex;
 		align-items: flex-start;

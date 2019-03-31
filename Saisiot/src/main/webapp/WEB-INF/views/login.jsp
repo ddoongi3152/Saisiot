@@ -91,6 +91,7 @@
 						<div><input type="submit" class="btn" value="가입"></div>						
 				</form>
 					<div class="g-recaptcha" id="g-recaptcha-btn" data-sitekey="6LfiDJcUAAAAADcFYZpJvash2bUuQrFwky-zgQwx"></div>
+			</div>
 		</div>
 		<!-- left_wrapper5 end -->
 	</div>
@@ -121,6 +122,6 @@
 	<!-- right_wrapper2 end(dashed box) -->
 	</div>
 	<!-- right_wrapper1 end(blue box) -->
-
+	
 </body>
 </html>

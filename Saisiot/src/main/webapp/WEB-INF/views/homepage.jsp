@@ -66,7 +66,7 @@
 
 	//일주일간 방문자 통계 리스트
 	List<Object> week_visit_date = new ArrayList<Object>();
-	week_visit_date = (ArrayList) request.getAttribute("week_visit_date");
+	week_visit_date = (ArrayList)session.getAttribute("week_visit_date");
 
 	Object one_date_visit = week_visit_date.get(0);
 	Object two_date_visit = week_visit_date.get(1);
@@ -106,20 +106,12 @@
 		<div id="left_wrapper5_1">${todayCount} today | total  ${totalCount}</div>
 		<div id="left_wrapper5_2">
 		<div id="left_wrapper6">
-			<div id="mob_top">사이좋은 사람들 사이시옷&nbsp; <%=dto.getUsername() %></div>
+			<div id="mob_top">${pdto.p_title}&nbsp; <%=dto.getUsername() %></div>
 			<div id="tmpdiv">탭목록</div>
-			<div id="profile_pic"><img alt="profile_img" src="checkbox.PNG"></div>
+			<div id="profile_pic"><img alt="profile_img" src=${pdto.p_picurl }></div>
 			<hr id="profile_hr1">
 			<div id="profile_content">
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
-			인생.....★ 사이좋은 사람들 사이시옷
+			${pdto.p_content}
 			</div>
 			<div id="profile_edit"><a>▶Edit</a> <a>▶History</a></div>
 			<hr id="profile_hr2">
@@ -149,7 +141,7 @@
 	<div id="right_wrapper2">
 	<div id="right_wrapper3">
 	<div id="right_wrapper4">
-		<div id="right_wrapper4_1">사이좋은 사람들 사이시옷</div>
+		<div id="right_wrapper4_1">${pdto.p_title}</div>
 
 		<!-- right_wrapper4_2: right contentbox start -->
 		<div id="right_wrapper4_2">

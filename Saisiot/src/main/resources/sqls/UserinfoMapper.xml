@@ -16,6 +16,13 @@
       <result property="usercondition" column="USERCONDITION"/>
    </resultMap>
 
+	<resultMap type="com.saisiot.profile.dto.ProfileDto" id="pdto">
+   	  <result property="email" column="EMAIL"/>
+      <result property="p_picurl" column="P_PICURL"/>
+      <result property="p_content" column="P_CONTENT"/>
+      <result property="p_title" column="P_TITLE"/>
+  	</resultMap>
+
    <select id="selectList" resultMap="dtoMap">
       SELECT EMAIL, PASSWORD, GENDER, JOINDATE, BIRTHDATE, USERNAME, VISITDATE, PWDATE, ADDR, COINNO, USERCONDITION
       FROM USERINFO
@@ -152,6 +159,24 @@
 	
 	<update id="updatePersonal" parameterType="UserinfoDto">
 		UPDATE USERINFO SET GENDER = #{gender}, BIRTHDATE = #{birthdate}, USERNAME = #{username}, ADDR = #{addr} WHERE EMAIL = #{email}
+	</update>
+	
+	<!-- cheon's editing -->
+	<insert id="insert_p" parameterType="UserinfoDto">
+		INSERT INTO HOMEINFO (EMAIL, P_PICURL, P_CONTENT, P_TITLE)
+		VALUES(#{email}, 'resources/img/profile_woman.jpg', '대화명을 바꿔주세요!', '미니홈피 제목을 지정해주세요 :)')
+	</insert>
+	
+	<select id="select_p" parameterType="String" resultMap="pdto">
+		SELECT * 
+		FROM HOMEINFO
+		WHERE EMAIL = #{email}
+	</select>
+	
+	<update id="update_p" parameterType="ProfileDto">
+		UPDATE HOMEINFO
+		SET P_PICURL = #{p_picurl}, P_CONTENT = #{p_content}, P_TITLE = #{p_title}
+		WHERE EMAIL = #{email}
 	</update>
 	
 </mapper>

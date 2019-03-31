@@ -6,6 +6,7 @@
 		<typeAlias type="com.saisiot.userinfo.dto.UserinfoDto" alias="UserinfoDto"/>
 		<typeAlias type="com.saisiot.diary.dto.DiaryDto" alias="DiaryDto" />
 		<typeAlias type="com.saisiot.jukebox.dto.JukeboxDto" alias="JukeboxDto"/>
+		<typeAlias type="com.saisiot.profile.dto.ProfileDto" alias="ProfileDto"/>
 	</typeAliases>
 	
 	<mappers>

@@ -22,12 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import java.awt.print.PrinterException;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -41,6 +48,9 @@ import java.util.Map;
 
 import com.saisiot.jukebox.dao.JukeboxDao;
 import com.saisiot.jukebox.dto.JukeboxDto;
+import com.saisiot.profile.dto.FileValidator;
+import com.saisiot.profile.dto.ProfileDto;
+import com.saisiot.profile.dto.UploadFile;
 import com.saisiot.userinfo.biz.UserinfoBiz;
 import com.saisiot.userinfo.biz.UserinfoBizImpl;
 import com.saisiot.userinfo.dto.UserinfoDto;
@@ -81,6 +91,9 @@ public class UserinfoController {
 	public String insert(@ModelAttribute UserinfoDto dto) {
 
 		int res = biz.insert(dto);
+		//cheon's editing - profile basic setting
+		int res_p = biz.insert_P(dto);
+		System.out.println("프로필 기본값 주입" + res_p);
 
 		if (res > 0) {
 			return "redirect:list.do";
@@ -284,14 +297,17 @@ public class UserinfoController {
 			UserinfoDto dto;
 			if(whos.equals("mine")) {
 				dto = (UserinfoDto)session.getAttribute("login");
+				ProfileDto pdto = (ProfileDto)biz.select_p(dto.getEmail());
+				session.setAttribute("pdto", pdto);
 			}else {
 				dto = (UserinfoDto)session.getAttribute("others");
+				ProfileDto pdto = (ProfileDto)biz.select_p(dto.getEmail());
+				session.setAttribute("pdto", pdto);
 			}
 			System.out.println("------------------메인 페이지로 이동중.-----------"+dto.getEmail());
 			
 			Map<String, Object> visit_email = new HashMap<String, Object>();
 			visit_email.put("email", dto.getEmail());
-			
 			
 	        //오늘 방문자 수
 	        int todayCount = biz.visit_today(visit_email);
@@ -304,9 +320,9 @@ public class UserinfoController {
 	        
 	        System.out.println(todayCount + "d" + totalCount + "s" + week_visit_date + "!!!!!!!!!!!!!!!!!!");
 	        
-	        model.addAttribute("todayCount", todayCount);
-	        model.addAttribute("totalCount",totalCount);
-	        model.addAttribute("week_visit_date", week_visit_date);
+	        session.setAttribute("todayCount", todayCount);
+	        session.setAttribute("totalCount",totalCount);
+	        session.setAttribute("week_visit_date", week_visit_date);
 			
 			List<UserinfoDto> friendList = biz.selectFriendList(dto.getEmail());
 			
@@ -369,7 +385,9 @@ public class UserinfoController {
 
 		try {
 			int res = biz.insert(dto);
-			
+			//cheon's editing - profile basic setting
+			int res_p = biz.insert_P(dto);
+			System.out.println("프로필 기본값 주입" + res_p);
 			System.out.println(res);
 			if(res>0) {
 				System.out.println("회원가입 성공");
@@ -418,6 +436,10 @@ public class UserinfoController {
 				
 				UserinfoDto dto = new UserinfoDto(email,password,null,null,null,name,null,null,null,0,1);
 				int res = biz.kakaoinsert(dto);
+				//cheon's editing - profile basic setting
+				int res_p = biz.insert_P(dto);
+				System.out.println("프로필 기본값 주입" + res_p);
+				
 				if(res>0) {
 					System.out.println("카카오 회원가입 성공");
 			
@@ -526,6 +548,10 @@ public class UserinfoController {
 				
 				UserinfoDto dto = new UserinfoDto(email,password,null,null,null,name,null,null,null,0,1);
 				int res = biz.kakaoinsert(dto);
+				//cheon's editing - profile basic setting
+				int res_p = biz.insert_P(dto);
+				System.out.println("프로필 기본값 주입" + res_p);
+				
 				if(res>0) {
 					System.out.println("네이버 회원가입 성공");
 			
@@ -1102,5 +1128,133 @@ public class UserinfoController {
 			return "profile";
 		}
 	}
+	
+	//cheon's editing ----------
+	@RequestMapping(value = "/updateprofile.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String update_p(Model model, HttpSession session, HttpServletRequest request) throws IOException {
+		
+		System.out.println("왜안대지이이이?");
+		String email = request.getParameter("email");
+		String p_picurl = request.getParameter("p_picurl");
+		String p_content = request.getParameter("p_content");
+		String p_title = request.getParameter("p_title");
+		
+		ProfileDto pdto = new ProfileDto(email, p_picurl, p_content, p_title);
+		
+		int res = biz.update_p(pdto);
+		
+		if(res > 0) {
+			System.out.println("회원 정보 수정 완료");
+		}
+		
+		return "redirect:homepage.do";
+	}
+	
+	@RequestMapping("/charge_coin.do")
+	public String charge_coin() {
+		
+		return "coin_charge";
+	}
+	
+	@RequestMapping("/update_coin.do")
+	public String update_coin(HttpSession session, Model model, HttpServletRequest request) {
+		
+		int add_coin = Integer.parseInt(request.getParameter("dotory_amount"));
+		
+		UserinfoDto udto = (UserinfoDto)session.getAttribute("login");
+		System.out.println(udto);
+		int coinno = udto.getCoinno() + add_coin;
+		udto.setCoinno(coinno);
+		int res = biz.coinupdate(udto);
+		System.out.println("res!!" + res);
+		
+		return "redirect:homepage.do";
+	}
+	
+	@RequestMapping("/fileupload.do")
+	public String action() throws Exception {
+	     
+	    return "uploadForm";
+	}
+	
+	@RequestMapping("/upload.do")
+	public String fileUpload(HttpSession session, HttpServletRequest request, Model model,UploadFile uploadFile,BindingResult result) throws IOException {
+		
+		FileValidator fileValidator = new FileValidator();
+		
+		fileValidator.validate(uploadFile, result);
+		if(result.hasErrors()) {
+			return "redirect:homepage.do";
+		}
+		
+		UserinfoDto udto = (UserinfoDto)session.getAttribute("login");
+		// 실제 파일
+		MultipartFile file=uploadFile.getFile();
+		String originName=file.getOriginalFilename();
+		String fileExt = originName.substring(originName.lastIndexOf(".")+1);
+		System.out.println("확장자!!!" + fileExt);
+		String filename=udto.getEmail()+"."+fileExt;
+		
+		UploadFile fileobj=new UploadFile();
+		fileobj.setFilename(filename);
+		fileobj.setDesc(uploadFile.getDesc());
+		
+		
+		InputStream inputStream=null;
+		OutputStream outputStream=null;
+		
+		try {
+
+			inputStream=file.getInputStream();
+			// 파일이 실제로 업로드, 저장될 path를 지정
+			String path=WebUtils.getRealPath(request.getSession().getServletContext(), "resources/img/p_pic");
+			
+			System.out.println("업로드 될 실제 경로 :" + path);
+			
+			
+			// 폴더만들어라
+			File storage = new File(path);
+			if(!storage.exists()) {
+				storage.mkdirs();
+			}
+			
+			// 파일만들어라
+			File newfile=new File(path+"/"+filename);
+			if(!newfile.exists()) {
+				newfile.createNewFile();
+			}
+			outputStream=new FileOutputStream(newfile);
+			
+			int read=0;
+			byte[] b= new byte[(int)file.getSize()];
+			
+			while((read=inputStream.read(b))!=-1) {
+				outputStream.write(b,0,read);
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+			inputStream.close();
+			outputStream.close();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		model.addAttribute("fileobj",fileobj);
+		
+		String p_picurl = "resources/img/p_pic/"+filename;
+		ProfileDto Pdto = biz.select_p(udto.getEmail());
+		Pdto.setP_picurl(p_picurl);
+		
+		biz.update_p(Pdto);
+		
+		session.getAttribute("pdto");
+		
+		return "redirect:homepage.do";
+	}
+	
+	//cheon's editing end----------
 } 
 

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.saisiot.profile.dto.ProfileDto;
 import com.saisiot.userinfo.dto.UserinfoDto;
 
 @Repository
@@ -381,4 +382,32 @@ public class UserinfoDaoImpl implements UserinfoDao {
 		return res;
 	}
 	//seo's editing end---------------------
+	
+	// cheon's editing-------------
+	@Override
+	public int insert_P(UserinfoDto dto) {
+
+		int res = sqlSession.insert(NAMESPACE + "insert_p", dto);
+
+		return res;
+	}
+
+	@Override
+	public int update_p(ProfileDto pdto) {
+
+		int res = sqlSession.update(NAMESPACE + "update_p", pdto);
+
+		return res;
+	}
+
+	@Override
+	public ProfileDto select_p(String email) {
+
+		ProfileDto pdto = sqlSession.selectOne(NAMESPACE + "select_p", email);
+
+		return pdto;
+	}
+
+	// cheon's editing end--------
+	
 }
