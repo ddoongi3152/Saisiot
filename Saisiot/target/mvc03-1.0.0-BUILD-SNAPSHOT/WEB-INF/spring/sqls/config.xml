@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	
+	<typeAliases>
+		<typeAlias type="com.saisiot.userinfo.dto.UserinfoDto" alias="UserinfoDto"/>
+		<typeAlias type="com.saisiot.diary.dto.DiaryDto" alias="DiaryDto" />
+		<typeAlias type="com.saisiot.jukebox.dto.JukeboxDto" alias="JukeboxDto"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/sqls/UserinfoMapper.xml"/>
+		<mapper resource="/sqls/DiaryMapper.xml"/>
+		<mapper resource="/sqls/FriendMapper.xml"/>
+		<mapper resource="/sqls/jukeboxmapper.xml"/>
+	</mappers>
+
+</configuration>
